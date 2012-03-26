@@ -1,0 +1,69 @@
+HTTP/1.1 200 OK
+Server: nginx/1.0.10
+Date: Mon, 26 Mar 2012 14:09:41 GMT
+Content-Type: text/html
+Content-Length: 2385
+Last-Modified: Mon, 26 Mar 2012 14:06:02 GMT
+Connection: close
+Vary: Accept-Encoding
+Accept-Ranges: bytes
+
+<html>
+<head>
+<title>LNMP</title>
+<style type="text/css">
+	body {
+	color:#333333;
+	font-family:tahoma,arial,Monospace,helvetica,sans-serif;
+	}
+	.links {color: #009900}
+	#main {
+		margin-right: auto;
+		margin-left: auto;
+		width: 920px;
+	}
+</style>
+</head>
+<body>
+	<div id="main">
+		<div align="center"><img src="./images/lnmp.gif" alt="LNMP One Key Installation Package"></div>
+		<br>
+		
+		<p><span class="STYLE1">environment:</span>
+			<a href="/needle.php" target="_blank" class="links">needle</a>&nbsp;
+			<a href="/phpinfo.php" target="_blank" class="links">phpinfo</a>&nbsp;
+			<a href="/phpmyadmin/" target="_blank" class="links">phpmyadmin</a>&nbsp;
+			<a href="/wordpress/" target="_blank" class="links">wordpress</a>&nbsp;
+		</p>
+		
+		<p><span class="STYLE1">docs: </span>
+			<a href="./qt/index.html" target="_blank" class="links">qt</a>&nbsp;
+			<a href="./boost/index.html" target="_blank" class="links">boost</a>&nbsp;
+			<a href="./makefile.html" target="_blank" class="links">makefile</a>&nbsp;
+			<a href="./make.html" target="_blank" class="links">gnu makefile(html)</a>&nbsp;
+			<a href="./make.txt" target="_blank" class="links">gnu makefile(txt)</a>&nbsp;
+			<a href="./git.html" target="_blank" class="links">git usage</a>&nbsp;
+		</p>
+
+		<p><span class="STYLE1">windows: </span>
+			<a href="./resource/dabaicaiupan.exe" target="__blank" class="links">dabaicai</a>&nbsp;
+			<a href="./resource/liveusb-creator-3.11.6-setup.exe" target="__blank" class="links">liveusb</a>&nbsp;
+		</p>
+		
+		<p><span class="STYLE1">resources: </span>
+			<a href="./resource/jdk-7u3.rpm" target="__blank" class="links">jdk7</a>&nbsp;
+			<a href="./resource/netbeans7.1.1.sh" target="__blank" class="links">netbeans7</a>&nbsp;
+			<a href="./resource/eclipse.tar.gz" target="__blank" class="links">eclipse</a>&nbsp;
+			<a href="./resource/QtSDK_Linux_1.2.run" target="__blank" class="links">QtSDK</a>&nbsp;
+		</p>
+
+		<p><span class="STYLE1">linux: </span>
+			<a href="./resource/linuxmint12-cd.iso" target="__blank" class="links">linuxmint12-cd</a>&nbsp;
+			<a href="./resource/linuxmint12-dvd.iso" target="__blank" class="links">linuxmint12-dvd</a>&nbsp;
+			<a href="./resource/shrike-i386-disc1.iso" target="__blank" class="links">redhad9</a>&nbsp;
+			<a href="./resource/livedvd-x86-amd64-32ul-2012.iso" target="__blank" class="links">gentoo</a>&nbsp;
+		</p>
+	</div>
+</body>
+</html>
+

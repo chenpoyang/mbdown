@@ -55,12 +55,6 @@ default:	$(ENTRANCE)
 
 all:	$(ALL_T)
 
-# compile , but not link
-$(ALL_C_OBJ): %.o : %.c
-	$(CC) $(CFLAGS) $(INCPATH) -c $< -o $@
-$(ALL_CXX_OBJ): %.o : %.cpp
-	$(CXX) $(CXXFLAGS) $(INCPATH) -c $< -o $@
-
 # link object
 $(ALL_C_T): % : %.o
 	$(CC) $(CFLAGS) $(LDFLAGS) $< $(LOAPATH) $(LIBS) -o $@

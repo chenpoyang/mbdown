@@ -4,9 +4,17 @@
 #include "bmsg.h"
 #include "global.h"
 
-/* describe breakpoints messages of all url */
+/**
+ * @brief	所有url的断点信息
+ */
 RootBmsg *root_bmsg = NULL;
 
+/**
+ * @brief	将一断点信息添加到根断点信息管理处
+ *
+ * @param	root_bmsg: 管理所有断点信息
+ * @param	bmsg: 某一请求url的断点信息
+ */
 /* add a new bmsg to root_bmsg */
 void add_bmsg(RootBmsg *root_bmsg, Bmsg *bmsg)
 {
@@ -28,7 +36,14 @@ void add_bmsg(RootBmsg *root_bmsg, Bmsg *bmsg)
 	}
 }
 
-/* find url header */
+/**
+ * @brief	根据某一url的id标识, 找出些url的头结点
+ *
+ * @param	root_bmsg: 查找源
+ * @param	url_id: 某一url的唯一标识符
+ *
+ * @return	成功找到, 则返回些url的头部, 否则返加空
+ */
 Bmsg * find_url_header(const RootBmsg *root_bmsg, const int url_id)
 {
 	Bmsg *cur = NULL;
@@ -45,12 +60,18 @@ Bmsg * find_url_header(const RootBmsg *root_bmsg, const int url_id)
 			found = 1;
 			break;
 		}
+		cur = cur->next_hdr;
 	}
 
 	return found ? cur : NULL;
 }
 
-/* add a new bmsg to specified url */
+/**
+ * @brief	为一个指定的url添加断点信息
+ *
+ * @param	header: 此断点信息所属的url
+ * @param	bmsg: 要添加的断点信息
+ */
 void add_bmsg_header(Bmsg *header, Bmsg *bmsg)
 {
 	Bmsg *cur = NULL;
@@ -69,11 +90,17 @@ void add_bmsg_header(Bmsg *header, Bmsg *bmsg)
 		cur = cur->next;
 	}
 
-	bmsg->next = NULL;	/* make sure it is the last one of an url */
-	cur->next = bmsg;	/* add to the tail */
+	/* 新的断点信息添加到尾部, 确保尾结点的next没有断点信息 */
+	bmsg->next = NULL;
+	/* 添加到末尾 */
+	cur->next = bmsg;
 }
 
-/* initialise root_bmsg to manages breakpoints of all urls */
+/**
+ * @brief	初始化根断点信息管理器
+ *
+ * @param	root_bmsg: 断点信息管理器
+ */
 void init_root_bmsg(RootBmsg *root_bmsg)
 {
 	if (root_bmsg != NULL)
@@ -90,7 +117,12 @@ void init_root_bmsg(RootBmsg *root_bmsg)
 	}
 }
 
-/* add a new breakpoints message to the queue */
+/**
+ * @brief	一个新的url加入到下载队列, 为其添加相应的首部
+ *
+ * @param	root_bmsg: url断点信息管理器
+ * @param	header: 新加入的url, 头部标识唯一的url
+ */
 void add_url_header(RootBmsg *root_bmsg, const Bmsg *header)
 {
 	int tar_url_id, found;
@@ -101,8 +133,8 @@ void add_url_header(RootBmsg *root_bmsg, const Bmsg *header)
 
 	tar_url_id = header->url_id;
 	cur = root_bmsg->head;
-	found = 0;	/* not found and the begining */
-	while (cur)	/* find url header by tar_url_id */
+	found = 0;	/* 开始时没找到 */
+	while (cur)	/* 通过唯一的url标识符长url头部 */
 	{
 		if (cur->url_id == tar_url_id)
 		{
@@ -111,13 +143,13 @@ void add_url_header(RootBmsg *root_bmsg, const Bmsg *header)
 		cur = cur->next_hdr;
 	}
 
-	if (found)	/* duplicate url header, logical error */
+	if (found)	/* 重复的url头部,逻辑错误 */
 	{
 		m_error("duplicate url header!");
 		return;
 	}
 
-	/* add to the tail */
+	/* 添加到尾部 */
 	if (root_bmsg->tail == NULL)
 	{
 		root_bmsg->head = root_bmsg->tail = (Bmsg *)header;
@@ -128,5 +160,6 @@ void add_url_header(RootBmsg *root_bmsg, const Bmsg *header)
 		root_bmsg->tail = (Bmsg *)header;
 	}
 
-	root_bmsg->tail->next_hdr = NULL;	/* below the tail is NULL */
+	/* 尾结点的next没有指向结点 */
+	root_bmsg->tail->next_hdr = NULL;
 }

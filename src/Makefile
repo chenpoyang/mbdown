@@ -39,14 +39,14 @@ MYLIBS		=
 # == END SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE == #
 
 # all target
-ALL_C_T		=
+ALL_C_T		= mbdown
 
 ALL_CXX_T	=
 
 ALL_T		= $(ALL_C_T) $(ALL_CXX_T)
 
 # all object
-ALL_C_OBJ	= mbdown.o url.o synchro.o bmsg.o
+ALL_C_OBJ	= global.o mbdown.o url.o synchro.o bmsg.o
 
 ALL_CXX_OBJ	=
 
@@ -57,11 +57,8 @@ default:	$(ENTRANCE)
 
 all:	$(ALL_T) $(ALL_OBJ)
 
-# link object
-$(ALL_C_T): % : %.o
-	$(CC) $(CFLAGS) $(LDFLAGS) $< $(LOAPATH) $(LIBS) -o $@
-$(ALL_CXX_T): % : %.o
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< $(LOAPATH) $(LIBS) -o $@
+mbdown: $(ALL_C_OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(LOAPATH) $(LIBS) -o mbdown $(ALL_C_OBJ)
 
 none:
 	@echo "Please do 'make OPTIONS' wehre OPTIONS is one of these:"
@@ -74,8 +71,8 @@ clean:
 .PHONY: clean default none all
 
 # DO NOT DELETE
+global.o	: global.c global.h
 bmsg.o		: bmsg.c bmsg.h global.h
 synchro.o	: synchro.c synchro.h
 url.o		: url.c url.h global.h
-mbdown.o	: mbdown.c
-
+mbdown.o	: mbdown.c global.h
