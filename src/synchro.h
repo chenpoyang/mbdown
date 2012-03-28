@@ -1,6 +1,18 @@
 #ifndef _SYNCHRO_H_
 #define _SYNCHRO_H_
 
+#include <pthread.h>
+#include <stdio.h>
+
+pthread_mutex_t m_protect;
+
+#define M_LOCK(expression) \
+	pthread_mutex_init(&m_protect, NULL);	\
+	pthread_mutex_lock(&m_protect);			\
+	expression;								\
+	pthread_mutex_unlock(&m_protect);		\
+	pthread_mutex_destroy(&m_protect);		\
+
 /**
  * @brief	current thread wait some time
  *

@@ -5,11 +5,6 @@
 #include "global.h"
 
 /**
- * @brief	所有url的断点信息
- */
-RootBmsg *root_bmsg = NULL;
-
-/**
  * @brief	将一断点信息添加到根断点信息管理处
  *
  * @param	root_bmsg: 管理所有断点信息

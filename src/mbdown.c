@@ -8,10 +8,9 @@
 #include <arpa/inet.h>
 
 #include "global.h"
+#include "url.h"
 
 void download(const char *url);
-void bzero(void *base, const u_int size); 
-void get_host_name(const char *url, char *hostname);
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +20,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		m_error("usage: filename url");
+		merr_msg("usage: filename url");
 	}
 
 	return 0;
@@ -65,49 +64,4 @@ void download(const char *url)
 	send(sock_fd, buf, sizeof(buf), 0);
 	recv(sock_fd, buf, sizeof(buf), 0);
 	puts(buf);
-}
-
-void get_host_name(const char *url, char *hostname)
-{
-	char *ptr = NULL, *str_ptr = NULL, *str = NULL;
-	int len;
-
-	assert(url != NULL && hostname != NULL);
-
-	len = strlen(url);
-	str = (char *) calloc (1, sizeof(len));
-	assert(str != NULL);
-
-	strcpy(str, url);
-	m_tolower(str);
-	str_ptr = strstr(str, "http://");
-	if (str_ptr != NULL)
-	{
-		str_ptr += 7;
-	}
-	else
-	{
-		str_ptr = str;
-	}
-
-	ptr = strstr(str_ptr, "/");
-
-	if (ptr != NULL)
-	{
-		len = ptr - str_ptr;
-	}
-	else
-	{
-		len = strlen(str_ptr);
-	}
-	
-	strncpy(hostname, str_ptr, len);
-	hostname[len] = '\0';
-
-	free(str);
-}
-
-void bzero(void *base, const u_int size)
-{
-	memset(base, 0, size);
 }
