@@ -1,3 +1,65 @@
+=====================================================================================
+HEAD /pub/linux/gentoo/gentoo-distfiles/releases/x86/12.0/livedvd-x86-amd64-32ul-2012.iso HTTP/1.1
+Host: 208.78.26.135
+
+HTTP/1.1 200 OK
+Date: Sat, 31 Mar 2012 14:22:05 GMT
+Server: Apache
+Last-Modified: Thu, 29 Dec 2011 16:04:58 GMT
+ETag: "19028012-d7c00000-4b53d4723be80"
+Accept-Ranges: bytes
+Content-Length: 3619684352
+Connection: close
+Content-Type: application/octet-stream
+
+=====================================================================================
+HEAD /index.html HTTP/1.1
+Host: 127.0.0.1
+
+HTTP/1.1 200 OK
+Server: nginx/1.0.10
+Date: Sat, 31 Mar 2012 13:33:29 GMT
+Content-Type: text/html
+Content-Length: 2385
+Last-Modified: Mon, 26 Mar 2012 14:06:02 GMT
+Connection: keep-alive
+Vary: Accept-Encoding
+Accept-Ranges: bytes
+
+=====================================================================================
+HEAD /index.html HTTP/1.1
+Host: 127.0.0.1
+Range:bytes=0-1023
+
+HTTP/1.1 206 Partial Content
+Server: nginx/1.0.10
+Date: Sat, 31 Mar 2012 13:34:19 GMT
+Content-Type: text/html
+Content-Length: 1024
+Last-Modified: Mon, 26 Mar 2012 14:06:02 GMT
+Connection: keep-alive
+Vary: Accept-Encoding
+Content-Range: bytes 0-1023/2385
+
+=====================================================================================
+GET /index.html HTTP/1.1
+Host: 127.0.0.1
+Range: bytes=1024-2048
+
+HTTP/1.1 206 Partial Content
+Server: nginx/1.0.10
+Date: Sat, 31 Mar 2012 13:36:06 GMT
+Content-Type: text/html
+Content-Length: 1025
+Last-Modified: Mon, 26 Mar 2012 14:06:02 GMT
+Connection: keep-alive
+Vary: Accept-Encoding
+Content-Range: bytes 1024-2048/2385
+
+=====================================================================================
+GET /index.html HTTP/1.1
+Host: 127.0.0.1
+
 HTTP/1.1 200 OK
 Server: nginx/1.0.10
 Date: Sat, 31 Mar 2012 12:36:24 GMT
@@ -66,4 +128,3 @@ Accept-Ranges: bytes
 	</div>
 </body>
 </html>
-
