@@ -38,4 +38,3 @@ void thread_wait(const int sec)
 	pthread_mutex_unlock(&mutex);
 	pthread_mutex_destroy(&mutex);
 }
-

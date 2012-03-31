@@ -37,14 +37,14 @@ MYLIBS		=
 # == END SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE == #
 
 # all target
-ALL_C_T		= index
+ALL_C_T		= conn_sql
 
 ALL_CXX_T	=
 
 ALL_T		= $(ALL_C_T) $(ALL_CXX_T)
 
 # all object
-ALL_C_OBJ	= index.o
+ALL_C_OBJ	= conn_sql.o
 
 ALL_CXX_OBJ	=
 
@@ -62,7 +62,7 @@ $(ALL_CXX_T): % : %.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< $(LOAPATH) $(LIBS) -o $@
 
 # dependency
-index.o: index.c
+conn_sql.o: conn_sql.c
 
 none:
 	@echo "Please do 'make OPTIONS' wehre OPTIONS is one of these:"

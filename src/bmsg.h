@@ -22,11 +22,6 @@ typedef struct root_bmsg {
 	struct bmsg *tail;
 }RootBmsg;
 
-/**
- * @brief	所有url的断点信息
- */
-RootBmsg *root_bmsg = NULL;
-
 /* initialise root_bmsg to manages breakpoints of all urls */
 void init_root_bmsg(RootBmsg *root_bmsg);
 

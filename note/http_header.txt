@@ -1,0 +1,40 @@
+HEAD /index.html HTTP/1.1
+Host: 127.0.0.1
+
+HTTP/1.1 200 OK
+Server: nginx/1.0.10
+Date: Sat, 31 Mar 2012 09:52:55 GMT
+Content-Type: text/html
+Content-Length: 2385
+Last-Modified: Mon, 26 Mar 2012 14:06:02 GMT
+Connection: keep-alive
+Vary: Accept-Encoding
+Accept-Ranges: bytesccept-Ranges: bytes
+
+GET /index.html HTTP/1.1
+Host: 127.0.0.1
+Range: bytes=0-1023
+
+HTTP/1.1 206 Partial Content
+Server: nginx/1.0.10
+Date: Sat, 31 Mar 2012 09:55:01 GMT
+Content-Type: text/html
+Content-Length: 1024
+Last-Modified: Mon, 26 Mar 2012 14:06:02 GMT
+Connection: keep-alive
+Vary: Accept-Encoding
+Content-Range: bytes 0-1023/2385
+
+GET /index.html HTTP/1.1
+Host: 127.0.0.1
+Range: bytes=1024-2384
+
+HTTP/1.1 206 Partial Content
+Server: nginx/1.0.10
+Date: Sat, 31 Mar 2012 09:56:18 GMT
+Content-Type: text/html
+Content-Length: 1361
+Last-Modified: Mon, 26 Mar 2012 14:06:02 GMT
+Connection: keep-alive
+Vary: Accept-Encoding
+Content-Range: bytes 1024-2384/2385
