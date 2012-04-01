@@ -13,6 +13,7 @@ pthread_mutex_t m_protect;
 #define M_UNLOCK	\
 	pthread_mutex_unlock(&m_protect);		\
 	pthread_mutex_destroy(&m_protect);		\
+
 /**
  * @brief	current thread wait some time
  *
