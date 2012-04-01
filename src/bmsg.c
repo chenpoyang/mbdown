@@ -6,6 +6,10 @@
 
 /**
  * @brief	所有url的断点信息
+ *
+ * structure:
+ * ---f<-->g<-->a<-->c<-->d<-->b<-->e---
+ * ---<----------root_bmsg---------->---
  */
 RootBmsg *root_bmsg = NULL;
 

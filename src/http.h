@@ -34,9 +34,9 @@ enum method {
 
 /* HTTP协议的版本 */
 enum httpv {
-	HTTP0_9 = "HTTP/0.9", 
-	HTTP1_0 = "HTTP/1.0", 
-	HTTP1_1 = "HTTP/1.1"
+	HTTP0_9,
+	HTTP1_0,
+	HTTP1_1
 };
 
 /* HTTP请求 */
@@ -44,7 +44,7 @@ struct req {
 	char str[MAX_LEN];	/* 封装的请求头 */
 	char res[R_LEN];	/* 资源位置 */
 	char host[H_LEN];	/* 主机 */
-	unsigned 
+    unsigned int por;
 	enum method mthd;	/* 请求方式 */
 }Req;
 

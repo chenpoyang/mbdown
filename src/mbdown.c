@@ -33,7 +33,7 @@ void download(const char *url)
 	char hostname[64];
 	char buf[4096];
 
-	if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+   	if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
 		m_error("socket error!");
 		return;
