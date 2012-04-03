@@ -18,6 +18,7 @@
 #define M_SHOW 1
 
 void m_tolower(char *str);
+void m_toupper(char *str);
 
 /* max length to storate error message */
 #define MAXLINE 4096
@@ -36,5 +37,8 @@ void merr_quit(const char *fmt, ...);
 
 /* deal with error arglist */
 void merr_deal(const int flg, const char *fmt, va_list ap);
+
+/* show tips, frequently show messages */
+void mydebug(const char *fmt, ...);
 
 #endif // _GLOBAL_H_

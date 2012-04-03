@@ -8,9 +8,9 @@
 #include "url.h"
 
 /* global variables */
-RootUrl *root_url = NULL;	/* root url manager */
+RootUrl *root_url = NULL;				/* root url manager */
 static unsigned int count_url_id = 0;	/* for generating unique url id */
-HaUrl url_htable[HALEN];
+HaUrl url_htable[HALEN];				/* hash table */
 
 
 /* 初始化所有初始状态 */
@@ -23,8 +23,6 @@ void init_all()
 /* 初始化对象 */
 void init_url_msg(Url *url, const char *url_str)
 {
-	int port;
-
 	assert(url != NULL && url_str != NULL);
 
 	/* url->id, 和url->next 已在 new_url_node 中初始化 */
@@ -78,14 +76,14 @@ void remove_url(RootUrl *root_url, const Url *url)
  * @param	url_htable: 哈希表
  * @param	url: url结点
  */
-void hash_url(HaUrl *url_htable, Url *url)
+void hash_url(HaUrl *url_htable, Url *url, const int ha_len)
 {
 	int index;
 	HaUrl *cur = NULL;
 	
 	assert(url_htable != NULL && url != NULL);
 
-	index = url->id % HALEN;	/* 找索引 */
+	index = url->id % ha_len;	/* 找索引 */
 	cur = url_htable + index;	/* 找到相应的链表 */
 	while (cur->next)
 	{
@@ -194,17 +192,29 @@ void release_all(RootUrl *root_url)
 }
 
 /* 添加一条新的Url信息 */
-void add_new_url(RootUrl *root_url, Url *url)
+void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len)
 {
 	Url *cur = NULL;
 
-	assert(root_url != NULL && url != NULL);
+	assert(root_url != NULL && url != NULL && ha_table != NULL);
 
-	new_url = new_url_node(url);
+	cur = root_url;
+
+	while (cur->next)
+	{
+		cur = cur->next;
+	}
+
+	/* 加到链表尾 */
+	url->next = NULL;
+	cur->next = url;
+
+	/* 哈希 */
+	hash_url(ha_table, url, ha_len);
 }
 
-/* 用完整url字符串,添加新的Url, 并加入链表中 */
-Url * new_url_node(RootUrl *root_url, const char *url)
+/* 用完整url字符串,添加新的Url, 并加入链表中, 并哈希 */
+Url * new_url_node(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len)
 {
 	Url *cur = NULL;
 
@@ -229,14 +239,14 @@ Url * new_url_node(RootUrl *root_url, const char *url)
 	 * @param	root_url
 	 * @param	url
 	 */
-	add_new_url(root_url, url);
+	add_new_url(root_url, cur, ha_table, ha_len);
 
 	return cur;
 }
 
 int get_port(const char *url)
 {
-	char *ptr = NULL;
+	const char *ptr = NULL;
 	int port = -1;
 
 	assert(url != NULL);
@@ -398,7 +408,7 @@ void escape_spec(const char *res, char *buf)
  */
 void get_resource(const char *url, char *resource)
 {
-	char *ptr = NULL, *tmp_ptr = NULL;
+	const char *ptr = NULL, *tmp_ptr = NULL;
 
 	assert(url != NULL && resource != NULL);
 

@@ -22,6 +22,22 @@ void m_tolower(char *str)
 	}
 }
 
+void m_toupper(char *str)
+{
+	int i;
+
+	assert(str != NULL);
+
+	i = strlen(str);
+	while (--i >= 0)
+	{
+		if (str[i] >= 'a' && str[i] <= 'z')
+		{
+			str[i] = 'A' + str[i] - 'a';
+		}
+	}
+}
+
 /* logical error */
 void merr_msg(const char *fmt, ...)
 {
@@ -91,4 +107,14 @@ void merr_deal(const int flg, const char *fmt, va_list ap)
 	fflush(stdout);	/* in case stderr and stdout are the same */
 	fputs(buf, stderr);
 	fflush(stderr);
+}
+
+/* show tips, frequently show messages */
+void mydebug(const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	merr_deal(M_HIDE, fmt, ap);
+	va_end(ap);
 }

@@ -33,7 +33,7 @@ typedef struct hash_url {
 void init_all();
 
 /* 初始化对象 */
-void init_url_msg(Url *url);
+void init_url_msg(Url *url, const char *url_str);
 
 /* 初始化根Url结点, 方便管理其他Url */
 void init_root_url(RootUrl *root_url);
@@ -42,10 +42,10 @@ void init_root_url(RootUrl *root_url);
 unsigned int get_url_id();
 
 /* 添加一条新的Url结点到链表中 */
-void add_new_url(RootUrl *root_url, Url *url);
+void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len);
 
-/* 用完整url字符串,添加新的Url, 并加入链表中 */
-Url * new_url_node(RootUrl *root_url, const char *url);
+/* 用完整url字符串,添加新的Url, 并加入链表中, 并哈希 */
+Url * new_url_node(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len);
 
 /* release all resource */
 void release_all(RootUrl *root_url);
@@ -90,7 +90,7 @@ void init_hash_table(HaUrl *url_htable, const int len);
  * @param	url_htable: 哈希表
  * @param	url: url结点
  */
-void hash_url(HaUrl *url_htable, Url *url);
+void hash_url(HaUrl *url_htable, Url *url, const int ha_len);
 
 /**
  * @brief	将url结点比url_htable中删除
