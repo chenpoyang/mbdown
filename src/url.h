@@ -1,17 +1,6 @@
 #ifndef _URL_H_
 #define _URL_H_
 
-/*
-1. + URL 中+号表示空格 %2B 
-2. 空格 URL中的空格可以用+号或者编码 %20 
-3. / 分隔目录和子目录 %2F 
-4. ? 分隔实际的 URL 和参数 %3F 
-5. % 指定特殊字符 %25 
-6. # 表示书签 %23 
-7. & URL 中指定的参数间的分隔符 %26 
-8. = URL 中指定参数的值 %3D
-*/
-
 /* define the max length of url */
 #define ULEN	256
 /* the max length of host, eg: www.innlab.net */
@@ -43,17 +32,20 @@ typedef struct hash_url {
 /* 初始化所有初始状态 */
 void init_all();
 
+/* 初始化对象 */
+void init_url_msg(Url *url);
+
 /* 初始化根Url结点, 方便管理其他Url */
 void init_root_url(RootUrl *root_url);
 
 /* 获取取唯一的url_id */
 unsigned int get_url_id();
 
-/* 添加一条新的Url信息 */
-void add_new_url(RootUrl *root_url, const char *url);
+/* 添加一条新的Url结点到链表中 */
+void add_new_url(RootUrl *root_url, Url *url);
 
-/* 添加新的Url */
-Url * new_url_node(const char *url);
+/* 用完整url字符串,添加新的Url, 并加入链表中 */
+Url * new_url_node(RootUrl *root_url, const char *url);
 
 /* release all resource */
 void release_all(RootUrl *root_url);
@@ -126,5 +118,13 @@ Url * find_url(HaUrl *url_htable, const int len, const int url_id);
  * @param	url: 要删除的url
  */
 void remove_url(RootUrl *root_url, const Url *url);
+
+/**
+ * @brief	处理资源位置中特殊的字符
+ *
+ * @param	res: 源源的位置, eg: /index.html
+ * @param	ret_str: 用于返回
+ */
+void escape_spec(const char *res, char *ret_str);
 
 #endif //_URL_H_

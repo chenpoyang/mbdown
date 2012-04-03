@@ -44,7 +44,7 @@ struct req {
 	char str[MAX_LEN];	/* 封装的请求头 */
 	char res[R_LEN];	/* 资源位置 */
 	char host[H_LEN];	/* 主机 */
-    unsigned int por;
+    unsigned int port;
 	enum method mthd;	/* 请求方式 */
 }Req;
 

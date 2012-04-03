@@ -20,6 +20,20 @@ void init_all()
 	init_root_url(root_url);
 }
 
+/* 初始化对象 */
+void init_url_msg(Url *url, const char *url_str)
+{
+	int port;
+
+	assert(url != NULL && url_str != NULL);
+
+	/* url->id, 和url->next 已在 new_url_node 中初始化 */
+	strcpy(url->url, url_str);
+	get_scheme(url->url, url->scheme);
+	get_host_name(url->url, url->host);
+	url->port = get_port(url->url);
+}
+
 /**
  * @brief	在长度为len的哈希表url_htable中查找标识为url_id的url结点
  *
@@ -179,21 +193,22 @@ void release_all(RootUrl *root_url)
 	root_url = NULL;
 }
 
-void add_new_url(RootUrl *root_url, const char *url)
+/* 添加一条新的Url信息 */
+void add_new_url(RootUrl *root_url, Url *url)
 {
-	Url *new_url = NULL;
+	Url *cur = NULL;
 
 	assert(root_url != NULL && url != NULL);
 
 	new_url = new_url_node(url);
 }
 
-/* 用完整url字符串,添加新的Url */
-Url * new_url_node(const char *url)
+/* 用完整url字符串,添加新的Url, 并加入链表中 */
+Url * new_url_node(RootUrl *root_url, const char *url)
 {
 	Url *cur = NULL;
 
-	assert(url != NULL);
+	assert(root_url != NULL && url != NULL);
 	cur = (Url *) calloc (1, sizeof(Url));
 	if (cur == NULL)
 	{
@@ -208,9 +223,16 @@ Url * new_url_node(const char *url)
 	cur->port = get_port(url);
 	cur->id = get_url_id();
 
+	/**
+	 * @brief	将新的url结点放入root_url管理器中
+	 *
+	 * @param	root_url
+	 * @param	url
+	 */
+	add_new_url(root_url, url);
+
 	return cur;
 }
-
 
 int get_port(const char *url)
 {
@@ -242,6 +264,130 @@ int get_port(const char *url)
 
 
 	return port;
+}
+/*
+1. + URL 中+号表示空格 %2B 
+2. 空格 URL中的空格可以用+号或者编码 %20 
+3. / 分隔目录和子目录 %2F 
+4. ? 分隔实际的 URL 和参数 %3F 
+5. % 指定特殊字符 %25 
+6. # 表示书签 %23 
+7. & URL 中指定的参数间的分隔符 %26 
+8. = URL 中指定参数的值 %3D
+*/
+/**
+ * @brief	处理资源位置中特殊的字符
+ *
+ * @param	res: 源源的位置, eg: /index.html
+ * @param	buf: 用于返回
+ */
+void escape_spec(const char *res, char *buf)
+{
+	int i, j, len, chg;
+	char ch;
+
+	assert(res != NULL && buf != NULL);
+
+	len = strlen(res);
+	for (i = j = 0; i < len; ++i)
+	{
+		switch(res[i])
+		{
+			case '+':
+				buf[j++] = '%';
+				buf[j++] = '2';
+				buf[j++] = 'B';
+				break;
+			case ' ':
+				buf[j++] = '%';
+				buf[j++] = '2';
+				buf[j++] = '0';
+				break;
+			case '/':
+				buf[j++] = res[i];
+				if (i + 1 < len && res[i + 1] == '/') 
+				{
+					++i;
+					buf[j++] = '%';
+					buf[j++] = '2';
+					buf[j++] = 'F';
+				}
+				break;
+			case '?':
+				buf[j++] = '%';
+				buf[j++] = '3';
+				buf[j++] = 'F';
+				break;
+			case '%':
+				chg = 0;	/* 不改为当前字符, eg: %2B */
+				if (i + 2 < len && (res[i + 1] == '2' || res[i + 2] == '3'))
+				{
+					if (res[i + 1] == '2')
+					{
+						ch = res[i + 1];
+						if (ch == 'B' || ch == 'b' || 
+							ch == 'F' || ch == 'f' || 
+							ch == '0' || ch == '5' || 
+							ch == '3' || ch == '6')
+						{
+							chg = 0;
+						}
+						else
+						{
+							chg = 1;
+						}
+					}
+					else
+					{
+						ch = res[i + 2];
+						if (ch == 'F' || ch == 'f' || 
+							ch == 'D' || ch == 'd')
+						{
+							chg = 0;
+						}
+						else
+						{
+							chg = 1;
+						}
+					}
+				}
+				else
+				{
+					chg = 1;
+				}
+				if (1 == chg)
+				{
+					buf[j++] = '%';
+					buf[j++] = '2';
+					buf[j++] = '5';
+				}
+				else
+				{
+					i += 2;
+				}
+				break;
+			case '#':
+				buf[j++] = '%';
+				buf[j++] = '2';
+				buf[j++] = '3';
+				break;
+			case '&':
+				buf[j++] = '%';
+				buf[j++] = '2';
+				buf[j++] = '6';
+				break;
+			case '=':
+				buf[j++] = '%';
+				buf[j++] = '3';
+				buf[j++] = 'D';
+				break;
+			default:
+				buf[j++] = res[i];
+				break;
+		}
+	}
+
+	buf[j] = '\0';
 }
 
 /**
@@ -278,7 +424,9 @@ void get_resource(const char *url, char *resource)
 		return;
 	}
 
-	strcpy(resource, tmp_ptr);
+	/* 处理特殊字符, 并用resource返回 */
+	escape_spec(tmp_ptr, resource);
+printf("资源的位置为:%s\r\n", resource);
 }
 /* 获取取唯一的url_id */
 unsigned int get_url_id()

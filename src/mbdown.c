@@ -58,7 +58,8 @@ void download(const char *url)
 	}
 
 	snprintf(buf, sizeof(buf), 
-			"GET /index.html HTTP/1.1\r\nHost:%s\r\n\r\n", 
+			//"GET /images/lnmp.gif HTTP/1.1\r\nHost:%s\r\n\r\n", 
+			"HEAD /images/lnmp.gif HTTP/1.1\r\nHost:%s\r\n\r\n", 
 			hostname);
 
 	send(sock_fd, buf, sizeof(buf), 0);
