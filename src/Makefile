@@ -37,4 +37,4 @@ bmsg.o		: bmsg.c bmsg.h global.h
 synchro.o	: synchro.c synchro.h
 url.o		: url.c url.h global.h synchro.h
 mbdown.o	: mbdown.c global.h
-http.o		: http.c http.h
+http.o		: http.c http.h url.h global.h

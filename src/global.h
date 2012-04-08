@@ -20,14 +20,21 @@
 void m_tolower(char *str);
 void m_toupper(char *str);
 
-/* max length to storate error message */
+/* max length to store error message */
 #define MAXLINE 4096
+/* max buf to store bytes */
+#define MAXBUF	4096
 
 /* logical error */
 void merr_msg(const char *fmt, ...);
 
 /* system error */
 void merr_sys(const char *fmt, ...);
+
+/* 字符串转换成整型数 */
+unsigned int m_atou(const char *str);
+/* 无符号整转换成字符串 */
+void m_utoa(unsigned int num, char *str);
 
 /* fatal system call error */
 void merr_dump(const char *fmt, ...);

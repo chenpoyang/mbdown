@@ -118,3 +118,46 @@ void mydebug(const char *fmt, ...)
 	merr_deal(M_HIDE, fmt, ap);
 	va_end(ap);
 }
+
+/* 字符串转换成整型数 */
+unsigned int m_atou(const char *str)
+{
+	unsigned int num, i, len;
+
+	assert(str != NULL);
+	num = 0;
+	len = strlen(str);
+	for (i = 0; i < len; ++i)
+	{
+		num = num * 10 + (str[i] - '0');
+	}
+
+	return num;
+}
+
+/* 无符号整转换成字符串 */
+void m_utoa(unsigned int num, char *str)
+{
+	int i, j;
+	char ch;
+
+	assert(str != NULL);
+
+	i = num;
+	j = 0;
+	while (i)
+	{
+		str[j++] = i % 10 + '0';
+		i /= 10;
+	}
+	str[j] = '\0';
+
+	i = 0;
+	j -= 1;
+	while (i < j)
+	{
+		ch = str[i];
+		str[i] = str[j];
+		str[j] = ch;
+	}
+}
