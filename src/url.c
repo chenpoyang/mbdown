@@ -14,22 +14,25 @@ HaUrl url_htable[HALEN];				/* hash table */
 
 
 /* 初始化所有初始状态 */
-void init_all()
+void init_hatable_rooturl_id()
 {
 	init_hash_table(url_htable, HALEN);
 	init_root_url(root_url);
+	count_url_id = 0;
 }
 
 /* 初始化对象 */
-void init_url_msg(Url *url, const char *url_str)
+void init_url_msg(Url *cur, const char *url)
 {
-	assert(url != NULL && url_str != NULL);
+	assert(url != NULL && url != NULL);
 
 	/* url->id, 和url->next 已在 new_url_node 中初始化 */
-	strcpy(url->url, url_str);
-	get_scheme(url->url, url->scheme);
-	get_host_name(url->url, url->host);
-	url->port = get_port(url->url);
+	strcpy(cur->url, url);
+	get_scheme(url, cur->scheme);
+	get_host_name(url, cur->host);
+	get_resource(url, cur->res);
+	cur->port = get_port(url);
+	cur->id = get_url_id();
 }
 
 /**
@@ -128,7 +131,6 @@ void unhash_url(HaUrl *url_htable, Url *url)
 		}
 		cur = cur->next;
 	}
-
 }
 
 /**
@@ -166,8 +168,8 @@ void init_root_url(RootUrl *root_url)
 	}
 }
 
-/* release all resource */
-void release_all(RootUrl *root_url)
+/* 释放所有url结点 */
+void release_root_url(RootUrl *root_url)
 {
 	Url *cur_ptr = NULL, *tmp_ptr = NULL;
 
@@ -191,7 +193,38 @@ void release_all(RootUrl *root_url)
 	root_url = NULL;
 }
 
-/* 添加一条新的Url信息 */
+/* 释放哈希表资源 */
+void release_hatable(HaUrl *hatable, const int len)
+{
+	int i;
+	HaUrl *cur = NULL, *tmp_ptr = NULL;
+
+	assert(hatable != NULL);
+
+	for (i = 0; i < len; ++i)
+	{
+		cur = hatable[i].next;
+		while (cur)
+		{
+			tmp_ptr = cur;
+			cur = cur->next;
+			free(tmp_ptr);
+			tmp_ptr = NULL;
+		}
+		hatable[i].next = NULL;
+	}
+}
+
+/* 清理所有资源 */
+void release_url_all(RootUrl *root_url, HaUrl *hatable, const int len)
+{
+	assert(root_url != NULL && hatable != NULL);
+
+	release_root_url(root_url);
+	release_hatable(hatable, len);
+}
+
+/* 添加一条新的Url信息到root_url管理器中, 并哈希 */
 void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len)
 {
 	Url *cur = NULL;
@@ -226,12 +259,7 @@ Url * new_url_node(RootUrl *root_url, const char *url, HaUrl *ha_table, const in
 		return NULL;
 	}
 
-	strcpy(cur->url, url);
-	get_scheme(url, cur->scheme);
-	get_host_name(url, cur->host);
-	get_resource(url, cur->res);
-	cur->port = get_port(url);
-	cur->id = get_url_id();
+	init_url_msg(cur, url);
 
 	/**
 	 * @brief	将新的url结点放入root_url管理器中
@@ -436,9 +464,8 @@ void get_resource(const char *url, char *resource)
 
 	/* 处理特殊字符, 并用resource返回 */
 	escape_spec(tmp_ptr, resource);
-printf("资源的位置为:%s\r\n", resource);
 }
-/* 获取取唯一的url_id */
+/* 获取取唯一的url_id, 已实现同步 */
 unsigned int get_url_id()
 {
 	if (count_url_id + 1 >= MAX_URL_ID)

@@ -64,6 +64,8 @@ add_url_header	bmsg.h	/^void add_url_header(RootBmsg *root_bmsg, const Bmsg *hea
 append_bytes	mbdown.c	/^void append_bytes(FILE *file, const char *buf, const int size)$/;"	f	signature:(FILE *file, const char *buf, const int size)
 append_bytes	mbdown.c	/^void append_bytes(FILE *file, const char *buf, const int size);$/;"	p	file:	signature:(FILE *file, const char *buf, const int size)
 begin	bmsg.h	/^	unsigned short begin;$/;"	m	struct:bmsg	access:public
+begin	http.h	/^	unsigned begin;	\/* 回应的起始字节 *\/$/;"	m	struct:resp	access:public
+begin	http.h	/^	unsigned int begin;	\/* 起始字节 *\/$/;"	m	struct:req	access:public
 bmsg	bmsg.h	/^typedef struct bmsg {$/;"	s
 bmsg::begin	bmsg.h	/^	unsigned short begin;$/;"	m	struct:bmsg	access:public
 bmsg::end	bmsg.h	/^	unsigned short end;$/;"	m	struct:bmsg	access:public
@@ -72,14 +74,14 @@ bmsg::next_hdr	bmsg.h	/^	struct bmsg *next_hdr;	\/* netx url bmsgs *\/$/;"	m	str
 bmsg::to_bps	bmsg.h	/^	int to_bps;		\/* the numbsers of breakpoints *\/$/;"	m	struct:bmsg	access:public
 bmsg::to_bytes	bmsg.h	/^	int to_bytes;$/;"	m	struct:bmsg	access:public
 bmsg::url_id	bmsg.h	/^	int url_id;$/;"	m	struct:bmsg	access:public
-byte_begin	http.h	/^	unsigned byte_begin;	\/* 起始字节 *\/$/;"	m	struct:req	access:public
-byte_end	http.h	/^	unsigned byte_end;		\/* 结束字节 *\/$/;"	m	struct:req	access:public
 bzero	global.h	15;"	d
 count_url_id	mbdown.c	/^GLOBAL unsigned int count_url_id;		\/* for generating unique url id *\/$/;"	v
 count_url_id	url.c	/^static unsigned int count_url_id = 0;	\/* for generating unique url id *\/$/;"	v	file:
 download	mbdown.c	/^void download(const Url *url)$/;"	f	signature:(const Url *url)
 download	mbdown.c	/^void download(const Url *url);$/;"	p	file:	signature:(const Url *url)
 end	bmsg.h	/^	unsigned short end;$/;"	m	struct:bmsg	access:public
+end	http.h	/^	unsigned end;		\/* 回应的结束字节 *\/$/;"	m	struct:resp	access:public
+end	http.h	/^	unsigned int end;		\/* 结束字节 *\/$/;"	m	struct:req	access:public
 enum_httpv_to_str	http.c	/^void enum_httpv_to_str(char *str, enum httpv ver)$/;"	f	signature:(char *str, enum httpv ver)
 enum_httpv_to_str	http.h	/^void enum_httpv_to_str(char *str, enum httpv ver);$/;"	p	signature:(char *str, enum httpv ver)
 enum_mthd_to_str	http.c	/^void enum_mthd_to_str(char *str, enum method mthd)$/;"	f	signature:(char *str, enum method mthd)
@@ -114,21 +116,20 @@ host	http.h	/^	char host[H_LEN];		\/* 主机 *\/$/;"	m	struct:req	access:public
 host	url.h	/^	char host[HLEN];	\/* remote host, eg: www.innlab.net *\/$/;"	m	struct:url	access:public
 httpv	http.h	/^enum httpv {$/;"	g
 id	url.h	/^	unsigned int id;				\/* unique id for quickly find *\/$/;"	m	struct:url	access:public
-init_all	url.c	/^void init_all()$/;"	f
-init_all	url.h	/^void init_all();$/;"	p	signature:()
 init_hash_table	url.c	/^void init_hash_table(HaUrl *url_htable, const int len)$/;"	f	signature:(HaUrl *url_htable, const int len)
 init_hash_table	url.h	/^void init_hash_table(HaUrl *url_htable, const int len);$/;"	p	signature:(HaUrl *url_htable, const int len)
+init_hatable_rooturl_id	url.c	/^void init_hatable_rooturl_id()$/;"	f
+init_hatable_rooturl_id	url.h	/^void init_hatable_rooturl_id();$/;"	p	signature:()
 init_req	http.c	/^void init_req(Req *req, const Url *url, unsigned int beg, unsigned int end)$/;"	f	signature:(Req *req, const Url *url, unsigned int beg, unsigned int end)
 init_req	http.h	/^void init_req(Req *req, const Url *url, unsigned int beg, unsigned int end);$/;"	p	signature:(Req *req, const Url *url, unsigned int beg, unsigned int end)
-init_resp	http.c	/^void init_resp(Resp *resq, const char *str)$/;"	f	signature:(Resp *resq, const char *str)
-init_resp	http.h	/^void init_resp(Resp *resq, const char *str);$/;"	p	signature:(Resp *resq, const char *str)
+init_resp	http.c	/^void init_resp(Resp *resp, const char *str)$/;"	f	signature:(Resp *resp, const char *str)
+init_resp	http.h	/^void init_resp(Resp *resp, const char *str);$/;"	p	signature:(Resp *resp, const char *str)
 init_root_bmsg	bmsg.c	/^void init_root_bmsg(RootBmsg *root_bmsg)$/;"	f	signature:(RootBmsg *root_bmsg)
 init_root_bmsg	bmsg.h	/^void init_root_bmsg(RootBmsg *root_bmsg);$/;"	p	signature:(RootBmsg *root_bmsg)
 init_root_url	url.c	/^void init_root_url(RootUrl *root_url)$/;"	f	signature:(RootUrl *root_url)
 init_root_url	url.h	/^void init_root_url(RootUrl *root_url);$/;"	p	signature:(RootUrl *root_url)
-init_url_msg	url.c	/^void init_url_msg(Url *url, const char *url_str)$/;"	f	signature:(Url *url, const char *url_str)
+init_url_msg	url.c	/^void init_url_msg(Url *cur, const char *url)$/;"	f	signature:(Url *cur, const char *url)
 init_url_msg	url.h	/^void init_url_msg(Url *url, const char *url_str);$/;"	p	signature:(Url *url, const char *url_str)
-len	http.h	/^	unsigned int len;		\/* 字节长度 *\/$/;"	m	struct:resp	access:public
 m_atou	global.c	/^unsigned int m_atou(const char *str)$/;"	f	signature:(const char *str)
 m_atou	global.h	/^unsigned int m_atou(const char *str);$/;"	p	signature:(const char *str)
 m_error	global.h	8;"	d
@@ -162,14 +163,18 @@ next	url.h	/^	struct url *next;	\/* single linked list *\/$/;"	m	struct:url	type
 next_hdr	bmsg.h	/^	struct bmsg *next_hdr;	\/* netx url bmsgs *\/$/;"	m	struct:bmsg	typeref:struct:bmsg::bmsg	access:public
 port	http.h	/^    unsigned int port;		\/* default: 80 *\/$/;"	m	struct:req	access:public
 port	url.h	/^	int port;$/;"	m	struct:url	access:public
-release_all	url.c	/^void release_all(RootUrl *root_url)$/;"	f	signature:(RootUrl *root_url)
-release_all	url.h	/^void release_all(RootUrl *root_url);$/;"	p	signature:(RootUrl *root_url)
+release_all	url.c	/^void release_all(RootUrl *root_url, HaUrl *hatable, const int len)$/;"	f	signature:(RootUrl *root_url, HaUrl *hatable, const int len)
+release_all	url.h	/^void release_all(RootUrl *root_url, HaUrl *hatable, const int len);$/;"	p	signature:(RootUrl *root_url, HaUrl *hatable, const int len)
+release_hatable	url.c	/^void release_hatable(HaUrl *hatable, const int len)$/;"	f	signature:(HaUrl *hatable, const int len)
+release_hatable	url.h	/^void release_hatable(HaUrl *hatable, const int len);$/;"	p	signature:(HaUrl *hatable, const int len)
+release_root_url	url.c	/^void release_root_url(RootUrl *root_url)$/;"	f	signature:(RootUrl *root_url)
+release_root_url	url.h	/^void release_root_url(RootUrl *root_url);$/;"	p	signature:(RootUrl *root_url)
 remove_url	url.c	/^void remove_url(RootUrl *root_url, const Url *url)$/;"	f	signature:(RootUrl *root_url, const Url *url)
 remove_url	url.h	/^void remove_url(RootUrl *root_url, const Url *url);$/;"	p	signature:(RootUrl *root_url, const Url *url)
 req	http.c	/^Req *req = NULL;	\/* 请求 *\/$/;"	v
 req	http.h	/^typedef struct req {$/;"	s
-req::byte_begin	http.h	/^	unsigned byte_begin;	\/* 起始字节 *\/$/;"	m	struct:req	access:public
-req::byte_end	http.h	/^	unsigned byte_end;		\/* 结束字节 *\/$/;"	m	struct:req	access:public
+req::begin	http.h	/^	unsigned int begin;	\/* 起始字节 *\/$/;"	m	struct:req	access:public
+req::end	http.h	/^	unsigned int end;		\/* 结束字节 *\/$/;"	m	struct:req	access:public
 req::host	http.h	/^	char host[H_LEN];		\/* 主机 *\/$/;"	m	struct:req	access:public
 req::mthd	http.h	/^	enum method mthd;		\/* 请求方式 *\/$/;"	m	struct:req	typeref:enum:req::method	access:public
 req::port	http.h	/^    unsigned int port;		\/* default: 80 *\/$/;"	m	struct:req	access:public
@@ -180,17 +185,25 @@ res	http.h	/^	char res[R_LEN];		\/* 资源位置 *\/$/;"	m	struct:req	access:pub
 res	url.h	/^	char res[LLEN];		\/* the location of resource below the host *\/$/;"	m	struct:url	access:public
 resp	http.c	/^Resp *resp = NULL;	\/* 回应 *\/$/;"	v
 resp	http.h	/^typedef struct resp {$/;"	s
-resp::len	http.h	/^	unsigned int len;		\/* 字节长度 *\/$/;"	m	struct:resp	access:public
-resp::resp_begin	http.h	/^	unsigned resp_begin;	\/* 回应的起始字节 *\/$/;"	m	struct:resp	access:public
-resp::resp_end	http.h	/^	unsigned resp_end;		\/* 回应的结束字节 *\/$/;"	m	struct:resp	access:public
-resp::resp_total	http.h	/^	unsigned resp_total;	\/* 总字节数 *\/$/;"	m	struct:resp	access:public
+resp::begin	http.h	/^	unsigned begin;	\/* 回应的起始字节 *\/$/;"	m	struct:resp	access:public
+resp::end	http.h	/^	unsigned end;		\/* 回应的结束字节 *\/$/;"	m	struct:resp	access:public
 resp::status	http.h	/^	int status;				\/* 状态, eg: 206--> Partial Content *\/$/;"	m	struct:resp	access:public
 resp::str	http.h	/^	char str[MAX_LEN];		\/* 封装的回应报文 *\/$/;"	m	struct:resp	access:public
+resp::total_bytes	http.h	/^	unsigned total_bytes;	\/* 总字节数 *\/$/;"	m	struct:resp	access:public
 resp::ver	http.h	/^	enum httpv ver;			\/* eg: HTTP\/1.1 --> HTTP1_1 *\/$/;"	m	struct:resp	typeref:enum:resp::httpv	access:public
 resp::web_ser	http.h	/^	char web_ser[COM_LEN];	\/* 相应的Web服务器 *\/$/;"	m	struct:resp	access:public
-resp_begin	http.h	/^	unsigned resp_begin;	\/* 回应的起始字节 *\/$/;"	m	struct:resp	access:public
-resp_end	http.h	/^	unsigned resp_end;		\/* 回应的结束字节 *\/$/;"	m	struct:resp	access:public
-resp_total	http.h	/^	unsigned resp_total;	\/* 总字节数 *\/$/;"	m	struct:resp	access:public
+resp_get_begin_bytes	http.c	/^int resp_get_begin_bytes(const char *resp)$/;"	f	signature:(const char *resp)
+resp_get_begin_bytes	http.h	/^int resp_get_begin_bytes(const char *resp);$/;"	p	signature:(const char *resp)
+resp_get_end_bytes	http.c	/^int resp_get_end_bytes(const char *resp)$/;"	f	signature:(const char *resp)
+resp_get_end_bytes	http.h	/^int resp_get_end_bytes(const char *resp);$/;"	p	signature:(const char *resp)
+resp_get_httpv	http.c	/^void resp_get_httpv(const char *resp, char *ver)$/;"	f	signature:(const char *resp, char *ver)
+resp_get_httpv	http.h	/^void resp_get_httpv(const char *resp, char *ver);$/;"	p	signature:(const char *resp, char *ver)
+resp_get_status	http.c	/^int resp_get_status(const char *resp)$/;"	f	signature:(const char *resp)
+resp_get_status	http.h	/^int resp_get_status(const char *resp);$/;"	p	signature:(const char *resp)
+resp_get_total_bytes	http.c	/^int resp_get_total_bytes(const char *resp)$/;"	f	signature:(const char *resp)
+resp_get_total_bytes	http.h	/^int resp_get_total_bytes(const char *resp);$/;"	p	signature:(const char *resp)
+resp_get_webserver	http.c	/^void resp_get_webserver(const char *resp, char *websrv)$/;"	f	signature:(const char *resp, char *websrv)
+resp_get_webserver	http.h	/^void resp_get_webserver(const char *resp, char *websrv);$/;"	p	signature:(const char *resp, char *websrv)
 root_bmsg	bmsg.c	/^RootBmsg *root_bmsg = NULL;$/;"	v
 root_bmsg	bmsg.h	/^typedef struct root_bmsg {$/;"	s
 root_bmsg::head	bmsg.h	/^	struct bmsg *head;$/;"	m	struct:root_bmsg	typeref:struct:root_bmsg::bmsg	access:public
@@ -201,11 +214,14 @@ scheme	url.h	/^	char scheme[SLEN];	\/* protocal, eg: http *\/$/;"	m	struct:url	a
 status	http.h	/^	int status;				\/* 状态, eg: 206--> Partial Content *\/$/;"	m	struct:resp	access:public
 str	http.h	/^	char str[MAX_LEN];		\/* 封装的回应报文 *\/$/;"	m	struct:resp	access:public
 str	http.h	/^	char str[MAX_LEN];		\/* 封装的请求头 *\/$/;"	m	struct:req	access:public
+str_httpv_to_enum	http.c	/^void str_httpv_to_enum(const char *str, enum httpv *ver)$/;"	f	signature:(const char *str, enum httpv *ver)
+str_httpv_to_enum	http.h	/^void str_httpv_to_enum(const char *str, enum httpv *ver);$/;"	p	signature:(const char *str, enum httpv *ver)
 tail	bmsg.h	/^	struct bmsg *tail;$/;"	m	struct:root_bmsg	typeref:struct:root_bmsg::bmsg	access:public
 thread_wait	synchro.c	/^void thread_wait(const int sec)$/;"	f	signature:(const int sec)
 thread_wait	synchro.h	/^void thread_wait(const int sec);$/;"	p	signature:(const int sec)
 to_bps	bmsg.h	/^	int to_bps;		\/* the numbsers of breakpoints *\/$/;"	m	struct:bmsg	access:public
 to_bytes	bmsg.h	/^	int to_bytes;$/;"	m	struct:bmsg	access:public
+total_bytes	http.h	/^	unsigned total_bytes;	\/* 总字节数 *\/$/;"	m	struct:resp	access:public
 u_int	global.h	16;"	d
 unhash_url	url.c	/^void unhash_url(HaUrl *url_htable, Url *url)$/;"	f	signature:(HaUrl *url_htable, Url *url)
 unhash_url	url.h	/^void unhash_url(HaUrl *url_htable, Url *url);$/;"	p	signature:(HaUrl *url_htable, Url *url)

@@ -21,21 +21,28 @@ void get_data(const int fd, char *buf, const char *req);
 
 int main(int argc, char *argv[])
 {
-	Url url;
+	Url *url = NULL;
 
+	/**
+	 * @brief	初始化 url 哈希表和 url 管理器
+	 */
+	init_hatable_rooturl_id();
+	url = new_url_node(root_url, argv[1], url_htable, HALEN);
+	
 	if (root_url == NULL)
 	{
 		mydebug("root_url == %s", "NULL");
 	}
 	if (argc >= 2 && argv[1] != NULL)
 	{
-		init_url_msg(&url, argv[1]);
 		get(argv[1]);
 	}
 	else
 	{
 		merr_msg("usage: filename url");
 	}
+
+	release_url_all(root_url, url_htable, HALEN);
 
 	return 0;
 }

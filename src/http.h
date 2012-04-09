@@ -53,8 +53,8 @@ typedef struct req {
 	enum httpv ver;			/* HTTP协议版本 */
 	enum method mthd;		/* 请求方式 */
 	/* [begin, end] */
-	unsigned byte_begin;	/* 起始字节 */
-	unsigned byte_end;		/* 结束字节 */
+	unsigned int begin;	/* 起始字节 */
+	unsigned int end;		/* 结束字节 */
 }Req;
 
 /* HTTP回应 */
@@ -63,19 +63,32 @@ typedef struct resp {
 	enum httpv ver;			/* eg: HTTP/1.1 --> HTTP1_1 */
 	int status;				/* 状态, eg: 206--> Partial Content */
 	char web_ser[COM_LEN];	/* 相应的Web服务器 */
-	unsigned int len;		/* 字节长度 */
-	unsigned resp_begin;	/* 回应的起始字节 */
-	unsigned resp_end;		/* 回应的结束字节 */
-	unsigned resp_total;	/* 总字节数 */
+	unsigned begin;	/* 回应的起始字节 */
+	unsigned end;		/* 回应的结束字节 */
+	unsigned total_bytes;	/* 总字节数 */
 }Resp;
 
 /* 初始化请求头 */
 void init_req(Req *req, const Url *url, unsigned int beg, unsigned int end);
 /* 服务器返回str[]响应信息, 构造响应头 */
-void init_resp(Resp *resq, const char *str);
+void init_resp(Resp *resp, const char *str);
 /* 将枚举方式转换成相应的字符串 */
 void enum_mthd_to_str(char *str, enum method mthd);
 /* 将枚举版本转换成相应的字符串 */
 void enum_httpv_to_str(char *str, enum httpv ver);
+/* 将相应的字符串转换成枚举类 */
+void str_httpv_to_enum(const char *str, enum httpv *ver);
+/* 获取HTTP版信息 */
+void resp_get_httpv(const char *resp, char *ver);
+/* 获取响应头的状态码 */
+int resp_get_status(const char *resp);
+/* 获取Web Server 版本信息 */
+void resp_get_webserver(const char *resp, char *websrv);
+/* 获取响应头的成功请求的字节总数 */
+int resp_get_total_bytes(const char *resp);
+/* 获取响应头的开始字节 */
+int resp_get_begin_bytes(const char *resp);
+/* 获取响应头的结束字节 */
+int resp_get_end_bytes(const char *resp);
 
 #endif // _REQUEST_H_

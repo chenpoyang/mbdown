@@ -30,7 +30,7 @@ typedef struct hash_url {
 }HaUrl;
 
 /* 初始化所有初始状态 */
-void init_all();
+void init_hatable_rooturl_id();
 
 /* 初始化对象 */
 void init_url_msg(Url *url, const char *url_str);
@@ -38,17 +38,23 @@ void init_url_msg(Url *url, const char *url_str);
 /* 初始化根Url结点, 方便管理其他Url */
 void init_root_url(RootUrl *root_url);
 
-/* 获取取唯一的url_id */
+/* 获取取唯一的url_id, 已实现同步 */
 unsigned int get_url_id();
 
-/* 添加一条新的Url结点到链表中 */
+/* 添加一条新的Url信息到root_url管理器中, 并哈希 */
 void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len);
 
 /* 用完整url字符串,添加新的Url, 并加入链表中, 并哈希 */
 Url * new_url_node(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len);
 
-/* release all resource */
-void release_all(RootUrl *root_url);
+/* 释放所有url结点资源 */
+void release_root_url(RootUrl *root_url);
+
+/* 释放哈希表资源 */
+void release_hatable(HaUrl *hatable, const int len);
+
+/* 清理所有资源 */
+void release_url_all(RootUrl *root_url, HaUrl *hatable, const int len);
 
 /**
  * @brief	根据给定的url地字符串, 返回协议
