@@ -36,5 +36,5 @@ global.o	: global.c global.h
 bmsg.o		: bmsg.c bmsg.h global.h
 synchro.o	: synchro.c synchro.h
 url.o		: url.c url.h global.h synchro.h
-mbdown.o	: mbdown.c global.h
+mbdown.o	: mbdown.c global.h url.h
 http.o		: http.c http.h url.h global.h

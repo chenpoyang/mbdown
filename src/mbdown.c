@@ -22,27 +22,31 @@ void get_data(const int fd, char *buf, const char *req);
 int main(int argc, char *argv[])
 {
 	Url *url = NULL;
+	int len;
 
 	/**
 	 * @brief	初始化 url 哈希表和 url 管理器
 	 */
-	init_hatable_rooturl_id();
-	url = new_url_node(root_url, argv[1], url_htable, HALEN);
-	
+	len = HALEN;
+	root_url = NULL;
+	init_hatable_rooturl_id(&root_url, url_htable, len, &count_url_id);
+	url = new_url_node(&root_url, argv[1], url_htable, len);
+
 	if (root_url == NULL)
 	{
 		mydebug("root_url == %s", "NULL");
 	}
 	if (argc >= 2 && argv[1] != NULL)
 	{
-		get(argv[1]);
+get(argv[1]);
+		download(url);
 	}
 	else
 	{
 		merr_msg("usage: filename url");
 	}
 
-	release_url_all(root_url, url_htable, HALEN);
+	release_url_all(&root_url, url_htable, HALEN);
 
 	return 0;
 }
@@ -50,9 +54,11 @@ int main(int argc, char *argv[])
 
 void download(const Url *url)
 {
-	unsigned int total_bytes;
-	struct sockaddr_in serv;
-	char buf[MAXBUF];
+	//unsigned int total_bytes;
+	//struct sockaddr_in serv;
+	//char buf[MAXBUF];
+
+	print_url(url);
 }
 
 void get(const char *url)

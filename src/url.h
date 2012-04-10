@@ -30,31 +30,31 @@ typedef struct hash_url {
 }HaUrl;
 
 /* 初始化所有初始状态 */
-void init_hatable_rooturl_id();
+void init_hatable_rooturl_id(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg);
 
 /* 初始化对象 */
 void init_url_msg(Url *url, const char *url_str);
 
 /* 初始化根Url结点, 方便管理其他Url */
-void init_root_url(RootUrl *root_url);
+void init_root_url(RootUrl **root_url);
 
 /* 获取取唯一的url_id, 已实现同步 */
 unsigned int get_url_id();
 
 /* 添加一条新的Url信息到root_url管理器中, 并哈希 */
-void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len);
+void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len);
 
 /* 用完整url字符串,添加新的Url, 并加入链表中, 并哈希 */
-Url * new_url_node(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len);
+Url * new_url_node(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len);
 
 /* 释放所有url结点资源 */
-void release_root_url(RootUrl *root_url);
+void release_root_url(RootUrl **root_url);
 
 /* 释放哈希表资源 */
 void release_hatable(HaUrl *hatable, const int len);
 
 /* 清理所有资源 */
-void release_url_all(RootUrl *root_url, HaUrl *hatable, const int len);
+void release_url_all(RootUrl **root_url, HaUrl *hatable, const int len);
 
 /**
  * @brief	根据给定的url地字符串, 返回协议
@@ -96,7 +96,7 @@ void init_hash_table(HaUrl *url_htable, const int len);
  * @param	url_htable: 哈希表
  * @param	url: url结点
  */
-void hash_url(HaUrl *url_htable, Url *url, const int ha_len);
+void hash_url(HaUrl **url_htable, Url *url, const int ha_len);
 
 /**
  * @brief	将url结点比url_htable中删除
@@ -104,7 +104,7 @@ void hash_url(HaUrl *url_htable, Url *url, const int ha_len);
  * @param	url_htable
  * @param	url
  */
-void unhash_url(HaUrl *url_htable, Url *url);
+void unhash_url(HaUrl **url_htable, Url *url);
 
 /**
  * @brief	在长度为len的哈希表url_htable中查找标识为url_id的url结点
@@ -132,5 +132,8 @@ void remove_url(RootUrl *root_url, const Url *url);
  * @param	ret_str: 用于返回
  */
 void escape_spec(const char *res, char *ret_str);
+
+/* 输出Url里的值 */
+void print_url(const Url *url);
 
 #endif //_URL_H_

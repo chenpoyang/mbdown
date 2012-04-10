@@ -32,9 +32,13 @@ MAX_ETH_MTU	global.h	14;"	d
 MAX_LEN	http.h	5;"	d
 MAX_URL_ID	url.h	13;"	d
 M_HIDE	global.h	17;"	d
-M_LOCK	synchro.h	9;"	d
+M_LOCK_HTABLE	synchro.h	27;"	d
+M_LOCK_ID	synchro.h	11;"	d
+M_LOCK_ROOTURL	synchro.h	19;"	d
 M_SHOW	global.h	18;"	d
-M_UNLOCK	synchro.h	13;"	d
+M_UNLOCK_HTABLE	synchro.h	31;"	d
+M_UNLOCK_ID	synchro.h	15;"	d
+M_UNLOCK_ROOTURL	synchro.h	23;"	d
 OPTIONS	http.h	/^	OPTIONS, $/;"	e	enum:method
 POST	http.h	/^	POST, $/;"	e	enum:method
 PUT	http.h	/^	PUT, $/;"	e	enum:method
@@ -57,8 +61,8 @@ add_bmsg	bmsg.c	/^void add_bmsg(RootBmsg *root_bmsg, Bmsg *bmsg)$/;"	f	signature
 add_bmsg	bmsg.h	/^void add_bmsg(RootBmsg *root_bmsg, Bmsg *bmsg);$/;"	p	signature:(RootBmsg *root_bmsg, Bmsg *bmsg)
 add_bmsg_header	bmsg.c	/^void add_bmsg_header(Bmsg *header, Bmsg *bmsg)$/;"	f	signature:(Bmsg *header, Bmsg *bmsg)
 add_bmsg_header	bmsg.h	/^void add_bmsg_header(Bmsg *header, Bmsg *bmsg);$/;"	p	signature:(Bmsg *header, Bmsg *bmsg)
-add_new_url	url.c	/^void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len)$/;"	f	signature:(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len)
-add_new_url	url.h	/^void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len);$/;"	p	signature:(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len)
+add_new_url	url.c	/^void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)$/;"	f	signature:(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)
+add_new_url	url.h	/^void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len);$/;"	p	signature:(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)
 add_url_header	bmsg.c	/^void add_url_header(RootBmsg *root_bmsg, const Bmsg *header)$/;"	f	signature:(RootBmsg *root_bmsg, const Bmsg *header)
 add_url_header	bmsg.h	/^void add_url_header(RootBmsg *root_bmsg, const Bmsg *header);$/;"	p	signature:(RootBmsg *root_bmsg, const Bmsg *header)
 append_bytes	mbdown.c	/^void append_bytes(FILE *file, const char *buf, const int size)$/;"	f	signature:(FILE *file, const char *buf, const int size)
@@ -76,7 +80,7 @@ bmsg::to_bytes	bmsg.h	/^	int to_bytes;$/;"	m	struct:bmsg	access:public
 bmsg::url_id	bmsg.h	/^	int url_id;$/;"	m	struct:bmsg	access:public
 bzero	global.h	15;"	d
 count_url_id	mbdown.c	/^GLOBAL unsigned int count_url_id;		\/* for generating unique url id *\/$/;"	v
-count_url_id	url.c	/^static unsigned int count_url_id = 0;	\/* for generating unique url id *\/$/;"	v	file:
+count_url_id	url.c	/^unsigned int count_url_id = 0;	\/* for generating unique url id *\/$/;"	v
 download	mbdown.c	/^void download(const Url *url)$/;"	f	signature:(const Url *url)
 download	mbdown.c	/^void download(const Url *url);$/;"	p	file:	signature:(const Url *url)
 end	bmsg.h	/^	unsigned short end;$/;"	m	struct:bmsg	access:public
@@ -118,22 +122,24 @@ httpv	http.h	/^enum httpv {$/;"	g
 id	url.h	/^	unsigned int id;				\/* unique id for quickly find *\/$/;"	m	struct:url	access:public
 init_hash_table	url.c	/^void init_hash_table(HaUrl *url_htable, const int len)$/;"	f	signature:(HaUrl *url_htable, const int len)
 init_hash_table	url.h	/^void init_hash_table(HaUrl *url_htable, const int len);$/;"	p	signature:(HaUrl *url_htable, const int len)
-init_hatable_rooturl_id	url.c	/^void init_hatable_rooturl_id()$/;"	f
-init_hatable_rooturl_id	url.h	/^void init_hatable_rooturl_id();$/;"	p	signature:()
+init_hatable_rooturl_id	url.c	/^void init_hatable_rooturl_id(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg)$/;"	f	signature:(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg)
+init_hatable_rooturl_id	url.h	/^void init_hatable_rooturl_id(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg);$/;"	p	signature:(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg)
 init_req	http.c	/^void init_req(Req *req, const Url *url, unsigned int beg, unsigned int end)$/;"	f	signature:(Req *req, const Url *url, unsigned int beg, unsigned int end)
 init_req	http.h	/^void init_req(Req *req, const Url *url, unsigned int beg, unsigned int end);$/;"	p	signature:(Req *req, const Url *url, unsigned int beg, unsigned int end)
 init_resp	http.c	/^void init_resp(Resp *resp, const char *str)$/;"	f	signature:(Resp *resp, const char *str)
 init_resp	http.h	/^void init_resp(Resp *resp, const char *str);$/;"	p	signature:(Resp *resp, const char *str)
 init_root_bmsg	bmsg.c	/^void init_root_bmsg(RootBmsg *root_bmsg)$/;"	f	signature:(RootBmsg *root_bmsg)
 init_root_bmsg	bmsg.h	/^void init_root_bmsg(RootBmsg *root_bmsg);$/;"	p	signature:(RootBmsg *root_bmsg)
-init_root_url	url.c	/^void init_root_url(RootUrl *root_url)$/;"	f	signature:(RootUrl *root_url)
-init_root_url	url.h	/^void init_root_url(RootUrl *root_url);$/;"	p	signature:(RootUrl *root_url)
+init_root_url	url.c	/^void init_root_url(RootUrl **root_url)$/;"	f	signature:(RootUrl **root_url)
+init_root_url	url.h	/^void init_root_url(RootUrl **root_url);$/;"	p	signature:(RootUrl **root_url)
 init_url_msg	url.c	/^void init_url_msg(Url *cur, const char *url)$/;"	f	signature:(Url *cur, const char *url)
 init_url_msg	url.h	/^void init_url_msg(Url *url, const char *url_str);$/;"	p	signature:(Url *url, const char *url_str)
 m_atou	global.c	/^unsigned int m_atou(const char *str)$/;"	f	signature:(const char *str)
 m_atou	global.h	/^unsigned int m_atou(const char *str);$/;"	p	signature:(const char *str)
 m_error	global.h	8;"	d
-m_protect	synchro.h	/^pthread_mutex_t m_protect;$/;"	v
+m_protect_url_htable	synchro.h	/^pthread_mutex_t m_protect_url_htable;$/;"	v
+m_protect_url_id	synchro.h	/^pthread_mutex_t m_protect_url_id;$/;"	v
+m_protect_url_root_url	synchro.h	/^pthread_mutex_t m_protect_url_root_url;$/;"	v
 m_tolower	global.c	/^void m_tolower(char *str)$/;"	f	signature:(char *str)
 m_tolower	global.h	/^void m_tolower(char *str);$/;"	p	signature:(char *str)
 m_toupper	global.c	/^void m_toupper(char *str)$/;"	f	signature:(char *str)
@@ -155,20 +161,22 @@ method	http.h	/^enum method {$/;"	g
 mthd	http.h	/^	enum method mthd;		\/* 请求方式 *\/$/;"	m	struct:req	typeref:enum:req::method	access:public
 mydebug	global.c	/^void mydebug(const char *fmt, ...)$/;"	f	signature:(const char *fmt, ...)
 mydebug	global.h	/^void mydebug(const char *fmt, ...);$/;"	p	signature:(const char *fmt, ...)
-new_url_node	url.c	/^Url * new_url_node(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len)$/;"	f	signature:(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len)
-new_url_node	url.h	/^Url * new_url_node(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len);$/;"	p	signature:(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len)
+new_url_node	url.c	/^Url * new_url_node(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len)$/;"	f	signature:(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len)
+new_url_node	url.h	/^Url * new_url_node(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len);$/;"	p	signature:(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len)
 next	bmsg.h	/^	struct bmsg *next;		\/* single linked list *\/$/;"	m	struct:bmsg	typeref:struct:bmsg::bmsg	access:public
 next	url.h	/^	struct hash_url *next;$/;"	m	struct:hash_url	typeref:struct:hash_url::hash_url	access:public
 next	url.h	/^	struct url *next;	\/* single linked list *\/$/;"	m	struct:url	typeref:struct:url::url	access:public
 next_hdr	bmsg.h	/^	struct bmsg *next_hdr;	\/* netx url bmsgs *\/$/;"	m	struct:bmsg	typeref:struct:bmsg::bmsg	access:public
 port	http.h	/^    unsigned int port;		\/* default: 80 *\/$/;"	m	struct:req	access:public
 port	url.h	/^	int port;$/;"	m	struct:url	access:public
-release_all	url.c	/^void release_all(RootUrl *root_url, HaUrl *hatable, const int len)$/;"	f	signature:(RootUrl *root_url, HaUrl *hatable, const int len)
-release_all	url.h	/^void release_all(RootUrl *root_url, HaUrl *hatable, const int len);$/;"	p	signature:(RootUrl *root_url, HaUrl *hatable, const int len)
+print_url	url.c	/^void print_url(const Url *url)$/;"	f	signature:(const Url *url)
+print_url	url.h	/^void print_url(const Url *url);$/;"	p	signature:(const Url *url)
 release_hatable	url.c	/^void release_hatable(HaUrl *hatable, const int len)$/;"	f	signature:(HaUrl *hatable, const int len)
 release_hatable	url.h	/^void release_hatable(HaUrl *hatable, const int len);$/;"	p	signature:(HaUrl *hatable, const int len)
-release_root_url	url.c	/^void release_root_url(RootUrl *root_url)$/;"	f	signature:(RootUrl *root_url)
-release_root_url	url.h	/^void release_root_url(RootUrl *root_url);$/;"	p	signature:(RootUrl *root_url)
+release_root_url	url.c	/^void release_root_url(RootUrl **root_url)$/;"	f	signature:(RootUrl **root_url)
+release_root_url	url.h	/^void release_root_url(RootUrl **root_url);$/;"	p	signature:(RootUrl **root_url)
+release_url_all	url.c	/^void release_url_all(RootUrl **root_url, HaUrl *hatable, const int len)$/;"	f	signature:(RootUrl **root_url, HaUrl *hatable, const int len)
+release_url_all	url.h	/^void release_url_all(RootUrl **root_url, HaUrl *hatable, const int len);$/;"	p	signature:(RootUrl **root_url, HaUrl *hatable, const int len)
 remove_url	url.c	/^void remove_url(RootUrl *root_url, const Url *url)$/;"	f	signature:(RootUrl *root_url, const Url *url)
 remove_url	url.h	/^void remove_url(RootUrl *root_url, const Url *url);$/;"	p	signature:(RootUrl *root_url, const Url *url)
 req	http.c	/^Req *req = NULL;	\/* 请求 *\/$/;"	v

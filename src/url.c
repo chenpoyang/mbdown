@@ -9,16 +9,16 @@
 
 /* global variables */
 RootUrl *root_url = NULL;				/* root url manager */
-static unsigned int count_url_id = 0;	/* for generating unique url id */
+unsigned int count_url_id = 10;	/* for generating unique url id */
 HaUrl url_htable[HALEN];				/* hash table */
 
 
 /* 初始化所有初始状态 */
-void init_hatable_rooturl_id()
+void init_hatable_rooturl_id(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg)
 {
-	init_hash_table(url_htable, HALEN);
 	init_root_url(root_url);
-	count_url_id = 0;
+	init_hash_table(htable, len);
+	*url_id_beg = 0;
 }
 
 /* 初始化对象 */
@@ -50,6 +50,7 @@ Url * find_url(HaUrl *url_htable, const int len, const int url_id)
 
 	assert(url_htable != NULL);
 
+	M_LOCK_HTABLE;
 	cur = url_htable + (url_id % HALEN);
 	while (cur->next)
 	{
@@ -59,6 +60,7 @@ Url * find_url(HaUrl *url_htable, const int len, const int url_id)
 		}
 		cur = cur->next;
 	}
+	M_UNLOCK_HTABLE;
 
 	return NULL;
 }
@@ -71,6 +73,30 @@ Url * find_url(HaUrl *url_htable, const int len, const int url_id)
  */
 void remove_url(RootUrl *root_url, const Url *url)
 {
+	Url *cur = NULL, *tmp_ptr = NULL;
+
+	if (root_url == NULL || url == NULL)
+	{
+		merr_msg("no need to remove url!");
+		return;
+	}
+
+	M_LOCK_ROOTURL;
+	cur = root_url;
+	while (cur->next)
+	{
+		if (cur->next == url)
+		{
+			tmp_ptr = cur->next;
+			cur->next = cur->next->next;
+			free(tmp_ptr);
+			tmp_ptr = NULL;
+			break;
+		}
+
+		cur = cur->next;
+	}
+	M_UNLOCK_ROOTURL;
 }
 
 /**
@@ -79,30 +105,29 @@ void remove_url(RootUrl *root_url, const Url *url)
  * @param	url_htable: 哈希表
  * @param	url: url结点
  */
-void hash_url(HaUrl *url_htable, Url *url, const int ha_len)
+void hash_url(HaUrl **url_htable, Url *url, const int ha_len)
 {
 	int index;
-	HaUrl *cur = NULL;
+	HaUrl *cur = NULL, *tmp_ptr = NULL;
 	
-	assert(url_htable != NULL && url != NULL);
+	assert(*url_htable != NULL && url != NULL);
 
+	M_LOCK_HTABLE;
 	index = url->id % ha_len;	/* 找索引 */
-	cur = url_htable + index;	/* 找到相应的链表 */
-	while (cur->next)
-	{
-		cur = cur->next;
-	}
+	cur = *url_htable + index;	/* 找到相应的链表 */
 
 	/* cur->next所有成原置空 */
-	cur->next = (HaUrl *) calloc (1, sizeof(HaUrl));
-	if (NULL == cur->next)
+	tmp_ptr = (HaUrl *) calloc (1, sizeof(HaUrl));
+	if (NULL == tmp_ptr)
 	{
 		merr_sys("calloc error!");
 		return;
 	}
 
 	/* 追加url */
-	cur->next->url = url;
+	tmp_ptr->next = cur->next;
+	cur->next = tmp_ptr;
+	M_UNLOCK_HTABLE;
 }
 
 /**
@@ -111,13 +136,14 @@ void hash_url(HaUrl *url_htable, Url *url, const int ha_len)
  * @param	url_htable
  * @param	url
  */
-void unhash_url(HaUrl *url_htable, Url *url)
+void unhash_url(HaUrl **url_htable, Url *url)
 {
 	HaUrl *cur = NULL, *tmp_ptr = NULL;
 
 	assert(url_htable != NULL && url != NULL);
 
-	cur = &url_htable[url->id % HALEN];
+	M_LOCK_HTABLE;
+	cur = *url_htable + (url->id % HALEN);
 	while (cur->next)
 	{
 		if (cur->next->url == url)
@@ -131,6 +157,7 @@ void unhash_url(HaUrl *url_htable, Url *url)
 		}
 		cur = cur->next;
 	}
+	M_UNLOCK_HTABLE;
 }
 
 /**
@@ -143,25 +170,29 @@ void init_hash_table(HaUrl *url_htable, const int len)
 {
 	int i;
 
+	M_LOCK_HTABLE;
 	i = len;
 	while (--i >= 0)
 	{
 		url_htable[i].next = NULL;
 		url_htable[i].url = NULL;
 	}
+	M_UNLOCK_HTABLE;
 }
 
 /* initialise root_url for managing other urls */
-void init_root_url(RootUrl *root_url)
+void init_root_url(RootUrl **root_url)
 {
-	if (root_url != NULL)
+	if (*root_url != NULL)
 	{
-		merr_msg("previous url linked list exist!");
-		return;
+		free(*root_url);
+		*root_url = NULL;
 	}
-	
-	root_url = (RootUrl *) calloc (1, sizeof(RootUrl));
-	if (root_url == NULL)
+
+	M_LOCK_ROOTURL;
+	*root_url = (RootUrl *) calloc (1, sizeof(RootUrl));
+	M_UNLOCK_ROOTURL;
+	if (*root_url == NULL)
 	{
 		merr_msg("calloc error!");
 		return;
@@ -169,28 +200,30 @@ void init_root_url(RootUrl *root_url)
 }
 
 /* 释放所有url结点 */
-void release_root_url(RootUrl *root_url)
+void release_root_url(RootUrl **root_url)
 {
 	Url *cur_ptr = NULL, *tmp_ptr = NULL;
 
-	if (NULL == root_url)
+	if (NULL == *root_url)
 	{
 		return;
 	}
 
-	cur_ptr = root_url->next;
-	while (cur_ptr)
+	M_LOCK_ROOTURL;
+	cur_ptr = (*root_url);
+	while (cur_ptr->next)
 	{
-		tmp_ptr = cur_ptr;
+		tmp_ptr = cur_ptr->next;
 
-		cur_ptr = cur_ptr->next;
+		cur_ptr->next = cur_ptr->next->next;
 
 		free(tmp_ptr);
 		tmp_ptr = NULL;
 	}
 
-	free(root_url);
-	root_url = NULL;
+	free(*root_url);
+	*root_url = NULL;
+	M_UNLOCK_ROOTURL;
 }
 
 /* 释放哈希表资源 */
@@ -201,6 +234,7 @@ void release_hatable(HaUrl *hatable, const int len)
 
 	assert(hatable != NULL);
 
+	M_LOCK_HTABLE;
 	for (i = 0; i < len; ++i)
 	{
 		cur = hatable[i].next;
@@ -208,30 +242,32 @@ void release_hatable(HaUrl *hatable, const int len)
 		{
 			tmp_ptr = cur;
 			cur = cur->next;
-			free(tmp_ptr);
+			//free(tmp_ptr);
 			tmp_ptr = NULL;
 		}
 		hatable[i].next = NULL;
 	}
+	M_UNLOCK_HTABLE;
 }
 
 /* 清理所有资源 */
-void release_url_all(RootUrl *root_url, HaUrl *hatable, const int len)
+void release_url_all(RootUrl **root_url, HaUrl *hatable, const int len)
 {
-	assert(root_url != NULL && hatable != NULL);
+	assert(*root_url != NULL && hatable != NULL);
 
 	release_root_url(root_url);
 	release_hatable(hatable, len);
 }
 
 /* 添加一条新的Url信息到root_url管理器中, 并哈希 */
-void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len)
+void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)
 {
 	Url *cur = NULL;
 
-	assert(root_url != NULL && url != NULL && ha_table != NULL);
+	assert(*root_url != NULL && url != NULL && ha_table != NULL);
 
-	cur = root_url;
+	M_LOCK_ROOTURL;
+	cur = *root_url;
 
 	while (cur->next)
 	{
@@ -241,17 +277,18 @@ void add_new_url(RootUrl *root_url, Url *url, HaUrl *ha_table, const int ha_len)
 	/* 加到链表尾 */
 	url->next = NULL;
 	cur->next = url;
+	M_UNLOCK_ROOTURL;
 
 	/* 哈希 */
-	hash_url(ha_table, url, ha_len);
+	hash_url(&ha_table, url, ha_len);
 }
 
 /* 用完整url字符串,添加新的Url, 并加入链表中, 并哈希 */
-Url * new_url_node(RootUrl *root_url, const char *url, HaUrl *ha_table, const int ha_len)
+Url * new_url_node(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len)
 {
 	Url *cur = NULL;
 
-	assert(root_url != NULL && url != NULL);
+	assert(*root_url != NULL && url != NULL);
 	cur = (Url *) calloc (1, sizeof(Url));
 	if (cur == NULL)
 	{
@@ -474,9 +511,9 @@ unsigned int get_url_id()
 	}
 
 	/* protect the expression */
-	M_LOCK;
+	M_LOCK_ID;
 	++count_url_id;
-	M_UNLOCK;
+	M_UNLOCK_ID;
 
 	return count_url_id - 1;
 }
@@ -561,4 +598,20 @@ void get_host_name(const char *url, char *hostname)
 	
 	strncpy(hostname, str_ptr, len);
 	hostname[len] = '\0';
+}
+
+/* 输出Url里的值 */
+void print_url(const Url *url)
+{
+	if (NULL == url)
+	{
+		merr_msg("url == NULL!");
+		return;
+	}
+	printf("unique url id: %d\r\n", url->id);
+	printf("complete url: %s\r\n", url->url);
+	printf("scheme: %s\r\n", url->scheme);
+	printf("host: %s\r\n", url->host);
+	printf("res: %s\r\n", url->res);
+	printf("port: %d\r\n", url->port);
 }
