@@ -1,4 +1,7 @@
 #!/bin/bash
 
-#./mbdown http://173.230.148.251/lnmp.gif
-./mbdown http://127.0.0.1/index.html
+date
+#./main http://127.0.0.1/resource/ubuntu-11.04-desktop-i386.iso
+./main http://dl_dir.qq.com/qqfile/qd/QQ2012Beta1_QQProtect2.5.exe
+#./main http://127.0.0.1/resource/CentOS-5.3-i386-bin-DVD.iso
+date

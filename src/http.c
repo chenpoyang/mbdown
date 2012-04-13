@@ -10,11 +10,12 @@
 Req *req = NULL;	/* 请求 */
 Resp *resp = NULL;	/* 回应 */
 
-/* 初始化请求头 */
-void init_req(Req *req, const Url *url, unsigned int beg, unsigned int end)
+/* 初始化指定范围的请求头 */
+void init_req_begin_end(Req *req, const Url *url, unsigned int beg, unsigned int end)
 {
 	char enum_mthd_str[COM_LEN], enum_httpv_str[COM_LEN];
 	char byte_beg_str[COM_LEN], byte_end_str[COM_LEN];
+
 	assert(req != NULL && url != NULL);
 
 	strcpy(req->res, url->res);

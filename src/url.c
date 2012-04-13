@@ -183,12 +183,6 @@ void init_hash_table(HaUrl *url_htable, const int len)
 /* initialise root_url for managing other urls */
 void init_root_url(RootUrl **root_url)
 {
-	if (*root_url != NULL)
-	{
-		free(*root_url);
-		*root_url = NULL;
-	}
-
 	M_LOCK_ROOTURL;
 	*root_url = (RootUrl *) calloc (1, sizeof(RootUrl));
 	M_UNLOCK_ROOTURL;
@@ -262,21 +256,13 @@ void release_url_all(RootUrl **root_url, HaUrl *hatable, const int len)
 /* 添加一条新的Url信息到root_url管理器中, 并哈希 */
 void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)
 {
-	Url *cur = NULL;
-
 	assert(*root_url != NULL && url != NULL && ha_table != NULL);
 
 	M_LOCK_ROOTURL;
-	cur = *root_url;
-
-	while (cur->next)
-	{
-		cur = cur->next;
-	}
 
 	/* 加到链表尾 */
-	url->next = NULL;
-	cur->next = url;
+	url->next = (*root_url)->next;
+	(*root_url)->next = url;
 	M_UNLOCK_ROOTURL;
 
 	/* 哈希 */

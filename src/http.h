@@ -12,7 +12,7 @@
 /*
 HEAD /index.html HTTP/1.1
 Host: 127.0.0.1
-Range:bytes=0-1023
+Range: bytes=0-1023
 
 HTTP/1.1 206 Partial Content
 Server: nginx/1.0.10
@@ -68,8 +68,8 @@ typedef struct resp {
 	unsigned total_bytes;	/* 总字节数 */
 }Resp;
 
-/* 初始化请求头 */
-void init_req(Req *req, const Url *url, unsigned int beg, unsigned int end);
+/* 初始化指定范围的请求头 */
+void init_req_begin_end(Req *req, const Url *url, unsigned int beg, unsigned int end);
 /* 服务器返回str[]响应信息, 构造响应头 */
 void init_resp(Resp *resp, const char *str);
 /* 将枚举方式转换成相应的字符串 */

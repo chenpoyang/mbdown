@@ -7,3 +7,32 @@ add url node and hash it:
 
 2012-04-09::22:09
 	synchro.h: M_LOCK_XXX M_UNLOCK_XXX
+
+2012-0414::01:15
+	mbdown.c:
+		Sat Apr 14 01:16:22 CST 2012
+		filename:
+		QQ2012Beta1_QQProtect2.5.exe
+		send:
+		GET /qqfile/qd/QQ2012Beta1_QQProtect2.5.exe HTTP/1.1
+		User-Agent: mbdown/1.0
+		Host: dl_dir.qq.com
+
+
+		res header:
+		HTTP/1.1 404 Not Found
+		Server: nginx/1.0.10
+		Date: Fri, 13 Apr 2012 17:16:22 GMT
+		Content-Type: text/html; charset=iso-8859-1
+		Transfer-Encoding: chunked
+		Connection: keep-alive
+		Vary: Accept-Encoding
+		Accept-Ranges: bytes
+		Content-Language: en
+		Expires: Fri, 13 Apr 2012 17:16:22 GMT
+
+
+		TIPS on global.c, line 92:
+			bad header!: Success
+		Sat Apr 14 01:16:22 CST 2012
+
