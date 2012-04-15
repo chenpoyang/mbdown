@@ -1,0 +1,55 @@
+2012-04-15::14:37:
+
+Sun Apr 15 14:34:20 CST 2012
+filename:
+QQ2012Beta1_QQProtect2.5.exe
+send:
+GET /qqfile/qd/QQ2012Beta1_QQProtect2.5.exe HTTP/1.1
+User-Agent: mbdown/1.0
+Host: 218.75.172.231
+
+
+res header:
+HTTP/1.1 200 OK
+Date: Sun, 15 Apr 2012 06:29:35 GMT
+Server: nws 1.2.15
+Content-Length: 49104248
+Content-Type: application/octet-stream
+Connection: Close
+Cache-Control: max-age=600
+Expires: Sun, 15 Apr 2012 06:39:35 GMT
+
+
+*** glibc detected *** ./main: free(): invalid next size (normal): 0x088ba478 ***
+======= Backtrace: =========
+/lib/libc.so.6(-0xff87504a)[0x17efb6]
+/lib/libc.so.6(fclose+0x14a)[0x16d69a]
+./main[0x8049452]
+./main[0x8049526]
+/lib/libc.so.6(__libc_start_main+0xe6)[0x126e36]
+./main[0x8048b51]
+======= Memory map: ========
+00110000-00293000 r-xp 00000000 08:03 62777      /lib/libc-2.13.so
+00293000-00294000 ---p 00183000 08:03 62777      /lib/libc-2.13.so
+00294000-00296000 r--p 00183000 08:03 62777      /lib/libc-2.13.so
+00296000-00297000 rw-p 00185000 08:03 62777      /lib/libc-2.13.so
+00297000-0029a000 rw-p 00000000 00:00 0 
+006fb000-00718000 r-xp 00000000 08:03 41660      /lib/ld-2.13.so
+00718000-00719000 r--p 0001c000 08:03 41660      /lib/ld-2.13.so
+00719000-0071a000 rw-p 0001d000 08:03 41660      /lib/ld-2.13.so
+007a6000-007a7000 r-xp 00000000 00:00 0          [vdso]
+008a8000-008bf000 r-xp 00000000 08:03 70226      /lib/libpthread-2.13.so
+008bf000-008c0000 r--p 00016000 08:03 70226      /lib/libpthread-2.13.so
+008c0000-008c1000 rw-p 00017000 08:03 70226      /lib/libpthread-2.13.so
+008c1000-008c3000 rw-p 00000000 00:00 0 
+00a2a000-00a46000 r-xp 00000000 08:03 7099       /lib/libgcc_s-4.5.1-20100924.so.1
+00a46000-00a47000 rw-p 0001b000 08:03 7099       /lib/libgcc_s-4.5.1-20100924.so.1
+08048000-0804c000 r-xp 00000000 08:02 1055599    /home/young/mbdown/src/main
+0804c000-0804d000 rw-p 00004000 08:02 1055599    /home/young/mbdown/src/main
+088ba000-088db000 rw-p 00000000 00:00 0          [heap]
+b77c4000-b77c5000 rw-p 00000000 00:00 0 
+b77e7000-b77e9000 rw-p 00000000 00:00 0 
+bf7e0000-bf802000 rw-p 00000000 00:00 0          [stack]
+./start.sh: line 6:  8784 Aborted                 (core dumped) ./main http://218.75.172.231/qqfile/qd/QQ2012Beta1_QQProtect2.5.exe
+Sun Apr 15 14:36:22 CST 2012
+

@@ -183,6 +183,9 @@ void append_bytes(FILE *file, const char *buf, const int size)
 void get_filename(const char *url, char *filename)
 {
 	const char *ptr = NULL;
+	//char tmpfile[64], str[64];
+	//unsigned int index = 0;
+	//FILE *fp = NULL;
 
 	assert(url != NULL && filename != NULL);
 
@@ -191,6 +194,18 @@ void get_filename(const char *url, char *filename)
 	while (*(--ptr) != '/') {}
 
 	strcpy(filename, ptr + 1);
-	puts("filename:");
+	//strcpy(tmpfile, filename);
+	//while ((fp = fopen(tmpfile, "r")) != NULL)
+	//{
+	//	++index;
+	//	m_utoa(index, str);
+	//	strcpy(tmpfile, filename);
+	//	strcat(tmpfile, ".");
+	//	strcat(tmpfile, str);
+	//	fclose(fp);
+	//}
+	//strcpy(filename, tmpfile);
+
+	printf("filename:");
 	puts(filename);
 }

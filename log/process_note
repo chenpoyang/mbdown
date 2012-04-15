@@ -39,3 +39,4 @@ add url node and hash it:
 2012-04-15::21:31
 	url.c
 		remove hash table for url linked list!
+		editing get_filename
