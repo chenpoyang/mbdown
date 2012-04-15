@@ -8,7 +8,7 @@ add url node and hash it:
 2012-04-09::22:09
 	synchro.h: M_LOCK_XXX M_UNLOCK_XXX
 
-2012-0414::01:15
+2012-04-14::01:15
 	mbdown.c:
 		Sat Apr 14 01:16:22 CST 2012
 		filename:
@@ -36,3 +36,6 @@ add url node and hash it:
 			bad header!: Success
 		Sat Apr 14 01:16:22 CST 2012
 
+2012-04-15::21:31
+	url.c
+		remove hash table for url linked list!
