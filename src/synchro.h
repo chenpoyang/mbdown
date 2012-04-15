@@ -9,28 +9,22 @@ pthread_mutex_t m_protect_url_root_url;
 pthread_mutex_t m_protect_url_htable;
 
 #define M_LOCK_ID		\
-	pthread_mutex_init(&m_protect_url_id, NULL);	\
 	pthread_mutex_lock(&m_protect_url_id);			\
 
 #define M_UNLOCK_ID	\
 	pthread_mutex_unlock(&m_protect_url_id);		\
-	pthread_mutex_destroy(&m_protect_url_id);		\
 
 #define M_LOCK_ROOTURL		\
-	pthread_mutex_init(&m_protect_url_root_url, NULL);	\
 	pthread_mutex_lock(&m_protect_url_root_url);			\
 
 #define M_UNLOCK_ROOTURL	\
 	pthread_mutex_unlock(&m_protect_url_root_url);		\
-	pthread_mutex_destroy(&m_protect_url_root_url);		\
 
 #define M_LOCK_HTABLE		\
-	pthread_mutex_init(&m_protect_url_htable, NULL);	\
 	pthread_mutex_lock(&m_protect_url_htable);			\
 
 #define M_UNLOCK_HTABLE	\
 	pthread_mutex_unlock(&m_protect_url_htable);		\
-	pthread_mutex_destroy(&m_protect_url_htable);		\
 
 /**
  * @brief	current thread wait some time
@@ -38,5 +32,11 @@ pthread_mutex_t m_protect_url_htable;
  * @param	sec, the internal the thread wait
  */
 void thread_wait(const int sec);
+
+/* 初始化锁 */
+void init_mutex();
+
+/* 销毁锁 */
+void destroy_mutex();
 
 #endif // _SYNCHRO_H_

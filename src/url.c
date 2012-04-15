@@ -10,14 +10,12 @@
 /* global variables */
 RootUrl *root_url = NULL;				/* root url manager */
 unsigned int count_url_id = 10;	/* for generating unique url id */
-HaUrl url_htable[HALEN];				/* hash table */
 
 
 /* 初始化所有初始状态 */
-void init_hatable_rooturl_id(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg)
+void init_rooturl_id(RootUrl **root_url, unsigned int *url_id_beg)
 {
 	init_root_url(root_url);
-	init_hash_table(htable, len);
 	*url_id_beg = 0;
 }
 
@@ -33,36 +31,6 @@ void init_url_msg(Url *cur, const char *url)
 	get_resource(url, cur->res);
 	cur->port = get_port(url);
 	cur->id = get_url_id();
-}
-
-/**
- * @brief	在长度为len的哈希表url_htable中查找标识为url_id的url结点
- *
- * @param	url_htable
- * @param	len
- * @param	url_id
- *
- * @return	若找到, 返加Url结点的地址, 否则返回NULL
- */
-Url * find_url(HaUrl *url_htable, const int len, const int url_id)
-{
-	HaUrl *cur = NULL;
-
-	assert(url_htable != NULL);
-
-	M_LOCK_HTABLE;
-	cur = url_htable + (url_id % HALEN);
-	while (cur->next)
-	{
-		if (cur->next->url->id == url_id)
-		{
-			return cur->next->url;
-		}
-		cur = cur->next;
-	}
-	M_UNLOCK_HTABLE;
-
-	return NULL;
 }
 
 /**
@@ -97,87 +65,6 @@ void remove_url(RootUrl *root_url, const Url *url)
 		cur = cur->next;
 	}
 	M_UNLOCK_ROOTURL;
-}
-
-/**
- * @brief	为url建立哈希索引
- *
- * @param	url_htable: 哈希表
- * @param	url: url结点
- */
-void hash_url(HaUrl **url_htable, Url *url, const int ha_len)
-{
-	int index;
-	HaUrl *cur = NULL, *tmp_ptr = NULL;
-	
-	assert(*url_htable != NULL && url != NULL);
-
-	M_LOCK_HTABLE;
-	index = url->id % ha_len;	/* 找索引 */
-	cur = *url_htable + index;	/* 找到相应的链表 */
-
-	/* cur->next所有成原置空 */
-	tmp_ptr = (HaUrl *) calloc (1, sizeof(HaUrl));
-	if (NULL == tmp_ptr)
-	{
-		merr_sys("calloc error!");
-		return;
-	}
-
-	/* 追加url */
-	tmp_ptr->next = cur->next;
-	cur->next = tmp_ptr;
-	M_UNLOCK_HTABLE;
-}
-
-/**
- * @brief	将url结点比url_htable中删除
- *
- * @param	url_htable
- * @param	url
- */
-void unhash_url(HaUrl **url_htable, Url *url)
-{
-	HaUrl *cur = NULL, *tmp_ptr = NULL;
-
-	assert(url_htable != NULL && url != NULL);
-
-	M_LOCK_HTABLE;
-	cur = *url_htable + (url->id % HALEN);
-	while (cur->next)
-	{
-		if (cur->next->url == url)
-		{
-			tmp_ptr = cur->next;
-			cur->next = cur->next->next;
-			free(tmp_ptr);
-
-			tmp_ptr = NULL;
-			return;
-		}
-		cur = cur->next;
-	}
-	M_UNLOCK_HTABLE;
-}
-
-/**
- * @brief	初始化哈希表:url_hashtable[], 表长度为len
- *
- * @param	url_htable:哈希表首地址
- * @param	len:	表长度
- */
-void init_hash_table(HaUrl *url_htable, const int len)
-{
-	int i;
-
-	M_LOCK_HTABLE;
-	i = len;
-	while (--i >= 0)
-	{
-		url_htable[i].next = NULL;
-		url_htable[i].url = NULL;
-	}
-	M_UNLOCK_HTABLE;
 }
 
 /* initialise root_url for managing other urls */
@@ -220,43 +107,10 @@ void release_root_url(RootUrl **root_url)
 	M_UNLOCK_ROOTURL;
 }
 
-/* 释放哈希表资源 */
-void release_hatable(HaUrl *hatable, const int len)
-{
-	int i;
-	HaUrl *cur = NULL, *tmp_ptr = NULL;
-
-	assert(hatable != NULL);
-
-	M_LOCK_HTABLE;
-	for (i = 0; i < len; ++i)
-	{
-		cur = hatable[i].next;
-		while (cur)
-		{
-			tmp_ptr = cur;
-			cur = cur->next;
-			//free(tmp_ptr);
-			tmp_ptr = NULL;
-		}
-		hatable[i].next = NULL;
-	}
-	M_UNLOCK_HTABLE;
-}
-
-/* 清理所有资源 */
-void release_url_all(RootUrl **root_url, HaUrl *hatable, const int len)
-{
-	assert(*root_url != NULL && hatable != NULL);
-
-	release_root_url(root_url);
-	release_hatable(hatable, len);
-}
-
 /* 添加一条新的Url信息到root_url管理器中, 并哈希 */
-void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)
+void add_new_url(RootUrl **root_url, Url *url)
 {
-	assert(*root_url != NULL && url != NULL && ha_table != NULL);
+	assert(*root_url != NULL && url != NULL);
 
 	M_LOCK_ROOTURL;
 
@@ -264,13 +118,10 @@ void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len
 	url->next = (*root_url)->next;
 	(*root_url)->next = url;
 	M_UNLOCK_ROOTURL;
-
-	/* 哈希 */
-	hash_url(&ha_table, url, ha_len);
 }
 
 /* 用完整url字符串,添加新的Url, 并加入链表中, 并哈希 */
-Url * new_url_node(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len)
+Url * new_url_node(RootUrl **root_url, const char *url)
 {
 	Url *cur = NULL;
 
@@ -290,7 +141,7 @@ Url * new_url_node(RootUrl **root_url, const char *url, HaUrl *ha_table, const i
 	 * @param	root_url
 	 * @param	url
 	 */
-	add_new_url(root_url, cur, ha_table, ha_len);
+	add_new_url(root_url, cur);
 
 	return cur;
 }

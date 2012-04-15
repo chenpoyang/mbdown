@@ -38,3 +38,20 @@ void thread_wait(const int sec)
 	pthread_mutex_unlock(&mutex);
 	pthread_mutex_destroy(&mutex);
 }
+
+/* 初始化锁 */
+void init_mutex()
+{
+	pthread_mutex_init(&m_protect_url_id, NULL);
+	pthread_mutex_init(&m_protect_url_root_url, NULL);
+	pthread_mutex_init(&m_protect_url_htable, NULL);
+}
+
+/* 销毁锁 */
+void destroy_mutex()
+{
+	pthread_mutex_destroy(&m_protect_url_id);
+	pthread_mutex_destroy(&m_protect_url_root_url);
+	pthread_mutex_destroy(&m_protect_url_htable);
+}
+

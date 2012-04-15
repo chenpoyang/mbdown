@@ -16,6 +16,7 @@
 #define u_int unsigned int
 #define M_HIDE 0
 #define M_SHOW 1
+#define FILENAME_LEN 10
 
 void m_tolower(char *str);
 void m_toupper(char *str);
