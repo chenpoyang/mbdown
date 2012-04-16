@@ -40,3 +40,6 @@ add url node and hash it:
 	url.c
 		remove hash table for url linked list!
 		editing get_filename
+
+2012-04-16::22:41
+	mbdown.c: get_filename(), cope with file renaming!, url.c --> root_url core dump!

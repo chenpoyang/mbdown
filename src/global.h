@@ -34,8 +34,8 @@ void merr_sys(const char *fmt, ...);
 
 /* 字符串转换成整型数 */
 unsigned int m_atou(const char *str);
-/* 无符号整转换成字符串 */
-void m_utoa(unsigned int num, char *str);
+/* 整数转换成字符串 */
+void m_utoa(int num, char *str);
 
 /* fatal system call error */
 void merr_dump(const char *fmt, ...);

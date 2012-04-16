@@ -135,16 +135,23 @@ unsigned int m_atou(const char *str)
 	return num;
 }
 
-/* 无符号整转换成字符串 */
-void m_utoa(unsigned int num, char *str)
+/* 整数转换成字符串 */
+void m_utoa(int num, char *str)
 {
 	int i, j;
 	char ch;
 
-	assert(str != NULL);
-
-	i = num;
 	j = 0;
+	if (num < 0)
+	{
+		str[j++] = '-';
+		i = -num;
+	}
+	else
+	{
+		i = num;
+	}
+
 	while (i)
 	{
 		str[j++] = i % 10 + '0';
@@ -152,12 +159,22 @@ void m_utoa(unsigned int num, char *str)
 	}
 	str[j] = '\0';
 
-	i = 0;
-	j -= 1;
+	if (num < 0)
+	{
+		i = 1;
+	}
+	else
+	{
+		i = 0;
+	}
+
 	while (i < j)
 	{
 		ch = str[i];
-		str[i] = str[j];
-		str[j] = ch;
+		str[i] = str[j - 1];
+		str[j - 1] = ch;
+
+		++i;
+		--j;
 	}
 }

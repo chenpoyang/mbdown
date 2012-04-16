@@ -21,25 +21,26 @@ void get_filename(const char *url, char *filename);
 
 int main(int argc, char *argv[])
 {
-	Url *url = NULL;
-	int len;
-	/**
-	 * @brief	初始化 url 哈希表 url 管理器, 和相应的锁
-	 */
-	len = HALEN;
-	root_url = NULL;
-	init_rooturl_id(&root_url, &count_url_id);
-	url = new_url_node(&root_url, argv[1]);
-	init_mutex();
+	//Url *url = NULL;
+	//int len;
+	///**
+	// * @brief	初始化 url 哈希表 url 管理器, 和相应的锁
+	// */
+	//len = HALEN;
+	//root_url = NULL;
+	//init_rooturl_id(&root_url, &count_url_id);
+	//url = new_url_node(&root_url, argv[1]);
+	//init_mutex();
 
-	if (root_url == NULL)
-	{
-		mydebug("root_url == %s", "NULL");
-	}
+	//if (root_url == NULL)
+	//{
+	//	mydebug("root_url == %s", "NULL");
+	//}
+
 	if (argc >= 2 && argv[1] != NULL)
 	{
 		get(argv[1]);
-		download(url);
+		//download(url);
 	}
 	else
 	{
@@ -127,7 +128,7 @@ void get(const char *url)
 			ptr += 4;
 			strncpy(res, buf, ptr - buf);
 			res[ptr - buf] = '\0';
-			puts("res header:");
+			puts("recv header:");
 			puts(res);
 
 			m_tolower(res);
@@ -156,7 +157,6 @@ void get(const char *url)
 			return;
 		}
 
-		//fseek(file, 0, SEEK_END);	/* 移到末尾 */
 		if (totals <= rec_bytes)
 		{
 			append_bytes(file, ptr, totals);
@@ -182,30 +182,38 @@ void append_bytes(FILE *file, const char *buf, const int size)
 
 void get_filename(const char *url, char *filename)
 {
-	const char *ptr = NULL;
-	//char tmpfile[64], str[64];
-	//unsigned int index = 0;
-	//FILE *fp = NULL;
+	const char *ptr = NULL, *tmp_ptr = NULL;
+	char tmpfile[64], str[64];
+	int id = 0;
+	FILE *fp = NULL;
 
 	assert(url != NULL && filename != NULL);
 
-	ptr = url + strlen(url);
+	ptr = strstr(url, "/");
+	if (ptr == NULL)
+	{
+		merr_msg("TIPS ON %s, LINE %d\r\n:%s", __FILE__, __LINE__, "illegal url");
+		return;
+	}
 
-	while (*(--ptr) != '/') {}
+	while ((tmp_ptr = strstr(ptr + 1, "/")) != NULL)
+	{
+		ptr = tmp_ptr;
+	}
 
 	strcpy(filename, ptr + 1);
-	//strcpy(tmpfile, filename);
-	//while ((fp = fopen(tmpfile, "r")) != NULL)
-	//{
-	//	++index;
-	//	m_utoa(index, str);
-	//	strcpy(tmpfile, filename);
-	//	strcat(tmpfile, ".");
-	//	strcat(tmpfile, str);
-	//	fclose(fp);
-	//}
-	//strcpy(filename, tmpfile);
+	strcpy(tmpfile, filename);
+	while ((fp = fopen(tmpfile, "r")) != NULL)
+	{
+		++id;
+		fclose(fp);
+		m_utoa(id, str);
+		strcpy(tmpfile, filename);
+		strcat(tmpfile, ".");
+		strcat(tmpfile, str);
+	}
+	strcpy(filename, tmpfile);
 
-	printf("filename:");
+	printf("\tfilename:");
 	puts(filename);
 }
