@@ -9,10 +9,12 @@
 
 #include "global.h"
 #include "synchro.h"
+#include "progress.h"
 #include "url.h"
 
 GLOBAL RootUrl *root_url;				/* root url manager */
 GLOBAL unsigned int count_url_id;		/* for generating unique url id */
+Progress bar;
 
 void download(const Url *url);
 void get(const char *url);
@@ -73,6 +75,8 @@ void get(const char *url)
 	char filename[64];
 	char resource[1024];
 
+	init_progress(&bar, totals);
+	puts(bar.buf);
 	get_filename(url, filename);
 	get_resource(url, resource);
 

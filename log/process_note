@@ -43,3 +43,6 @@ add url node and hash it:
 
 2012-04-16::22:41
 	mbdown.c: get_filename(), cope with file renaming!, url.c --> root_url core dump!
+
+2012-04-17::22:30
+	progress.c: create_image(Progress*, int);
