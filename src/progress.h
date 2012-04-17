@@ -1,14 +1,28 @@
 #ifndef _PROGRESS_H_
 #define _PROGRESS_H_
 
+#include <time.h>
+
 #define DEFAULT_WIDTH 85
+#deiine MAX_STR 128
 /*
+|<04>=<--------------------45--------------------->=<----12----><--08--><------14---->|
 |____[-------------------------------------------->] ---,---,--- -------  ------------|
 |100%[-------------------------------------------->] 219,324,416 29.1M/s  in 5.5s     |
-|80% [---------------------->                      ] ___,___,___ ____+/+  eta _m_s    |
+|100%[---------------------------------->] x,xxx,xxx,219,324,416 2.1 G/s  in 0.1s     |
+|  1%[->                                           ] 219,324,416 1018K/s  in 12m 5s   |
+| 80%[---------------------->                      ] ___,___,___ ____+/+  eta 3m  16s |
 */
 typedef struct progress {
-
+	char buf[MAX_STR];
+	unsigned int done;	/* 完成的字节数 */
+	unsigned int total;	/* 总大小 */
+	unsigned int width;	/* 默认宽度为85 */
+	time_t beg_sec;		/* 任务开始时间 */
+	time_t end_sec;		/* 从任务开始到现在的时间间隔 */
 }Progress;
+
+void update_progress(Progress *pro, unsigned int even);
+void create_image(Progress *pro, const int width);
 
 #endif //_PROGRESS_H_
