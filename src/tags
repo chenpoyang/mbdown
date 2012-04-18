@@ -4,7 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-ALL_OBJ	Makefile	/^ALL_OBJ	= global.o mbdown.o url.o synchro.o bmsg.o http.o$/;"	m
+ALL_OBJ	Makefile	/^ALL_OBJ	= global.o mbdown.o url.o synchro.o bmsg.o http.o progress.o$/;"	m
 ALL_T	Makefile	/^ALL_T		= mbdown$/;"	m
 Bmsg	bmsg.h	/^}Bmsg;$/;"	t	typeref:struct:bmsg
 CC	Makefile	/^CC			= gcc$/;"	m
@@ -14,6 +14,7 @@ CONNECT	http.h	/^	CONNECT$/;"	e	enum:method
 CXXFLAGS	Makefile	/^CXXFLAGS	= -O2 -Wall -g $(DEFINES)$/;"	m
 DEFAULT_HTTPV	http.h	10;"	d
 DEFAULT_MTHD	http.h	9;"	d
+DEFAULT_WIDTH	progress.h	6;"	d
 DELETE	http.h	/^	DELETE, $/;"	e	enum:method
 FILENAME_LEN	global.h	19;"	d
 GET	http.h	/^	GET, $/;"	e	enum:method
@@ -25,12 +26,12 @@ HTTP0_9	http.h	/^	HTTP0_9,$/;"	e	enum:httpv
 HTTP1_0	http.h	/^	HTTP1_0,$/;"	e	enum:httpv
 HTTP1_1	http.h	/^	HTTP1_1$/;"	e	enum:httpv
 H_LEN	http.h	7;"	d
-HaUrl	url.h	/^}HaUrl;$/;"	t	typeref:struct:hash_url
 LLEN	url.h	9;"	d
 MAXBUF	global.h	27;"	d
 MAXLINE	global.h	25;"	d
 MAX_ETH_MTU	global.h	14;"	d
 MAX_LEN	http.h	5;"	d
+MAX_STR	progress.h	7;"	d
 MAX_URL_ID	url.h	13;"	d
 M_HIDE	global.h	17;"	d
 M_LOCK_HTABLE	synchro.h	23;"	d
@@ -40,11 +41,10 @@ M_SHOW	global.h	18;"	d
 M_UNLOCK_HTABLE	synchro.h	26;"	d
 M_UNLOCK_ID	synchro.h	14;"	d
 M_UNLOCK_ROOTURL	synchro.h	20;"	d
-O	netbeans7.1.1.sh	/^O()“ÿĞ!>¡õíò4F‚¯¾üËbXÛyÑP¹ücùrı£òwWËøpB‚¨Œ·wó¥¢$´ùlp>aÙJS	áekD6¬ëğLLßÅÎ‚vuÌ§¿ˆú:ØšÚïïÙ;O¬p{Ãà@*.ãò7!;½^4Nö`óÜõÈ,`KÏI‰ç¨Ş}A	eòÙ1’PûÅ”`f²w[…jÚlHCÉäš›.{ÌBŒãPu)!M•e`PÚŒ!Ñ‘ÂÄéBáVì\\ Ü‘“l>Qä@:Eø©\/¦ÿë5Âî:î8Õ'á„pÊ÷ÑÙ:½‹¨­¦›è:)Y®ŸÄÂ£—›it²DßÌ…An¤Ó?™1ù8BZ\\t‹¤Lúñ*“Îuîğ}{aS=eÚ“#²xó9$/;"	f
 OPTIONS	http.h	/^	OPTIONS, $/;"	e	enum:method
 POST	http.h	/^	POST, $/;"	e	enum:method
 PUT	http.h	/^	PUT, $/;"	e	enum:method
-R	netbeans7.1.1.sh	/^R()®§ŒNµtšÏKé%(Ğ+)©—¤%‘nI†tKKk™@¹ğ¯e‘,İK¿l³¥Äsô$/;"	f
+Progress	progress.h	/^}Progress;$/;"	t	typeref:struct:progress
 R_LEN	http.h	6;"	d
 Req	http.h	/^}Req;$/;"	t	typeref:struct:req
 Resp	http.h	/^}Resp;$/;"	t	typeref:struct:resp
@@ -52,25 +52,27 @@ RootBmsg	bmsg.h	/^}RootBmsg;$/;"	t	typeref:struct:root_bmsg
 RootUrl	url.h	/^}Url, RootUrl;$/;"	t	typeref:struct:url
 SLEN	url.h	11;"	d
 TRACE	http.h	/^	TRACE, $/;"	e	enum:method
-U	netbeans7.1.1.sh	/^U()^QS¼¢*)DËùJqHŠVğ•¤H2M%¥K©ÿ$/;"	f
 ULEN	url.h	5;"	d
 UNIT	bmsg.h	5;"	d
 Url	url.h	/^}Url, RootUrl;$/;"	t	typeref:struct:url
 _BMSG_H_	bmsg.h	2;"	d
 _GLOBAL_H_	global.h	2;"	d
 _HTTP_H_	http.h	2;"	d
+_PROGRESS_H_	progress.h	2;"	d
 _SYNCHRO_H_	synchro.h	2;"	d
 _URL_H_	url.h	2;"	d
 add_bmsg	bmsg.c	/^void add_bmsg(RootBmsg *root_bmsg, Bmsg *bmsg)$/;"	f	signature:(RootBmsg *root_bmsg, Bmsg *bmsg)
 add_bmsg	bmsg.h	/^void add_bmsg(RootBmsg *root_bmsg, Bmsg *bmsg);$/;"	p	signature:(RootBmsg *root_bmsg, Bmsg *bmsg)
 add_bmsg_header	bmsg.c	/^void add_bmsg_header(Bmsg *header, Bmsg *bmsg)$/;"	f	signature:(Bmsg *header, Bmsg *bmsg)
 add_bmsg_header	bmsg.h	/^void add_bmsg_header(Bmsg *header, Bmsg *bmsg);$/;"	p	signature:(Bmsg *header, Bmsg *bmsg)
-add_new_url	url.c	/^void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)$/;"	f	signature:(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)
-add_new_url	url.h	/^void add_new_url(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len);$/;"	p	signature:(RootUrl **root_url, Url *url, HaUrl *ha_table, const int ha_len)
+add_new_url	url.c	/^void add_new_url(RootUrl **root_url, Url *url)$/;"	f	signature:(RootUrl **root_url, Url *url)
+add_new_url	url.h	/^void add_new_url(RootUrl **root_url, Url *url);$/;"	p	signature:(RootUrl **root_url, Url *url)
 add_url_header	bmsg.c	/^void add_url_header(RootBmsg *root_bmsg, const Bmsg *header)$/;"	f	signature:(RootBmsg *root_bmsg, const Bmsg *header)
 add_url_header	bmsg.h	/^void add_url_header(RootBmsg *root_bmsg, const Bmsg *header);$/;"	p	signature:(RootBmsg *root_bmsg, const Bmsg *header)
 append_bytes	mbdown.c	/^void append_bytes(FILE *file, const char *buf, const int size)$/;"	f	signature:(FILE *file, const char *buf, const int size)
 append_bytes	mbdown.c	/^void append_bytes(FILE *file, const char *buf, const int size);$/;"	p	file:	signature:(FILE *file, const char *buf, const int size)
+bar	mbdown.c	/^Progress bar;$/;"	v
+beg_sec	progress.h	/^	time_t beg_sec;		\/* ä»»åŠ¡å¼€å§‹æ—¶é—´ *\/$/;"	m	struct:progress	access:public
 begin	bmsg.h	/^	unsigned short begin;$/;"	m	struct:bmsg	access:public
 begin	http.h	/^	unsigned begin;	\/* å›åº”çš„èµ·å§‹å­—èŠ‚ *\/$/;"	m	struct:resp	access:public
 begin	http.h	/^	unsigned int begin;	\/* èµ·å§‹å­—èŠ‚ *\/$/;"	m	struct:req	access:public
@@ -82,59 +84,33 @@ bmsg::next_hdr	bmsg.h	/^	struct bmsg *next_hdr;	\/* netx url bmsgs *\/$/;"	m	str
 bmsg::to_bps	bmsg.h	/^	int to_bps;		\/* the numbsers of breakpoints *\/$/;"	m	struct:bmsg	access:public
 bmsg::to_bytes	bmsg.h	/^	int to_bytes;$/;"	m	struct:bmsg	access:public
 bmsg::url_id	bmsg.h	/^	int url_id;$/;"	m	struct:bmsg	access:public
+buf	progress.h	/^	char buf[MAX_STR];$/;"	m	struct:progress	access:public
 bzero	global.h	15;"	d
-checkFreeSpace	netbeans7.1.1.sh	/^checkFreeSpace() {$/;"	f
-checkJavaHierarchy	netbeans7.1.1.sh	/^checkJavaHierarchy() {$/;"	f
-checkMd5	netbeans7.1.1.sh	/^checkMd5() {$/;"	f
-compareVersions	netbeans7.1.1.sh	/^compareVersions() {$/;"	f
 count_url_id	mbdown.c	/^GLOBAL unsigned int count_url_id;		\/* for generating unique url id *\/$/;"	v
 count_url_id	url.c	/^unsigned int count_url_id = 10;	\/* for generating unique url id *\/$/;"	v
-createTempDirectory	netbeans7.1.1.sh	/^createTempDirectory() {$/;"	f
-debug	netbeans7.1.1.sh	/^debug() {$/;"	f
-debugLauncherArguments	netbeans7.1.1.sh	/^debugLauncherArguments() {$/;"	f
+create_image	progress.c	/^void create_image(Progress *pro, const int width)$/;"	f	signature:(Progress *pro, const int width)
+create_image	progress.h	/^void create_image(Progress *pro, const int width);$/;"	p	signature:(Progress *pro, const int width)
 destroy_mutex	synchro.c	/^void destroy_mutex()$/;"	f
 destroy_mutex	synchro.h	/^void destroy_mutex();$/;"	p	signature:()
+display_image	progress.c	/^void display_image(Progress *pro)$/;"	f	signature:(Progress *pro)
+display_image	progress.h	/^void display_image(Progress *pro);$/;"	p	signature:(Progress *pro)
+done	progress.h	/^	unsigned int done;	\/* å®Œæˆçš„å­—èŠ‚æ•° *\/$/;"	m	struct:progress	access:public
 download	mbdown.c	/^void download(const Url *url)$/;"	f	signature:(const Url *url)
 download	mbdown.c	/^void download(const Url *url);$/;"	p	file:	signature:(const Url *url)
-e	netbeans7.1.1.sh	/^e()ÇˆimqÅ¹eÍ¶<|¶85½ìl²ZÇ@–A+w¼–öÆâµîÔEK#Q…óø%§{šYıü$/;"	f
 end	bmsg.h	/^	unsigned short end;$/;"	m	struct:bmsg	access:public
 end	http.h	/^	unsigned end;		\/* å›åº”çš„ç»“æŸå­—èŠ‚ *\/$/;"	m	struct:resp	access:public
 end	http.h	/^	unsigned int end;		\/* ç»“æŸå­—èŠ‚ *\/$/;"	m	struct:req	access:public
-entryPoint	netbeans7.1.1.sh	/^entryPoint() {$/;"	f
+end_sec	progress.h	/^	time_t end_sec;		\/* ä»ä»»åŠ¡å¼€å§‹åˆ°ç°åœ¨çš„æ—¶é—´é—´éš” *\/$/;"	m	struct:progress	access:public
 enum_httpv_to_str	http.c	/^void enum_httpv_to_str(char *str, enum httpv ver)$/;"	f	signature:(char *str, enum httpv ver)
 enum_httpv_to_str	http.h	/^void enum_httpv_to_str(char *str, enum httpv ver);$/;"	p	signature:(char *str, enum httpv ver)
 enum_mthd_to_str	http.c	/^void enum_mthd_to_str(char *str, enum method mthd)$/;"	f	signature:(char *str, enum method mthd)
 enum_mthd_to_str	http.h	/^void enum_mthd_to_str(char *str, enum method mthd);$/;"	p	signature:(char *str, enum method mthd)
-escapeBackslash	netbeans7.1.1.sh	/^escapeBackslash() {$/;"	f
-escapeString	netbeans7.1.1.sh	/^escapeString() {$/;"	f
 escape_spec	url.c	/^void escape_spec(const char *res, char *buf)$/;"	f	signature:(const char *res, char *buf)
 escape_spec	url.h	/^void escape_spec(const char *res, char *ret_str);$/;"	p	signature:(const char *res, char *ret_str)
-executeMainClass	netbeans7.1.1.sh	/^executeMainClass() {$/;"	f
-exitProgram	netbeans7.1.1.sh	/^exitProgram() {$/;"	f
-extractBundledData	netbeans7.1.1.sh	/^extractBundledData() {$/;"	f
-extractFile	netbeans7.1.1.sh	/^extractFile() {$/;"	f
-extractJVMData	netbeans7.1.1.sh	/^extractJVMData() {$/;"	f
-extractJVMFiles	netbeans7.1.1.sh	/^extractJVMFiles() {$/;"	f
-extractJars	netbeans7.1.1.sh	/^extractJars() {$/;"	f
-extractOtherData	netbeans7.1.1.sh	/^extractOtherData() {$/;"	f
-extractResource	netbeans7.1.1.sh	/^extractResource() {	$/;"	f
-extractTestJVMFile	netbeans7.1.1.sh	/^extractTestJVMFile() {$/;"	f
-find_url	url.c	/^Url * find_url(HaUrl *url_htable, const int len, const int url_id)$/;"	f	signature:(HaUrl *url_htable, const int len, const int url_id)
-find_url	url.h	/^Url * find_url(HaUrl *url_htable, const int len, const int url_id);$/;"	p	signature:(HaUrl *url_htable, const int len, const int url_id)
 find_url_header	bmsg.c	/^Bmsg * find_url_header(const RootBmsg *root_bmsg, const int url_id)$/;"	f	signature:(const RootBmsg *root_bmsg, const int url_id)
 find_url_header	bmsg.h	/^Bmsg * find_url_header(const RootBmsg *root_bmsg, const int url_id);$/;"	p	signature:(const RootBmsg *root_bmsg, const int url_id)
-formatVersion	netbeans7.1.1.sh	/^formatVersion() {$/;"	f
 get	mbdown.c	/^void get(const char *url)$/;"	f	signature:(const char *url)
 get	mbdown.c	/^void get(const char *url);$/;"	p	file:	signature:(const char *url)
-getLauncherLocation	netbeans7.1.1.sh	/^getLauncherLocation() {$/;"	f
-getLauncherSize	netbeans7.1.1.sh	/^getLauncherSize() {$/;"	f
-getLocalizedMessage_	netbeans7.1.1.sh	/^getLocalizedMessage_() {$/;"	f
-getLocalizedMessage_ja	netbeans7.1.1.sh	/^getLocalizedMessage_ja() {$/;"	f
-getLocalizedMessage_pt_BR	netbeans7.1.1.sh	/^getLocalizedMessage_pt_BR() {$/;"	f
-getLocalizedMessage_ru	netbeans7.1.1.sh	/^getLocalizedMessage_ru() {$/;"	f
-getLocalizedMessage_zh_CN	netbeans7.1.1.sh	/^getLocalizedMessage_zh_CN() {$/;"	f
-getMessage	netbeans7.1.1.sh	/^getMessage() {$/;"	f
-getStringLength	netbeans7.1.1.sh	/^getStringLength() {$/;"	f
 get_filename	mbdown.c	/^void get_filename(const char *url, char *filename)$/;"	f	signature:(const char *url, char *filename)
 get_filename	mbdown.c	/^void get_filename(const char *url, char *filename);$/;"	p	file:	signature:(const char *url, char *filename)
 get_host_name	url.c	/^void get_host_name(const char *url, char *hostname)$/;"	f	signature:(const char *url, char *hostname)
@@ -147,32 +123,15 @@ get_scheme	url.c	/^void get_scheme(const char *url, char *scheme)$/;"	f	signatur
 get_scheme	url.h	/^void get_scheme(const char *url, char *scheme);$/;"	p	signature:(const char *url, char *scheme)
 get_url_id	url.c	/^unsigned int get_url_id()$/;"	f
 get_url_id	url.h	/^unsigned int get_url_id();$/;"	p	signature:()
-hash_url	url.c	/^void hash_url(HaUrl **url_htable, Url *url, const int ha_len)$/;"	f	signature:(HaUrl **url_htable, Url *url, const int ha_len)
-hash_url	url.h	/^typedef struct hash_url {$/;"	s
-hash_url	url.h	/^void hash_url(HaUrl **url_htable, Url *url, const int ha_len);$/;"	p	signature:(HaUrl **url_htable, Url *url, const int ha_len)
-hash_url::next	url.h	/^	struct hash_url *next;$/;"	m	struct:hash_url	typeref:struct:hash_url::hash_url	access:public
-hash_url::url	url.h	/^	struct url *url;$/;"	m	struct:hash_url	typeref:struct:hash_url::url	access:public
 head	bmsg.h	/^	struct bmsg *head;$/;"	m	struct:root_bmsg	typeref:struct:root_bmsg::bmsg	access:public
 host	http.h	/^	char host[H_LEN];		\/* ä¸»æœº *\/$/;"	m	struct:req	access:public
 host	url.h	/^	char host[HLEN];	\/* remote host, eg: www.innlab.net *\/$/;"	m	struct:url	access:public
 httpv	http.h	/^enum httpv {$/;"	g
-i	netbeans7.1.1.sh	/^i()ÿä}Z&•mß¼îŠ‹{&¥'Åzİ(»W½eË–$/;"	f
 id	url.h	/^	unsigned int id;				\/* unique id for quickly find *\/$/;"	m	struct:url	access:public
-ifEquals	netbeans7.1.1.sh	/^ifEquals() {$/;"	f
-ifGreater	netbeans7.1.1.sh	/^ifGreater() {$/;"	f
-ifLess	netbeans7.1.1.sh	/^ifLess() {$/;"	f
-ifNumber	netbeans7.1.1.sh	/^ifNumber() $/;"	f
-ifPathRelative	netbeans7.1.1.sh	/^ifPathRelative() {$/;"	f
-ifVersionGreater	netbeans7.1.1.sh	/^ifVersionGreater() {$/;"	f
-ifVersionLess	netbeans7.1.1.sh	/^ifVersionLess() {$/;"	f
-initMD5program	netbeans7.1.1.sh	/^initMD5program() {$/;"	f
-initSymlinkArgument	netbeans7.1.1.sh	/^initSymlinkArgument() {$/;"	f
-init_hash_table	url.c	/^void init_hash_table(HaUrl *url_htable, const int len)$/;"	f	signature:(HaUrl *url_htable, const int len)
-init_hash_table	url.h	/^void init_hash_table(HaUrl *url_htable, const int len);$/;"	p	signature:(HaUrl *url_htable, const int len)
-init_hatable_rooturl_id	url.c	/^void init_hatable_rooturl_id(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg)$/;"	f	signature:(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg)
-init_hatable_rooturl_id	url.h	/^void init_hatable_rooturl_id(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg);$/;"	p	signature:(RootUrl **root_url, HaUrl *htable, const int len, unsigned int *url_id_beg)
 init_mutex	synchro.c	/^void init_mutex()$/;"	f
 init_mutex	synchro.h	/^void init_mutex();$/;"	p	signature:()
+init_progress	progress.c	/^void init_progress(Progress *pro, unsigned int total)$/;"	f	signature:(Progress *pro, unsigned int total)
+init_progress	progress.h	/^void init_progress(Progress *pro, unsigned int total);$/;"	p	signature:(Progress *pro, unsigned int total)
 init_req_begin_end	http.c	/^void init_req_begin_end(Req *req, const Url *url, unsigned int beg, unsigned int end)$/;"	f	signature:(Req *req, const Url *url, unsigned int beg, unsigned int end)
 init_req_begin_end	http.h	/^void init_req_begin_end(Req *req, const Url *url, unsigned int beg, unsigned int end);$/;"	p	signature:(Req *req, const Url *url, unsigned int beg, unsigned int end)
 init_resp	http.c	/^void init_resp(Resp *resp, const char *str)$/;"	f	signature:(Resp *resp, const char *str)
@@ -181,12 +140,10 @@ init_root_bmsg	bmsg.c	/^void init_root_bmsg(RootBmsg *root_bmsg)$/;"	f	signature
 init_root_bmsg	bmsg.h	/^void init_root_bmsg(RootBmsg *root_bmsg);$/;"	p	signature:(RootBmsg *root_bmsg)
 init_root_url	url.c	/^void init_root_url(RootUrl **root_url)$/;"	f	signature:(RootUrl **root_url)
 init_root_url	url.h	/^void init_root_url(RootUrl **root_url);$/;"	p	signature:(RootUrl **root_url)
+init_rooturl_id	url.c	/^void init_rooturl_id(RootUrl **root_url, unsigned int *url_id_beg)$/;"	f	signature:(RootUrl **root_url, unsigned int *url_id_beg)
+init_rooturl_id	url.h	/^void init_rooturl_id(RootUrl **root_url, unsigned int *url_id_beg);$/;"	p	signature:(RootUrl **root_url, unsigned int *url_id_beg)
 init_url_msg	url.c	/^void init_url_msg(Url *cur, const char *url)$/;"	f	signature:(Url *cur, const char *url)
 init_url_msg	url.h	/^void init_url_msg(Url *url, const char *url_str);$/;"	p	signature:(Url *url, const char *url_str)
-initializeVariables	netbeans7.1.1.sh	/^initializeVariables() {	$/;"	f
-installBundledJVMs	netbeans7.1.1.sh	/^installBundledJVMs() {$/;"	f
-installJVM	netbeans7.1.1.sh	/^installJVM() {$/;"	f
-isLauncherCommandArgument	netbeans7.1.1.sh	/^isLauncherCommandArgument() {$/;"	f
 m_atou	global.c	/^unsigned int m_atou(const char *str)$/;"	f	signature:(const char *str)
 m_atou	global.h	/^unsigned int m_atou(const char *str);$/;"	p	signature:(const char *str)
 m_error	global.h	8;"	d
@@ -197,8 +154,8 @@ m_tolower	global.c	/^void m_tolower(char *str)$/;"	f	signature:(char *str)
 m_tolower	global.h	/^void m_tolower(char *str);$/;"	p	signature:(char *str)
 m_toupper	global.c	/^void m_toupper(char *str)$/;"	f	signature:(char *str)
 m_toupper	global.h	/^void m_toupper(char *str);$/;"	p	signature:(char *str)
-m_utoa	global.c	/^void m_utoa(unsigned int num, char *str)$/;"	f	signature:(unsigned int num, char *str)
-m_utoa	global.h	/^void m_utoa(unsigned int num, char *str);$/;"	p	signature:(unsigned int num, char *str)
+m_utoa	global.c	/^void m_utoa(int num, char *str)$/;"	f	signature:(int num, char *str)
+m_utoa	global.h	/^void m_utoa(int num, char *str);$/;"	p	signature:(int num, char *str)
 main	mbdown.c	/^int main(int argc, char *argv[])$/;"	f	signature:(int argc, char *argv[])
 merr_deal	global.c	/^void merr_deal(const int flg, const char *fmt, va_list ap)$/;"	f	signature:(const int flg, const char *fmt, va_list ap)
 merr_deal	global.h	/^void merr_deal(const int flg, const char *fmt, va_list ap);$/;"	p	signature:(const int flg, const char *fmt, va_list ap)
@@ -210,39 +167,30 @@ merr_quit	global.c	/^void merr_quit(const char *fmt, ...)$/;"	f	signature:(const
 merr_quit	global.h	/^void merr_quit(const char *fmt, ...);$/;"	p	signature:(const char *fmt, ...)
 merr_sys	global.c	/^void merr_sys(const char *fmt, ...)$/;"	f	signature:(const char *fmt, ...)
 merr_sys	global.h	/^void merr_sys(const char *fmt, ...);$/;"	p	signature:(const char *fmt, ...)
-message	netbeans7.1.1.sh	/^message() {        $/;"	f
 method	http.h	/^enum method {$/;"	g
 mthd	http.h	/^	enum method mthd;		\/* è¯·æ±‚æ–¹å¼ *\/$/;"	m	struct:req	typeref:enum:req::method	access:public
 mydebug	global.c	/^void mydebug(const char *fmt, ...)$/;"	f	signature:(const char *fmt, ...)
 mydebug	global.h	/^void mydebug(const char *fmt, ...);$/;"	p	signature:(const char *fmt, ...)
-new_url_node	url.c	/^Url * new_url_node(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len)$/;"	f	signature:(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len)
-new_url_node	url.h	/^Url * new_url_node(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len);$/;"	p	signature:(RootUrl **root_url, const char *url, HaUrl *ha_table, const int ha_len)
+new_url_node	url.c	/^Url * new_url_node(RootUrl **root_url, const char *url)$/;"	f	signature:(RootUrl **root_url, const char *url)
+new_url_node	url.h	/^Url * new_url_node(RootUrl **root_url, const char *url);$/;"	p	signature:(RootUrl **root_url, const char *url)
 next	bmsg.h	/^	struct bmsg *next;		\/* single linked list *\/$/;"	m	struct:bmsg	typeref:struct:bmsg::bmsg	access:public
-next	url.h	/^	struct hash_url *next;$/;"	m	struct:hash_url	typeref:struct:hash_url::hash_url	access:public
 next	url.h	/^	struct url *next;	\/* single linked list *\/$/;"	m	struct:url	typeref:struct:url::url	access:public
 next_hdr	bmsg.h	/^	struct bmsg *next_hdr;	\/* netx url bmsgs *\/$/;"	m	struct:bmsg	typeref:struct:bmsg::bmsg	access:public
-normalizePath	netbeans7.1.1.sh	/^normalizePath() {	$/;"	f
-out	netbeans7.1.1.sh	/^out() {$/;"	f
-parseCommandLineArguments	netbeans7.1.1.sh	/^parseCommandLineArguments() {$/;"	f
-parseJvmAppArgument	netbeans7.1.1.sh	/^parseJvmAppArgument() {$/;"	f
 port	http.h	/^    unsigned int port;		\/* default: 80 *\/$/;"	m	struct:req	access:public
 port	url.h	/^	int port;$/;"	m	struct:url	access:public
-prepareAppArguments	netbeans7.1.1.sh	/^prepareAppArguments() {$/;"	f
-prepareClasspath	netbeans7.1.1.sh	/^prepareClasspath() {$/;"	f
-prepareJVMArguments	netbeans7.1.1.sh	/^prepareJVMArguments() {$/;"	f
 print_url	url.c	/^void print_url(const Url *url)$/;"	f	signature:(const Url *url)
 print_url	url.h	/^void print_url(const Url *url);$/;"	p	signature:(const Url *url)
-processJarsClasspath	netbeans7.1.1.sh	/^processJarsClasspath() {$/;"	f
-release_hatable	url.c	/^void release_hatable(HaUrl *hatable, const int len)$/;"	f	signature:(HaUrl *hatable, const int len)
-release_hatable	url.h	/^void release_hatable(HaUrl *hatable, const int len);$/;"	p	signature:(HaUrl *hatable, const int len)
+progress	progress.h	/^typedef struct progress {$/;"	s
+progress::beg_sec	progress.h	/^	time_t beg_sec;		\/* ä»»åŠ¡å¼€å§‹æ—¶é—´ *\/$/;"	m	struct:progress	access:public
+progress::buf	progress.h	/^	char buf[MAX_STR];$/;"	m	struct:progress	access:public
+progress::done	progress.h	/^	unsigned int done;	\/* å®Œæˆçš„å­—èŠ‚æ•° *\/$/;"	m	struct:progress	access:public
+progress::end_sec	progress.h	/^	time_t end_sec;		\/* ä»ä»»åŠ¡å¼€å§‹åˆ°ç°åœ¨çš„æ—¶é—´é—´éš” *\/$/;"	m	struct:progress	access:public
+progress::total	progress.h	/^	unsigned int total;	\/* æ€»å¤§å° *\/$/;"	m	struct:progress	access:public
+progress::width	progress.h	/^	unsigned int width;	\/* é»˜è®¤å®½åº¦ä¸º85 *\/$/;"	m	struct:progress	access:public
 release_root_url	url.c	/^void release_root_url(RootUrl **root_url)$/;"	f	signature:(RootUrl **root_url)
 release_root_url	url.h	/^void release_root_url(RootUrl **root_url);$/;"	p	signature:(RootUrl **root_url)
-release_url_all	url.c	/^void release_url_all(RootUrl **root_url, HaUrl *hatable, const int len)$/;"	f	signature:(RootUrl **root_url, HaUrl *hatable, const int len)
-release_url_all	url.h	/^void release_url_all(RootUrl **root_url, HaUrl *hatable, const int len);$/;"	p	signature:(RootUrl **root_url, HaUrl *hatable, const int len)
-removeEndSlashes	netbeans7.1.1.sh	/^removeEndSlashes() {$/;"	f
 remove_url	url.c	/^void remove_url(RootUrl *root_url, const Url *url)$/;"	f	signature:(RootUrl *root_url, const Url *url)
 remove_url	url.h	/^void remove_url(RootUrl *root_url, const Url *url);$/;"	p	signature:(RootUrl *root_url, const Url *url)
-replaceString	netbeans7.1.1.sh	/^replaceString() {$/;"	f
 req	http.c	/^Req *req = NULL;	\/* è¯·æ±‚ *\/$/;"	v
 req	http.h	/^typedef struct req {$/;"	s
 req::begin	http.h	/^	unsigned int begin;	\/* èµ·å§‹å­—èŠ‚ *\/$/;"	m	struct:req	access:public
@@ -255,15 +203,6 @@ req::str	http.h	/^	char str[MAX_LEN];		\/* å°è£…çš„è¯·æ±‚å¤´ *\/$/;"	m	struct:r
 req::ver	http.h	/^	enum httpv ver;			\/* HTTPåè®®ç‰ˆæœ¬ *\/$/;"	m	struct:req	typeref:enum:req::httpv	access:public
 res	http.h	/^	char res[R_LEN];		\/* èµ„æºä½ç½® *\/$/;"	m	struct:req	access:public
 res	url.h	/^	char res[LLEN];		\/* the location of resource below the host *\/$/;"	m	struct:url	access:public
-resolveLauncherSpecialProperties	netbeans7.1.1.sh	/^resolveLauncherSpecialProperties() {$/;"	f
-resolvePropertyStrings	netbeans7.1.1.sh	/^resolvePropertyStrings() {$/;"	f
-resolveRelativity	netbeans7.1.1.sh	/^resolveRelativity() {$/;"	f
-resolveResourceMd5	netbeans7.1.1.sh	/^resolveResourceMd5() {$/;"	f
-resolveResourcePath	netbeans7.1.1.sh	/^resolveResourcePath() {$/;"	f
-resolveResourceSize	netbeans7.1.1.sh	/^resolveResourceSize() {$/;"	f
-resolveResourceType	netbeans7.1.1.sh	/^resolveResourceType() {$/;"	f
-resolveString	netbeans7.1.1.sh	/^resolveString() {$/;"	f
-resolveSymlink	netbeans7.1.1.sh	/^resolveSymlink() {  $/;"	f
 resp	http.c	/^Resp *resp = NULL;	\/* å›åº” *\/$/;"	v
 resp	http.h	/^typedef struct resp {$/;"	s
 resp::begin	http.h	/^	unsigned begin;	\/* å›åº”çš„èµ·å§‹å­—èŠ‚ *\/$/;"	m	struct:resp	access:public
@@ -291,17 +230,7 @@ root_bmsg::head	bmsg.h	/^	struct bmsg *head;$/;"	m	struct:root_bmsg	typeref:stru
 root_bmsg::tail	bmsg.h	/^	struct bmsg *tail;$/;"	m	struct:root_bmsg	typeref:struct:root_bmsg::bmsg	access:public
 root_url	mbdown.c	/^GLOBAL RootUrl *root_url;				\/* root url manager *\/$/;"	v
 root_url	url.c	/^RootUrl *root_url = NULL;				\/* root url manager *\/$/;"	v
-runCommand	netbeans7.1.1.sh	/^runCommand() {$/;"	f
 scheme	url.h	/^	char scheme[SLEN];	\/* protocal, eg: http *\/$/;"	m	struct:url	access:public
-searchJava	netbeans7.1.1.sh	/^searchJava() {$/;"	f
-searchJavaEnvironment	netbeans7.1.1.sh	/^searchJavaEnvironment() {$/;"	f
-searchJavaSystemDefault	netbeans7.1.1.sh	/^searchJavaSystemDefault() {$/;"	f
-searchJavaSystemPaths	netbeans7.1.1.sh	/^searchJavaSystemPaths() {$/;"	f
-searchJavaUserDefined	netbeans7.1.1.sh	/^searchJavaUserDefined() {$/;"	f
-setJavaCompatibilityProperties_0	netbeans7.1.1.sh	/^setJavaCompatibilityProperties_0() {$/;"	f
-setLauncherLocale	netbeans7.1.1.sh	/^setLauncherLocale() {$/;"	f
-setTestJVMClasspath	netbeans7.1.1.sh	/^setTestJVMClasspath() {$/;"	f
-showHelp	netbeans7.1.1.sh	/^showHelp() {$/;"	f
 status	http.h	/^	int status;				\/* çŠ¶æ€, eg: 206--> Partial Content *\/$/;"	m	struct:resp	access:public
 str	http.h	/^	char str[MAX_LEN];		\/* å°è£…çš„å›åº”æŠ¥æ–‡ *\/$/;"	m	struct:resp	access:public
 str	http.h	/^	char str[MAX_LEN];		\/* å°è£…çš„è¯·æ±‚å¤´ *\/$/;"	m	struct:req	access:public
@@ -312,12 +241,12 @@ thread_wait	synchro.c	/^void thread_wait(const int sec)$/;"	f	signature:(const i
 thread_wait	synchro.h	/^void thread_wait(const int sec);$/;"	p	signature:(const int sec)
 to_bps	bmsg.h	/^	int to_bps;		\/* the numbsers of breakpoints *\/$/;"	m	struct:bmsg	access:public
 to_bytes	bmsg.h	/^	int to_bytes;$/;"	m	struct:bmsg	access:public
+total	progress.h	/^	unsigned int total;	\/* æ€»å¤§å° *\/$/;"	m	struct:progress	access:public
 total_bytes	http.h	/^	unsigned total_bytes;	\/* æ€»å­—èŠ‚æ•° *\/$/;"	m	struct:resp	access:public
 u_int	global.h	16;"	d
-unhash_url	url.c	/^void unhash_url(HaUrl **url_htable, Url *url)$/;"	f	signature:(HaUrl **url_htable, Url *url)
-unhash_url	url.h	/^void unhash_url(HaUrl **url_htable, Url *url);$/;"	p	signature:(HaUrl **url_htable, Url *url)
+update_progress	progress.c	/^void update_progress(Progress *pro, int recv_buf)$/;"	f	signature:(Progress *pro, int recv_buf)
+update_progress	progress.h	/^void update_progress(Progress *pro, int recv_buf);$/;"	p	signature:(Progress *pro, int recv_buf)
 url	url.h	/^	char url[ULEN];		\/* complete url *\/$/;"	m	struct:url	access:public
-url	url.h	/^	struct url *url;$/;"	m	struct:hash_url	typeref:struct:hash_url::url	access:public
 url	url.h	/^typedef struct url {$/;"	s
 url::host	url.h	/^	char host[HLEN];	\/* remote host, eg: www.innlab.net *\/$/;"	m	struct:url	access:public
 url::id	url.h	/^	unsigned int id;				\/* unique id for quickly find *\/$/;"	m	struct:url	access:public
@@ -326,12 +255,8 @@ url::port	url.h	/^	int port;$/;"	m	struct:url	access:public
 url::res	url.h	/^	char res[LLEN];		\/* the location of resource below the host *\/$/;"	m	struct:url	access:public
 url::scheme	url.h	/^	char scheme[SLEN];	\/* protocal, eg: http *\/$/;"	m	struct:url	access:public
 url::url	url.h	/^	char url[ULEN];		\/* complete url *\/$/;"	m	struct:url	access:public
-url_htable	mbdown.c	/^GLOBAL HaUrl url_htable[HALEN];			\/* hash table *\/$/;"	v
-url_htable	url.c	/^HaUrl url_htable[HALEN];				\/* hash table *\/$/;"	v
 url_id	bmsg.h	/^	int url_id;$/;"	m	struct:bmsg	access:public
 ver	http.h	/^	enum httpv ver;			\/* HTTPåè®®ç‰ˆæœ¬ *\/$/;"	m	struct:req	typeref:enum:req::httpv	access:public
 ver	http.h	/^	enum httpv ver;			\/* eg: HTTP\/1.1 --> HTTP1_1 *\/$/;"	m	struct:resp	typeref:enum:resp::httpv	access:public
-verifyIntegrity	netbeans7.1.1.sh	/^verifyIntegrity() {$/;"	f
-verifyJVM	netbeans7.1.1.sh	/^verifyJVM() {                $/;"	f
-verifyJavaHome	netbeans7.1.1.sh	/^verifyJavaHome() { $/;"	f
 web_ser	http.h	/^	char web_ser[COM_LEN];	\/* ç›¸åº”çš„WebæœåŠ¡å™¨ *\/$/;"	m	struct:resp	access:public
+width	progress.h	/^	unsigned int width;	\/* é»˜è®¤å®½åº¦ä¸º85 *\/$/;"	m	struct:progress	access:public

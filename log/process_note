@@ -46,3 +46,8 @@ add url node and hash it:
 
 2012-04-17::22:30
 	progress.c: create_image(Progress*, int);
+2012-04-18::22:30
+	progress.c: 
+			void get_percent(const int done, const int totals, char *ptr_buf);
+			void get_spd(const int tm_stam, const int got_bytes, char *ret_spd);
+			void create_image(Progress *pro, const int width);

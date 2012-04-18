@@ -81,11 +81,42 @@ void update_progress(Progress *pro, int recv_buf)
 	display_image(pro);
 }
 
+void get_percent(const int done, const int totals, char *ptr_buf)
+{
+	int perc, i;
+
+	assert(ptr_buf != NULL);
+
+	if (totals <= 0 || done <= 0)
+	{
+		perc = 0;
+	}
+	else
+	{
+		perc = done * 100 / totals;
+	}
+
+	if (perc != 100)
+	{
+		fprintf(ptr_buf, "%2d% ", perc);
+	}
+	else
+	{
+		fprintf(ptr_buf, "%3d%", perc);
+	}
+}
+
+void get_spd(const int tm_stam, const int got_bytes, char *ret_spd)
+{
+}
+
 void create_image(Progress *pro, const int width)
 {
 	char *p = NULL;
 
 	assert(pro != NULL && width > 0);
+
+	p = pro->buf;
 }
 
 void display_image(Progress *pro)

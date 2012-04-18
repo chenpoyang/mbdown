@@ -24,7 +24,11 @@ typedef struct progress {
 
 void init_progress(Progress *pro, unsigned int total);
 void update_progress(Progress *pro, int recv_buf);
+
+void get_percent(const int done, const int totals, char *ptr_buf);
+void get_spd(const int tm_stam, const int got_bytes, char *ret_spd);
 void create_image(Progress *pro, const int width);
+
 void display_image(Progress *pro);
 
 #endif //_PROGRESS_H_
