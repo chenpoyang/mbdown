@@ -368,7 +368,7 @@ void get_scheme(const char *url, char *scheme)
 
 	assert(url != NULL && scheme != NULL);
 
-	str = (char *) calloc (1, sizeof(url));
+	str = strdup(url);
 	if (str == NULL)
 	{
 		merr_msg("calloc error!");
@@ -393,6 +393,9 @@ void get_scheme(const char *url, char *scheme)
 	{
 		scheme[0] = '\0'; /* 返回协议 */
 	}
+
+	free(str);
+	str = NULL;
 }
 
 /**

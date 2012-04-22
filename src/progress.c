@@ -81,9 +81,16 @@ void update_progress(Progress *pro, int recv_buf)
 	display_image(pro);
 }
 
+/**
+ * @brief	根据任务完成的份额, 计算百分额, 用ptr_buf[](占四字节)返回
+ *
+ * @param	done:	任务在总任务的完成额
+ * @param	totals:	总任务份额
+ * @param	ptr_buf: 返回数组
+ */
 void get_percent(const int done, const int totals, char *ptr_buf)
 {
-	int perc, i;
+	int perc;
 
 	assert(ptr_buf != NULL);
 
@@ -98,16 +105,86 @@ void get_percent(const int done, const int totals, char *ptr_buf)
 
 	if (perc != 100)
 	{
-		fprintf(ptr_buf, "%2d% ", perc);
+		if (perc < 10)
+		{
+			ptr_buf[0] = ' ';
+			ptr_buf[1] = ' ';
+			ptr_buf[2] = perc + '0';
+			ptr_buf[3] = '%';
+		}
+		else
+		{
+			ptr_buf[0] = ' ';
+			ptr_buf[1] = perc / 10;
+			ptr_buf[2] = perc % 10;
+			ptr_buf[3] = '%';
+		}
 	}
 	else
 	{
-		fprintf(ptr_buf, "%3d%", perc);
+		ptr_buf[0] = '1';
+		ptr_buf[1] = '0';
+		ptr_buf[2] = '0';
+		ptr_buf[3] = '%';
 	}
+	ptr_buf[4] = '\0';
 }
 
-void get_spd(const int tm_stam, const int got_bytes, char *ret_spd)
+/**
+ * @brief	根据完成的任务量got_bytes及时间间隔, 计算速度
+ *
+ * @param	tm_stm: 任务开始到现在的时间间隔
+ * @param	got_bytes: 完成的任务量
+ * @param	ret_spd:	用字符串返回速度(占八个字符, 包括第一个空格字符!)
+ */
+void get_spd(const int tm_stm, const int got_bytes, char *ret_spd)
 {
+	/* B,K,M,G/s */
+	char *ch = "BKMG";
+	char spd;
+	int index, res, head, tail, unit;
+
+	assert(ret_spd != NULL);
+
+	/* 确定速度单位 */
+	index = 0;
+	res = got_bytes;
+	while(res > 1024 && index < 4)
+	{
+		++index;
+		res /= 1024;
+	}
+	spd = ch[index];	/* 速度单位 */
+
+	res = got_bytes;
+	if (index == 0) /* B/s */
+	{
+		unit = 1;
+	}
+	else if (index == 1) /* K/s */
+	{
+		unit = 1024;
+	}
+	else if (index == 2)	/* M/s */
+	{
+		unit = 1024 * 1024;
+	}
+	else if (index == 3) /* G/s */
+	{
+		unit = 1024 * 1024 * 1024;
+	}
+	
+	/* 计算速度值 */
+	while (res > unit)
+	{
+		res -= unit;
+	}
+	tail = res;
+	head = got_bytes - tail;
+	index = 0;
+	while (index < 4 && head > 0)
+	{
+	}
 }
 
 void create_image(Progress *pro, const int width)

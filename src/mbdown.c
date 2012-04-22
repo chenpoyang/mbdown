@@ -23,26 +23,26 @@ void get_filename(const char *url, char *filename);
 
 int main(int argc, char *argv[])
 {
-	//Url *url = NULL;
-	//int len;
-	///**
-	// * @brief	初始化 url 哈希表 url 管理器, 和相应的锁
-	// */
-	//len = HALEN;
-	//root_url = NULL;
-	//init_rooturl_id(&root_url, &count_url_id);
-	//url = new_url_node(&root_url, argv[1]);
-	//init_mutex();
+	Url *url = NULL;
+	int len;
+	/**
+	 * @brief	初始化 url 哈希表 url 管理器, 和相应的锁
+	 */
+	len = HALEN;
+	root_url = NULL;
+	init_rooturl_id(&root_url, &count_url_id);
+	url = new_url_node(&root_url, argv[1]);
+	init_mutex();
 
-	//if (root_url == NULL)
-	//{
-	//	mydebug("root_url == %s", "NULL");
-	//}
+	if (root_url == NULL)
+	{
+		mydebug("root_url == %s", "NULL");
+	}
 
 	if (argc >= 2 && argv[1] != NULL)
 	{
 		get(argv[1]);
-		//download(url);
+		download(url);
 	}
 	else
 	{
