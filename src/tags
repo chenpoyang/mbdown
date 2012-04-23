@@ -115,12 +115,16 @@ get_filename	mbdown.c	/^void get_filename(const char *url, char *filename)$/;"	f
 get_filename	mbdown.c	/^void get_filename(const char *url, char *filename);$/;"	p	file:	signature:(const char *url, char *filename)
 get_host_name	url.c	/^void get_host_name(const char *url, char *hostname)$/;"	f	signature:(const char *url, char *hostname)
 get_host_name	url.h	/^void get_host_name(const char *url, char *hostname);$/;"	p	signature:(const char *url, char *hostname)
+get_percent	progress.c	/^void get_percent(const int done, const int totals, char *ptr_buf)$/;"	f	signature:(const int done, const int totals, char *ptr_buf)
+get_percent	progress.h	/^void get_percent(const int done, const int totals, char *ptr_buf);$/;"	p	signature:(const int done, const int totals, char *ptr_buf)
 get_port	url.c	/^int get_port(const char *url)$/;"	f	signature:(const char *url)
 get_port	url.h	/^int get_port(const char *url);$/;"	p	signature:(const char *url)
 get_resource	url.c	/^void get_resource(const char *url, char *resource)$/;"	f	signature:(const char *url, char *resource)
 get_resource	url.h	/^void get_resource(const char *url, char *resource);$/;"	p	signature:(const char *url, char *resource)
 get_scheme	url.c	/^void get_scheme(const char *url, char *scheme)$/;"	f	signature:(const char *url, char *scheme)
 get_scheme	url.h	/^void get_scheme(const char *url, char *scheme);$/;"	p	signature:(const char *url, char *scheme)
+get_spd	progress.c	/^void get_spd(const int tm_stm, const int got_bytes, char *ret_spd)$/;"	f	signature:(const int tm_stm, const int got_bytes, char *ret_spd)
+get_spd	progress.h	/^void get_spd(const int tm_stam, const int got_bytes, char *ret_spd);$/;"	p	signature:(const int tm_stam, const int got_bytes, char *ret_spd)
 get_url_id	url.c	/^unsigned int get_url_id()$/;"	f
 get_url_id	url.h	/^unsigned int get_url_id();$/;"	p	signature:()
 head	bmsg.h	/^	struct bmsg *head;$/;"	m	struct:root_bmsg	typeref:struct:root_bmsg::bmsg	access:public

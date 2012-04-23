@@ -51,3 +51,6 @@ add url node and hash it:
 			void get_percent(const int done, const int totals, char *ptr_buf);
 			void get_spd(const int tm_stam, const int got_bytes, char *ret_spd);
 			void create_image(Progress *pro, const int width);
+
+2012-04-18::22:30
+	progress.c: void get_status(const int tm_stm, const int done, const int totals, char *ret);
