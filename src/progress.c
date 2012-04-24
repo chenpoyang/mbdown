@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "progress.h"
+#include "global.h"
 
 void init_progress(Progress *pro, unsigned int total)
 {
@@ -158,6 +159,7 @@ void get_spd(const int tm_stm, const int got_bytes, char *ret_spd)
 	spd = ch[index];	/* 速度单位 */
 
 	res = got_bytes;
+	unit = 1;
 	if (index == 0) /* B/s */
 	{
 		unit = 1;
@@ -202,7 +204,7 @@ void get_spd(const int tm_stm, const int got_bytes, char *ret_spd)
 		{
 			ret_spd[index++] = ' ';
 		}
-		ret_spd[indesx] = '\0';
+		ret_spd[index] = '\0';
 	}
 	else
 	{
@@ -268,7 +270,7 @@ void get_ptr_bar(int perc, const int width, char *ret)
 
 	left = width - 4 - 1 - 1 - 12 - 8 - 14;
 	head = perc * width / 100;
-	tail = left - tail;
+	tail = left - head;
 	while (--head > 0)
 	{
 		ret[index++] = '-';
@@ -296,7 +298,6 @@ void get_ptr_bar(int perc, const int width, char *ret)
 void get_status(const int tm_stm, const int done, const int totals, char *ret)
 {
 	int index, h, m, s;
-	char tmp_str[10];
 
 	index = 0;
 	ret[index++] = ' ';

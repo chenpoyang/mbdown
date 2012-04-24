@@ -38,4 +38,4 @@ synchro.o	: synchro.c synchro.h
 url.o		: url.c url.h global.h synchro.h
 mbdown.o	: mbdown.c global.h url.h synchro.h progress.h
 http.o		: http.c http.h url.h global.h
-progress.o	: progress.c progress.h
+progress.o	: progress.c progress.h global.h
