@@ -79,7 +79,6 @@ void update_progress(Progress *pro, int recv_buf)
 	pro->end_sec = time(NULL);
 
 	create_image(pro, DEFAULT_WIDTH);	/* 默认宽度: 85 */
-	display_image(pro);
 }
 
 /**
@@ -101,7 +100,7 @@ void get_percent(const int done, const int totals, char *ptr_buf)
 	}
 	else
 	{
-		perc = done * 100 / totals;
+		perc = (int)(done * 100.0 / totals);
 	}
 
 	if (perc != 100)
@@ -109,15 +108,15 @@ void get_percent(const int done, const int totals, char *ptr_buf)
 		if (perc < 10)
 		{
 			ptr_buf[0] = ' ';
-			ptr_buf[1] = ' ';
-			ptr_buf[2] = perc + '0';
-			ptr_buf[3] = '%';
+			ptr_buf[1] = perc + '0';
+			ptr_buf[2] = '%';
+			ptr_buf[3] = ' ';
 		}
 		else
 		{
 			ptr_buf[0] = ' ';
-			ptr_buf[1] = perc / 10;
-			ptr_buf[2] = perc % 10;
+			ptr_buf[1] = perc / 10 + '0';
+			ptr_buf[2] = perc % 10 + '0';
 			ptr_buf[3] = '%';
 		}
 	}
@@ -189,7 +188,7 @@ void get_spd(const int tm_stm, const int got_bytes, char *ret_spd)
 	if ('M' == spd || 'G' == spd)
 	{
 		/* head, eg: part of "29.1M/s" */
-		m_utoa(head, str);
+		m_utoa(head / unit, str);
 		len = strlen(str);
 		strncpy(ret_spd + index, str, len);
 		index += len;
@@ -269,7 +268,7 @@ void get_ptr_bar(int perc, const int width, char *ret)
 	ret[index++] = '[';
 
 	left = width - 4 - 1 - 1 - 12 - 8 - 14;
-	head = perc * width / 100;
+	head = (int)(perc * left * 1.0 / 100);
 	tail = left - head;
 	while (--head > 0)
 	{
@@ -335,14 +334,24 @@ void create_image(Progress *pro, const int width)
 {
 	char *p = NULL;
 	char spd[8], rec_bytes[12], per[4];
+	int len, per_int;
 
 	assert(pro != NULL && width > 0);
 
 	p = pro->buf;
-	get_spd(pro->end_sec - pro->beg_sec, pro->done, spd);
-	get_percent(pro->done, pro->total, per);
-	get_rec_bytes(pro->done, rec_bytes);
-	get_ptr_bar(pro->done * 100 / pro->total, width, p + 4);
+	get_percent(pro->done, pro->total, per);	/* 接收的百分率 */
+	strncpy(p, per, 4);
+
+	per_int = (int)(pro->done * 100.0 / pro->total);
+	get_ptr_bar(per_int, width, pro->buf + 4);	/* 显示状态条 */
+
+	get_rec_bytes(pro->done, rec_bytes);	/* 接收的数据量 */
+	strncpy(p + strlen(p), rec_bytes, 12);
+
+	get_spd(pro->end_sec - pro->beg_sec, pro->done, spd);	/* 传输平均速度 */
+	len = strlen(p);
+	//strncpy(p + len, spd, 8);
+	//p[len + 8] = '\0';
 }
 
 void display_image(Progress *pro)

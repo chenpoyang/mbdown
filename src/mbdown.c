@@ -75,8 +75,6 @@ void get(const char *url)
 	char filename[64];
 	char resource[1024];
 
-	init_progress(&bar, totals);
-	puts(bar.buf);
 	get_filename(url, filename);
 	get_resource(url, resource);
 
@@ -114,6 +112,7 @@ void get(const char *url)
 	is_first = 1;
 	file = fopen(filename, "wb");
 	file_tmp = file;
+	puts(bar.buf);
 	while ((rec_bytes = recv(sock_fd, buf, sizeof(buf), 0)) > 0)
 	{
 		if (is_first)
@@ -143,6 +142,7 @@ void get(const char *url)
 				return;
 			}
 			sscanf(tmp_ptr, "%*s%d", &totals);
+			init_progress(&bar, totals);
 			rec_bytes -= (ptr - buf);
 			is_first = 0;
 		}
@@ -164,17 +164,20 @@ void get(const char *url)
 		if (totals <= rec_bytes)
 		{
 			append_bytes(file, ptr, totals);
+			update_progress(&bar, totals);
 			totals = 0;
 		}
 		else
 		{
 			append_bytes(file, ptr, rec_bytes);
+			update_progress(&bar, rec_bytes);
 			totals -= rec_bytes;
 		}
-		fflush(file);
+		display_image(&bar);
 	}
 	fflush(file);
 	fclose(file_tmp);
+	puts("\r\n");
 	shutdown(sock_fd, 0);
 }
 

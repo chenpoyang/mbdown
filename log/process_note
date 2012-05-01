@@ -54,3 +54,7 @@ add url node and hash it:
 
 2012-04-18::22:30
 	progress.c: void get_status(const int tm_stm, const int done, const int totals, char *ret);
+
+2012-05-01::22:30
+	progress.c: void create_image(Progress *pro, const int width);
+	fixing:	get_spd(pro->end_sec - pro->beg_sec, pro->done, spd);	/* 传输平均速度 */
