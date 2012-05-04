@@ -161,19 +161,27 @@ void get(const char *url)
 			return;
 		}
 
-		if (totals <= rec_bytes)
+		if (totals > 0)	/* 还有数据没收完 */
 		{
-			append_bytes(file, ptr, totals);
-			update_progress(&bar, totals);
-			totals = 0;
+			if (totals <= rec_bytes)
+			{
+				append_bytes(file, ptr, totals);
+				update_progress(&bar, totals);
+				display_image(&bar);
+				totals = 0;
+			}
+			else
+			{
+				append_bytes(file, ptr, rec_bytes);
+				update_progress(&bar, rec_bytes);
+				display_image(&bar);
+				totals -= rec_bytes;
+			}
 		}
 		else
 		{
-			append_bytes(file, ptr, rec_bytes);
-			update_progress(&bar, rec_bytes);
-			totals -= rec_bytes;
+			puts("\n");
 		}
-		display_image(&bar);
 	}
 	fflush(file);
 	fclose(file_tmp);

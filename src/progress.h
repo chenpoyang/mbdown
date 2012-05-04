@@ -26,7 +26,7 @@ void init_progress(Progress *pro, unsigned int total);
 void update_progress(Progress *pro, int recv_buf);
 
 void get_percent(const int done, const int totals, char *ptr_buf);
-void get_spd(const int tm_stam, const int got_bytes, char *ret_spd);
+void get_spd(const int tm_stm, const int got_bytes, const int totals, char *ret_spd);
 void get_rec_bytes(const int done, char *ret);
 void get_ptr_bar(int perc, const int width, char *ret);
 void get_status(const int tm_stm, const int done, const int totals, char *ret);

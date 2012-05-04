@@ -137,99 +137,68 @@ void get_percent(const int done, const int totals, char *ptr_buf)
  * @param	got_bytes: 完成的任务量
  * @param	ret_spd:	用字符串返回速度(占八个字符, 包括第一个空格字符!)
  */
-void get_spd(const int tm_stm, const int got_bytes, char *ret_spd)
+void get_spd(const int tm_stm, const int got_bytes, const int totals, char *ret_spd)
 {
 	/* B,K,M,G/s */
-	char *ch = "BKMG";
-	char str[4];
-	char spd;
-	int index, res, head, tail, unit, len;
+	int head, tail, unit, res, index, i, j;
+	char *ch = "BKMG", spd;
+	char tmp_str[32];
 
 	assert(ret_spd != NULL);
-
-	/* 确定速度单位 */
-	index = 0;
-	res = got_bytes;
-	while(res > 1024 && index < 4)
+	if (tm_stm <= 0 || got_bytes == totals)
 	{
-		++index;
-		res /= 1024;
+		return;
 	}
-	spd = ch[index];	/* 速度单位 */
 
-	res = got_bytes;
+	head = got_bytes / tm_stm;
 	unit = 1;
-	if (index == 0) /* B/s */
-	{
-		unit = 1;
-	}
-	else if (index == 1) /* K/s */
-	{
-		unit = 1024;
-	}
-	else if (index == 2)	/* M/s */
-	{
-		unit = 1024 * 1024;
-	}
-	else if (index == 3) /* G/s */
-	{
-		unit = 1024 * 1024 * 1024;
-	}
-	
-	/* 计算速度值, 占八个字符,第一个字符为空格!, eg: | 29.1M/s| */
-	while (res > unit)
-	{
-		res -= unit;
-	}
-	tail = res;
-	head = got_bytes - tail;
 	index = 0;
-	ret_spd[index++] = ' ';
-	if ('M' == spd || 'G' == spd)
+	while (head >= 1024)
 	{
-		/* head, eg: part of "29.1M/s" */
-		m_utoa(head / unit, str);
-		len = strlen(str);
-		strncpy(ret_spd + index, str, len);
-		index += len;
-		ret_spd[index++] = '.';
-
-		/* tail, eg: part of "29.1M/s" */
-		m_utoa(tail * 10 / unit, str);	/* 小数点后的整数 */
-		len = strlen(str);
-		strncpy(ret_spd + index, str, len);
-		index += len;
-		while (index < 5)
-		{
-			ret_spd[index++] = ' ';
-		}
-		ret_spd[index] = '\0';
+		head /= 1024;
+		unit *= 1024;
+		++index;
 	}
-	else
+	if (index >= 4)
 	{
-		m_utoa(head, str);
-		len = strlen(str);
-		strncpy(ret_spd + index, str, len);
-		index += len;
+		merr_sys("速度计算值过太, 请注意检查程序");
+		return;
+	}
+	spd = ch[index];
 
-		if (index <= 3)
-		{
-			ret_spd[index++] = '.';
-			m_utoa(tail * 10 / unit, str);
-			ret_spd[index++] = *str;
-		}
+	res = head * unit;
+	tail = got_bytes / tm_stm - res;
 
-		while (index < 5)
-		{
-			ret_spd[index++] = ' ';
-		}
-		ret_spd[index] = '\0';
+	i = 0;
+	ret_spd[i++] = ' ';
+	m_utoa(head, ret_spd + i);
+	i = strlen(ret_spd);
+
+	while (--index > 0)	/* 小数点后的数处理, 比最开始的index值少一循环 */
+	{
+		tail /= 1024;
 	}
 
-	ret_spd[index++] = spd;
-	ret_spd[index++] = '/';
-	ret_spd[index++] = 's';
-	ret_spd[index] = '\0';
+	if (spd == 'M' || spd == 'G')
+	{
+		ret_spd[i++] = '.';
+		m_utoa(tail, tmp_str);
+		j = strlen(tmp_str);
+		ch = tmp_str;
+		while (i < 5 && ch != tmp_str + j)
+		{
+			ret_spd[i++] = *ch++;
+		}
+	}
+	while (i < 5)
+	{
+		ret_spd[i++] = ' ';
+	}
+
+	ret_spd[i++] = spd;
+	ret_spd[i++] = '/';
+	ret_spd[i++] = 's';
+	ret_spd[i++] = '\0';
 }
 
 void get_rec_bytes(const int done, char *ret)
@@ -334,7 +303,7 @@ void create_image(Progress *pro, const int width)
 {
 	char *p = NULL;
 	char spd[8], rec_bytes[12], per[4];
-	int len, per_int;
+	int len, per_int, tm_stm;
 
 	assert(pro != NULL && width > 0);
 
@@ -348,7 +317,13 @@ void create_image(Progress *pro, const int width)
 	get_rec_bytes(pro->done, rec_bytes);	/* 接收的数据量 */
 	strncpy(p + strlen(p), rec_bytes, 12);
 
-	get_spd(pro->end_sec - pro->beg_sec, pro->done, spd);	/* 传输平均速度 */
+	tm_stm = pro->end_sec - pro->beg_sec;
+	if (tm_stm <= 0)
+	{
+		return;
+	}
+	get_spd(tm_stm, pro->done, pro->total, spd);	/* 传输平均速度 */
+printf("  %s", spd);	/* 宽度动态改变时, 输出字符混乱! */
 	len = strlen(p);
 	//strncpy(p + len, spd, 8);
 	//p[len + 8] = '\0';
