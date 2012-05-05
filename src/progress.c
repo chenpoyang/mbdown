@@ -73,7 +73,11 @@ void init_progress(Progress *pro, unsigned int total)
 
 void update_progress(Progress *pro, int recv_buf)
 {
-	assert(pro != NULL && recv_buf > 0);
+	if (pro == NULL || recv_buf < 0)
+	{
+		merr_msg("pro == NULL || recv_buf < 0");
+		return;
+	}
 
 	pro->done += recv_buf;
 	pro->end_sec = time(NULL);
