@@ -152,6 +152,11 @@ void m_utoa(int num, char *str)
 		i = num;
 	}
 
+	if (num == 0)
+	{
+		strcpy(str, "0");
+		return;
+	}
 	while (i)
 	{
 		str[j++] = i % 10 + '0';

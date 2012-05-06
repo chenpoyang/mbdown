@@ -17,7 +17,8 @@ CXXFLAGS	= -O2 -Wall -g $(DEFINES)
 ALL_T		= mbdown
 
 # all object
-ALL_OBJ	= global.o mbdown.o url.o synchro.o bmsg.o http.o progress.o
+ALL_OBJ	= global.o mbdown.o url.o synchro.o bmsg.o http.o progress.o \
+		  retr.o
 
 # Targets start here
 all:	$(ALL_OBJ) $(ALL_T)
@@ -36,6 +37,7 @@ global.o	: global.c global.h
 bmsg.o		: bmsg.c bmsg.h global.h
 synchro.o	: synchro.c synchro.h
 url.o		: url.c url.h global.h synchro.h
-mbdown.o	: mbdown.c global.h url.h synchro.h progress.h
+mbdown.o	: mbdown.c global.h url.h synchro.h progress.h retr.h
 http.o		: http.c http.h url.h global.h
 progress.o	: progress.c progress.h global.h
+retr.o		: retr.c retr.h progress.h url.h global.h http.h

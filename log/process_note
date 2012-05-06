@@ -58,3 +58,8 @@ add url node and hash it:
 2012-05-01::22:30
 	progress.c: void create_image(Progress *pro, const int width);
 	fixing:	get_spd(pro->end_sec - pro->beg_sec, pro->done, spd);	/* 传输平均速度 */
+
+2012-05-06::22:30
+	retr.c: 
+		void download(const Url *url);
+		void * retr(const Url *url, const int beg, const int end);
