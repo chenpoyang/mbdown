@@ -7,9 +7,6 @@
 #include "http.h"
 #include "url.h"
 
-Req *req = NULL;	/* 请求 */
-Resp *resp = NULL;	/* 回应 */
-
 /* 初始化指定范围的请求头 */
 void init_req_begin_end(Req *req, const Url *url, unsigned int beg, unsigned int end)
 {
