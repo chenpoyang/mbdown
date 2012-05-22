@@ -37,14 +37,14 @@ MYLIBS		=
 # == END SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE == #
 
 # all target
-ALL_C_T		= conn_sql
+ALL_C_T		= conn_sql getip
 
 ALL_CXX_T	=
 
 ALL_T		= $(ALL_C_T) $(ALL_CXX_T)
 
 # all object
-ALL_C_OBJ	= conn_sql.o
+ALL_C_OBJ	= conn_sql.o getip.o
 
 ALL_CXX_OBJ	=
 

@@ -4,10 +4,10 @@
 
 #include <mysql/mysql.h>
 
-#define HOST		"localhost"
+#define HOST		"127.0.0.1"
 #define USER		"young"
 #define PASSWORD	"10"
-#define DATABASE	"young"
+#define DATABASE	"test"
 
 /* connect mysql */
 MYSQL * connect_mysql(const char *host, 
@@ -55,7 +55,7 @@ MYSQL_RES * query_sql(MYSQL *mysql, const char *sql)
 
 int main(int argc, char *argv[])
 {
-	char *sql = "select distinct user_email from wp_users";
+	char *sql = "show databases;";
 	MYSQL *mysql = NULL;
 	MYSQL_RES *res = NULL;
 	MYSQL_ROW row;

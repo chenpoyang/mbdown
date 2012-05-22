@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 #include <netdb.h>
 #include <arpa/inet.h>
 
+void getip(const char *url, char *ret_ip);
+
 int main(int argc, const char *argv[])
 {
-	struct hostent *addr = NULL;
-	char **ptr_alias = NULL;
 	char ip_buf[16];
 
 	if (argc != 2)
@@ -16,7 +17,21 @@ int main(int argc, const char *argv[])
 		exit(-1);
 	}
 
-	addr = gethostbyname(argv[1]);
+    getip(argv[1], ip_buf);
+    puts(ip_buf);
+
+	return 0;
+}
+
+void getip(const char *url, char *ret_ip)
+{
+	struct hostent *addr = NULL;
+	char **ptr_alias = NULL;
+	char ip_buf[16];
+
+    assert(url != NULL && ret_ip != NULL);
+
+	addr = gethostbyname(url);
 	if (addr == NULL)
 	{
 		printf("illegal domain name!");
@@ -34,9 +49,11 @@ int main(int argc, const char *argv[])
 	ptr_alias = addr->h_addr_list;
 	while (*ptr_alias != NULL)
 	{
-		printf("ip: %s\n", inet_ntop(addr->h_addrtype, *ptr_alias, ip_buf, sizeof(ip_buf)));
+		inet_ntop(addr->h_addrtype, *ptr_alias, ip_buf, sizeof(ip_buf));
+        strcpy(ret_ip, ip_buf);
+        return;
 		++ptr_alias;
 	}
 
-	return 0;
+    strcpy(ret_ip, "");
 }

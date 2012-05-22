@@ -2,6 +2,8 @@
 #include <string.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <netdb.h>
+#include <arpa/inet.h>
 
 #include "global.h"
 #include "synchro.h"
@@ -438,6 +440,9 @@ void get_host_name(const char *url, char *hostname)
 	
 	strncpy(hostname, str_ptr, len);
 	hostname[len] = '\0';
+
+    strcpy(str, hostname);
+    getip(str, hostname);   /* domain --> ip address */
 }
 
 /* 输出Url里的值 */
@@ -454,4 +459,40 @@ void print_url(const Url *url)
 	printf("host: %s\r\n", url->host);
 	printf("res: %s\r\n", url->res);
 	printf("port: %d\r\n", url->port);
+}
+
+/* 从url中获取域名并解释成ip地址, 由ret_ip返回ip */
+void getip(const char *url, char *ret_ip)
+{
+	struct hostent *addr = NULL;
+	char **ptr_alias = NULL;
+	char ip_buf[16];
+
+    assert(url != NULL && ret_ip != NULL);
+
+	addr = gethostbyname(url);
+	if (addr == NULL)
+	{
+		printf("illegal domain name!");
+		exit(-1);
+	}
+
+//printf("global name:%s\n\t", addr->h_name);
+	ptr_alias = addr->h_aliases;
+	while (*ptr_alias != NULL)
+	{
+//printf("alias: %s\n", *ptr_alias);
+		++ptr_alias;
+	}
+
+	ptr_alias = addr->h_addr_list;
+	while (*ptr_alias != NULL)
+	{
+		inet_ntop(addr->h_addrtype, *ptr_alias, ip_buf, sizeof(ip_buf));
+        strcpy(ret_ip, ip_buf);
+        return;
+		++ptr_alias;
+	}
+
+    strcpy(ret_ip, "");
 }

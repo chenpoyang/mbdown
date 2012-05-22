@@ -89,4 +89,7 @@ void escape_spec(const char *res, char *ret_str);
 /* 输出Url里的值 */
 void print_url(const Url *url);
 
+/* 从url中获取域名并解释成ip地址, 由ret_ip返回ip */
+void getip(const char *url, char *ret_ip);
+
 #endif //_URL_H_
