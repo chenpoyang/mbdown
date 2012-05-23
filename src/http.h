@@ -3,9 +3,9 @@
 #include "url.h"
 
 #define MAX_LEN 256
-#define R_LEN	128
-#define H_LEN	64
-#define COM_LEN	64
+#define R_LEN    128
+#define H_LEN    64
+#define COM_LEN    64
 #define DEFAULT_MTHD GET
 #define DEFAULT_HTTPV HTTP1_1
 
@@ -27,45 +27,45 @@ Content-Range: bytes 0-1023/2385
 
 /* 请求方式 */
 enum method {
-	OPTIONS, 
-	HEAD, 
-	GET, 
-	POST, 
-	PUT, 
-	DELETE, 
-	TRACE, 
-	CONNECT
+    OPTIONS, 
+    HEAD, 
+    GET, 
+    POST, 
+    PUT, 
+    DELETE, 
+    TRACE, 
+    CONNECT
 };
 
 /* HTTP协议的版本 */
 enum httpv {
-	HTTP0_9,
-	HTTP1_0,
-	HTTP1_1
+    HTTP0_9,
+    HTTP1_0,
+    HTTP1_1
 };
 
 /* HTTP请求 */
 typedef struct req {
-	char str[MAX_LEN];		/* 封装的请求头 */
-	char res[R_LEN];		/* 资源位置 */
-	char host[H_LEN];		/* 主机 */
-    unsigned int port;		/* default: 80 */
-	enum httpv ver;			/* HTTP协议版本 */
-	enum method mthd;		/* 请求方式 */
-	/* [begin, end] */
-	unsigned int begin;	/* 起始字节 */
-	unsigned int end;		/* 结束字节 */
+    char str[MAX_LEN];        /* 封装的请求头 */
+    char res[R_LEN];        /* 资源位置 */
+    char host[H_LEN];        /* 主机 */
+    unsigned int port;        /* default: 80 */
+    enum httpv ver;            /* HTTP协议版本 */
+    enum method mthd;        /* 请求方式 */
+    /* [begin, end] */
+    unsigned int begin;    /* 起始字节 */
+    unsigned int end;        /* 结束字节 */
 }Req;
 
 /* HTTP回应 */
 typedef struct resp {
-	char str[MAX_LEN];		/* 封装的回应报文 */
-	enum httpv ver;			/* eg: HTTP/1.1 --> HTTP1_1 */
-	int status;				/* 状态, eg: 206--> Partial Content */
-	char web_ser[COM_LEN];	/* 相应的Web服务器 */
-	unsigned begin;	/* 回应的起始字节 */
-	unsigned end;		/* 回应的结束字节 */
-	unsigned total_bytes;	/* 总字节数 */
+    char str[MAX_LEN];        /* 封装的回应报文 */
+    enum httpv ver;            /* eg: HTTP/1.1 --> HTTP1_1 */
+    int status;                /* 状态, eg: 206--> Partial Content */
+    char web_ser[COM_LEN];    /* 相应的Web服务器 */
+    unsigned begin;    /* 回应的起始字节 */
+    unsigned end;        /* 回应的结束字节 */
+    unsigned total_bytes;    /* 总字节数 */
 }Resp;
 
 /* 初始化指定范围的请求头 */

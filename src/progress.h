@@ -14,12 +14,12 @@
 | 80%[---------------------->                      ] ___,___,___ ____+/+  eta 03m 16s |
 */
 typedef struct progress {
-	char buf[MAX_STR];
-	unsigned int done;	/* 完成的字节数 */
-	unsigned int total;	/* 总大小 */
-	unsigned int width;	/* 默认宽度为85 */
-	time_t beg_sec;		/* 任务开始时间 */
-	time_t end_sec;		/* 从任务开始到现在的时间间隔 */
+    char buf[MAX_STR];
+    unsigned int done;    /* 完成的字节数 */
+    unsigned int total;    /* 总大小 */
+    unsigned int width;    /* 默认宽度为85 */
+    time_t beg_sec;        /* 任务开始时间 */
+    time_t end_sec;        /* 从任务开始到现在的时间间隔 */
 }Progress;
 
 void init_progress(Progress *pro, unsigned int total);

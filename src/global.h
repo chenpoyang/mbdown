@@ -6,12 +6,12 @@
 #include <string.h>
 
 #define m_error(msg) \
-	fprintf(stderr, "%s:%s() %d: %s\r\n", __FILE__, __func__, __LINE__, msg);
+    fprintf(stderr, "%s:%s() %d: %s\r\n", __FILE__, __func__, __LINE__, msg);
 #define GLOBAL extern
 /* 哈希表的最大长度 */
-#define HALEN	256
+#define HALEN    256
 /* 以太网MTU(bytes) */
-#define MAX_ETH_MTU	1500
+#define MAX_ETH_MTU    1500
 #define bzero(base,n) memset(base, 0, n)
 #define u_int unsigned int
 #define M_HIDE 0
@@ -24,7 +24,7 @@ void m_toupper(char *str);
 /* max length to store error message */
 #define MAXLINE 4096
 /* max buf to store bytes */
-#define MAXBUF	4096
+#define MAXBUF 4096
 
 /* logical error */
 void merr_msg(const char *fmt, ...);

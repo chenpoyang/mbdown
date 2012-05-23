@@ -2,25 +2,25 @@
 #define _URL_H_
 
 /* define the max length of url */
-#define ULEN	256
+#define ULEN    256
 /* the max length of host, eg: www.innlab.net */
-#define	HLEN	32
+#define    HLEN    32
 /* the max length of location */
-#define LLEN	(ULEN-HLEN)
+#define LLEN    (ULEN-HLEN)
 /* the max length of scheme */
-#define SLEN	24
+#define SLEN    24
 /* 最大url_id标识符 */
 #define MAX_URL_ID 0xffffffff
 
 /* single linked list */
 typedef struct url {
-	struct url *next;	/* single linked list */
-	char url[ULEN];		/* complete url */
-	char scheme[SLEN];	/* protocal, eg: http */
-	char host[HLEN];	/* remote host, eg: www.innlab.net */
-	char res[LLEN];		/* the location of resource below the host */
-	int port;
-	unsigned int id;				/* unique id for quickly find */
+    struct url *next;    /* single linked list */
+    char url[ULEN];        /* complete url */
+    char scheme[SLEN];    /* protocal, eg: http */
+    char host[HLEN];    /* remote host, eg: www.innlab.net */
+    char res[LLEN];        /* the location of resource below the host */
+    int port;
+    unsigned int id;                /* unique id for quickly find */
 }Url, RootUrl;
 
 /* 初始化所有初始状态 */
@@ -45,44 +45,44 @@ Url * new_url_node(RootUrl **root_url, const char *url);
 void release_root_url(RootUrl **root_url);
 
 /**
- * @brief	根据给定的url地字符串, 返回协议
+ * @brief    根据给定的url地字符串, 返回协议
  *
- * @param	url: 字符串式的完整url
- * @param	scheme: 返回协议
+ * @param    url: 字符串式的完整url
+ * @param    scheme: 返回协议
  */
 void get_scheme(const char *url, char *scheme);
 
 /**
- * @brief	根据给定的url字符串, 返回主机的名字
+ * @brief    根据给定的url字符串, 返回主机的名字
  *
- * @param	url: 完整的url地址
- * @param	hostname: 用hostname返回
+ * @param    url: 完整的url地址
+ * @param    hostname: 用hostname返回
  */
 void get_host_name(const char *url, char *hostname);
 
 int get_port(const char *url);
 
 /**
- * @brief	获取url字符串中指定的资源位置
+ * @brief    获取url字符串中指定的资源位置
  *
- * @param	url: url字符串
- * @param	resource: 用于返回
+ * @param    url: url字符串
+ * @param    resource: 用于返回
  */
 void get_resource(const char *url, char *resource);
 
 /**
- * @brief	从root_url管理器中删除一url
+ * @brief    从root_url管理器中删除一url
  *
- * @param	root_url: Url管理器
- * @param	url: 要删除的url
+ * @param    root_url: Url管理器
+ * @param    url: 要删除的url
  */
 void remove_url(RootUrl *root_url, const Url *url);
 
 /**
- * @brief	处理资源位置中特殊的字符
+ * @brief    处理资源位置中特殊的字符
  *
- * @param	res: 源源的位置, eg: /index.html
- * @param	ret_str: 用于返回
+ * @param    res: 源源的位置, eg: /index.html
+ * @param    ret_str: 用于返回
  */
 void escape_spec(const char *res, char *ret_str);
 

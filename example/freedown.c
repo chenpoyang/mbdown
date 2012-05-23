@@ -17,18 +17,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //字符串定义
-	#define PRO_VERSION			"Version: 2.1"
-	#define STR_VERSION 		"freedown/2.1"
-	#define STR_SYSTEM_LINUX 	"(X11;linux 686)"
-	#define STR_SYSTEM_WINDOWS	"(windows NT 6.1)"
-	#define STR_MOD_LINUX		"w"
-	#define STR_MOD_WINDOWS		"wb"
+    #define PRO_VERSION			"Version: 2.1"
+    #define STR_VERSION 		"freedown/2.1"
+    #define STR_SYSTEM_LINUX 	"(X11;linux 686)"
+    #define STR_SYSTEM_WINDOWS	"(windows NT 6.1)"
+    #define STR_MOD_LINUX		"w"
+    #define STR_MOD_WINDOWS		"wb"
 
 //linux大文件读写的编译选项
 #ifdef LINUX
-		#define _LARGEFILE_SOURCE
-		#define _LARGEFILE64_SOURCE
-		#define _FILE_OFFSET_BITS 64
+    #define _LARGEFILE_SOURCE
+    #define _LARGEFILE64_SOURCE
+    #define _FILE_OFFSET_BITS 64
 #endif
 
 //头文件
@@ -41,72 +41,72 @@
 
 //linux
 #ifdef LINUX
-	#include <unistd.h>	//unix标准库
-	#include <fcntl.h>	//低级文件控制
-	#include <netdb.h>   //网络数据基本库
-	#include <sys/select.h>	//select函数支持
-	#include <sys/time.h>	//时间库
-	#include <sys/socket.h>   //网络函数库
-	#include <sys/types.h>	//数据类型定义
-	#include <sys/stat.h>	//文件与目录
-	#include <netinet/in.h>	//网络地址结构定义
-	#include <arpa/inet.h>	//inet_ 函数库
-		#define closesocket close
-		#define fseeko fseeko64
-		#define ftello ftello64
-		#define GetLastError() errno
-		#define STR_SYSTEM	STR_SYSTEM_LINUX
-		#define STR_MOD		STR_MOD_WINDOWS
+    #include <unistd.h>	//unix标准库
+    #include <fcntl.h>	//低级文件控制
+    #include <netdb.h>   //网络数据基本库
+    #include <sys/select.h>	//select函数支持
+    #include <sys/time.h>	//时间库
+    #include <sys/socket.h>   //网络函数库
+    #include <sys/types.h>	//数据类型定义
+    #include <sys/stat.h>	//文件与目录
+    #include <netinet/in.h>	//网络地址结构定义
+    #include <arpa/inet.h>	//inet_ 函数库
+        #define closesocket close
+        #define fseeko fseeko64
+        #define ftello ftello64
+        #define GetLastError() errno
+        #define STR_SYSTEM	STR_SYSTEM_LINUX
+        #define STR_MOD		STR_MOD_WINDOWS
 #endif
 //window
 #ifdef WINDOW
-	#ifdef VC
-		#define fseeko _fseeki64
-		#define ftello _ftelli64
-	#endif
-	#ifdef LCC
-		#define fseeko fseeki64
-		#define ftello ftelli64
-	#endif
-		#define STR_SYSTEM	STR_SYSTEM_WINDOWS
-		#define STR_MOD		STR_MOD_WINDOWS
-	#include <WinSock2.h>
-	#pragma comment ( lib , "Ws2_32.lib")
+    #ifdef VC
+        #define fseeko _fseeki64
+        #define ftello _ftelli64
+    #endif
+    #ifdef LCC
+        #define fseeko fseeki64
+        #define ftello ftelli64
+    #endif
+        #define STR_SYSTEM	STR_SYSTEM_WINDOWS
+        #define STR_MOD		STR_MOD_WINDOWS
+    #include <WinSock2.h>
+    #pragma comment ( lib , "Ws2_32.lib")
 #endif
 
 //english
 #ifdef EN
-	#define LINKNAME 	"HTTPLINK"
-	#define RETURNCODE 	"HTTPCODE"
-	#define FILENAME 		"OUTFILE"
-	#define DATALEN		"DATALEN"
-	#define MAKEFILE 		"creating file"
-	#define FINISH 		"Download Success"
-	#define ISERROR		"Download failed"
-	#define REMAIN		"Remaining data"
-	#define OPEN_REQUEST 	"Thread open: Request file" 
-	#define OPEN_LOADING	"Thread Downloading now..."
-	#define WAIT_FAIL 	"Thread waiting: Request failed"
-	#define CLOSE_OVERLOAD	"Thread close: End of data"
-	#define OUT_OVER 		"Thread out: All data end"
-	#define OUT_MOREFAIL 	"Thread out: Too many failed"
+    #define LINKNAME 	"HTTPLINK"
+    #define RETURNCODE 	"HTTPCODE"
+    #define FILENAME 		"OUTFILE"
+    #define DATALEN		"DATALEN"
+    #define MAKEFILE 		"creating file"
+    #define FINISH 		"Download Success"
+    #define ISERROR		"Download failed"
+    #define REMAIN		"Remaining data"
+    #define OPEN_REQUEST 	"Thread open: Request file" 
+    #define OPEN_LOADING	"Thread Downloading now..."
+    #define WAIT_FAIL 	"Thread waiting: Request failed"
+    #define CLOSE_OVERLOAD	"Thread close: End of data"
+    #define OUT_OVER 		"Thread out: All data end"
+    #define OUT_MOREFAIL 	"Thread out: Too many failed"
 #endif
 //chinese
 #ifdef CN
-	#define LINKNAME 	"请求地址"
-	#define RETURNCODE 	"响应代码"
-	#define FILENAME 		"输出文件"
-	#define DATALEN		"数据长度"
-	#define MAKEFILE 		"正在创建文件"
-	#define FINISH 		"完成下载"
-	#define ISERROR		"下载错误"
-	#define REMAIN		"剩余数据"
-	#define OPEN_REQUEST 	"号线打开: 请求数据 "
-	#define OPEN_LOADING	"号线: 下载数据中 ... "
-	#define WAIT_FAIL 	"号线等待: 请求失败"
-	#define CLOSE_OVERLOAD	"号线关闭: 数据下载完毕 "
-	#define OUT_OVER 		"号线退出: 没有可请求的数据 "
-	#define OUT_MOREFAIL 	"号线退出: 失败太多, 放弃请求 "
+    #define LINKNAME 	"请求地址"
+    #define RETURNCODE 	"响应代码"
+    #define FILENAME 		"输出文件"
+    #define DATALEN		"数据长度"
+    #define MAKEFILE 		"正在创建文件"
+    #define FINISH 		"完成下载"
+    #define ISERROR		"下载错误"
+    #define REMAIN		"剩余数据"
+    #define OPEN_REQUEST 	"号线打开: 请求数据 "
+    #define OPEN_LOADING	"号线: 下载数据中 ... "
+    #define WAIT_FAIL 	"号线等待: 请求失败"
+    #define CLOSE_OVERLOAD	"号线关闭: 数据下载完毕 "
+    #define OUT_OVER 		"号线退出: 没有可请求的数据 "
+    #define OUT_MOREFAIL 	"号线退出: 失败太多, 放弃请求 "
 #endif
 
 //文件流定义
@@ -117,25 +117,25 @@ typedef char *String;	//字符流
 //数据段在所下载文件中的偏移
 typedef struct data
 {
-	long long beg , end; //开始偏移和结束偏移
+    long long beg , end; //开始偏移和结束偏移
 }DATA;
 
 // 偏移栈
 typedef struct stack
 {
-	struct data *datas;	//栈指针
-	struct data *ptr;	//栈顶
-	int size;		//栈大小
+    struct data *datas;	//栈指针
+    struct data *ptr;	//栈顶
+    int size;		//栈大小
 }STACK;
 
 //数据结构 请求列队
 typedef struct sockfd
 {
     #define DEF_DELAY 10000
-	unsigned sock;	//套接字
-	unsigned fails;	//请求失败次数
-	unsigned delay;	//失败后,到下一次发起请求的延时(　以列队的循环次数为单位.默认值为10000,每过10000次循环,再发起一次请求)
-	struct data d;	//请求的数据段在文件中的偏移
+    unsigned sock;	//套接字
+    unsigned fails;	//请求失败次数
+    unsigned delay;	//失败后,到下一次发起请求的延时(　以列队的循环次数为单位.默认值为10000,每过10000次循环,再发起一次请求)
+    struct data d;	//请求的数据段在文件中的偏移
 }SFD;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ int freedown( int nConnections , char* link , char* filename );
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//		functions for stack
+//  functions for stack
 //
 ///////////////////////////////////////////////////////////////////////////////
 //分配空间
@@ -167,14 +167,14 @@ int popStack( struct stack *s , struct data *d );
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//		functions for qsort
+//  functions for qsort
 //
 ///////////////////////////////////////////////////////////////////////////////
 int cmp( void* a , void* b );
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//		functions for freedown
+//  functions for freedown
 //
 ///////////////////////////////////////////////////////////////////////////////
 //填充偏移栈
@@ -204,253 +204,253 @@ int downfile( STREAM file , char* link , long long dataLen , int nConnections );
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//		the main function
+//  the main function
 //
 ///////////////////////////////////////////////////////////////////////////////
 int main( int argc , char **argv)
 {
-	int ret = 0;
+    int ret = 0;
 #ifdef WINDOW
-	WSADATA wsaData;
-	WSAStartup( MAKEWORD( 1,1) , &wsaData ) ;
+    WSADATA wsaData;
+    WSAStartup( MAKEWORD( 1,1) , &wsaData ) ;
 #endif
-	if( argc == 4 )
-	{
-		ret = freedown( atoi( argv[1] ) , argv[2] , argv[3] );
-	}
-	else if( argc == 3)
-	{
-		ret = freedown( atoi( argv[1] ) , argv[2] , NULL );
-	}
-	else
-	{
-		printf( "Usage: %s <connections> <link> [filename] \n"
-				PRO_VERSION"\n" , argv[0]);
-	}
+    if( argc == 4 )
+    {
+        ret = freedown( atoi( argv[1] ) , argv[2] , argv[3] );
+    }
+    else if( argc == 3)
+    {
+        ret = freedown( atoi( argv[1] ) , argv[2] , NULL );
+    }
+    else
+    {
+        printf( "Usage: %s <connections> <link> [filename] \n"
+            PRO_VERSION"\n" , argv[0]);
+    }
 #ifdef WINDOW
-	WSACleanup();
+    WSACleanup();
 #endif
 	return 0;
 }
 ///////////////////////////////////////////////////////////////////////////////
 //
-//		functions for stack
+//  functions for stack
 //
 ///////////////////////////////////////////////////////////////////////////////
 int allocStack( struct stack *s , int size )
 {
-	if( s->datas != NULL )
-	{
-		freeStack( s );
-		s->datas = NULL ;
-	}
-	if( size <= 0 )
-	{
-		return -1;
-	}
-	s->size = size;
-	s->datas = (struct data *)calloc( s->size , sizeof( struct data ) );
-	if( s->datas == NULL )
-	{
-		perror( "calloc");
-		return -1;
-	}
-	s->ptr = s->datas;
-	return 0;
+    if( s->datas != NULL )
+    {
+        freeStack( s );
+        s->datas = NULL ;
+    }
+    if( size <= 0 )
+    {
+        return -1;
+    }
+    s->size = size;
+    s->datas = (struct data *)calloc( s->size , sizeof( struct data ) );
+    if( s->datas == NULL )
+    {
+        perror( "calloc");
+        return -1;
+    }
+    s->ptr = s->datas;
+    return 0;
 }
 void freeStack( struct stack *s )
 {
-	if( s->datas != NULL )
-	{
-		free( s->datas );
-	}
-	s->ptr = s->datas = NULL ;
-	s->size = 0;
+    if( s->datas != NULL )
+    {
+        free( s->datas );
+    }
+    s->ptr = s->datas = NULL ;
+    s->size = 0;
 }
 int reallocStack( struct stack *s )
-{
-	int pos;
-	if( s->datas == NULL || s->ptr == NULL || s->size == 0 )
-	{
-		return -1;
-	}
-	s->size *= 2;
-	pos = s->ptr - s->datas;
-	s->datas = (struct data*)realloc( s->datas , s->size * sizeof( struct data ) );
-	if( s->datas == NULL )
-	{
-		perror( "realloc");
-		return -1;
-	}
-	s->ptr = s->datas + pos ;
-	return 0;
+    {
+    int pos;
+    if( s->datas == NULL || s->ptr == NULL || s->size == 0 )
+    {
+        return -1;
+    }
+    s->size *= 2;
+    pos = s->ptr - s->datas;
+    s->datas = (struct data*)realloc( s->datas , s->size * sizeof( struct data ) );
+    if( s->datas == NULL )
+    {
+        perror( "realloc");
+        return -1;
+    }
+    s->ptr = s->datas + pos ;
+    return 0;
 }
 int sizeStack( struct stack *s )
 {
-	return s->size;
+    return s->size;
 }
 int pushStack( struct stack *s , struct data *d )
 {
-	if( s->datas == NULL  || s->ptr == NULL )
-	{
-		return -1;
-	}
-	if( s->ptr - s->datas + 1 == s->size )
-	{
-		if( reallocStack( s ) == -1 )
-		{
-			return -1;
-		}
-	}
-	s->ptr->beg = d->beg;
-	s->ptr->end = d->end;
-	s->ptr += 1;
-	return 0;
+    if( s->datas == NULL  || s->ptr == NULL )
+    {
+        return -1;
+    }
+    if( s->ptr - s->datas + 1 == s->size )
+    {
+        if( reallocStack( s ) == -1 )
+        {
+            return -1;
+        }
+    }
+    s->ptr->beg = d->beg;
+    s->ptr->end = d->end;
+    s->ptr += 1;
+    return 0;
 }
 int  popStack( struct stack *s , struct data*d )
 {
-	if( s->datas == NULL || s->ptr == NULL )
-	{
-		return -1;
-	}
-	if( s->ptr == s->datas )
-	{
-		return 1;
-	}
-	s->ptr -=1;
-	d->beg = s->ptr->beg;
-	d->end = s->ptr->end;
-	return 0;
+    if( s->datas == NULL || s->ptr == NULL )
+    {
+        return -1;
+    }
+    if( s->ptr == s->datas )
+    {
+        return 1;
+    }
+    s->ptr -=1;
+    d->beg = s->ptr->beg;
+    d->end = s->ptr->end;
+    return 0;
 }
 ///////////////////////////////////////////////////////////////////////////////
 //
-//		functions for qsort
+//  functions for qsort
 //
 ///////////////////////////////////////////////////////////////////////////////
 int cmp( void* a , void* b ) 
 {
-	int nA = *(int*)a;
-	int nB = *(int*)b;
-	return nB-nA;
+    int nA = *(int*)a;
+    int nB = *(int*)b;
+    return nB-nA;
 }
 ///////////////////////////////////////////////////////////////////////////////
 //
-//		functions for freedown
+//  functions for freedown
 //
 ///////////////////////////////////////////////////////////////////////////////
 int fillStack( struct stack *s , long long nDatalen , int nConnections , int nDeflen )
 {
-	int index;	//其实变量名取 i 就行了.
-	long long len = nDatalen / nConnections ; //对文件按连接数分割
-	long long nDatalenCpy = nDatalen;
-	struct data d;
-
-	len = len > nDeflen ? nDeflen : len ;	//如果长度大于默认,则取默认值
-	for( index = 0 ; nDatalenCpy > 0 ; index ++ )
-	{
-		d.end = --nDatalenCpy;
-		if( nDatalenCpy > len ) 
-		{
-			d.beg =( nDatalenCpy-=len );
-		}
-		else
-		{
-			d.beg = nDatalenCpy = 0 ;
-		}
-		if( pushStack( s , &d ) != 0 )	//进栈
-		{
-			return -1;
-		}		
-	}
-	return 0;
+    int index;	//其实变量名取 i 就行了.
+    long long len = nDatalen / nConnections ; //对文件按连接数分割
+    long long nDatalenCpy = nDatalen;
+    struct data d;
+    
+    len = len > nDeflen ? nDeflen : len ;	//如果长度大于默认,则取默认值
+    for( index = 0 ; nDatalenCpy > 0 ; index ++ )
+    {
+        d.end = --nDatalenCpy;
+        if( nDatalenCpy > len ) 
+        {
+            d.beg =( nDatalenCpy-=len );
+        }
+        else
+        {
+            d.beg = nDatalenCpy = 0 ;
+        }
+        if( pushStack( s , &d ) != 0 )	//进栈
+        {
+            return -1;
+        }		
+    }
+    return 0;
 }
 
 char *getFilenameptr( char* link )
 {
-	int ret = 0;
-	char * ptr1 = NULL;
-	char * ptr2 = NULL;
-	static char strBuffer[128] ;	
-	memset( strBuffer , 0 , sizeof( strBuffer ) );
-
-	ptr1 = strstr( link , "http://" );
-	if( ptr1 == link )
-	{
-	 	ptr1 +=7;
-	}
-	else
-	{
-		ptr1 = link;
-	}
-
-	while( (ptr1 = strstr( ptr1 , "/" )) )
-	{
-		ptr2 = ++ptr1;
-	}
-
-	if( ptr2 == NULL )
-	{
-		return NULL;
-	}
-
-	ret = sscanf( ptr2 , "%s" , strBuffer );
-	if( ret != 1 )
-	{
-		return NULL ;
-	}
-
-	return strBuffer;
+    int ret = 0;
+    char * ptr1 = NULL;
+    char * ptr2 = NULL;
+    static char strBuffer[128] ;	
+    memset( strBuffer , 0 , sizeof( strBuffer ) );
+    
+    ptr1 = strstr( link , "http://" );
+    if( ptr1 == link )
+    {
+        ptr1 +=7;
+    }
+    else
+    {
+        ptr1 = link;
+    }
+    
+    while( (ptr1 = strstr( ptr1 , "/" )) )
+    {
+        ptr2 = ++ptr1;
+    }
+    
+    if( ptr2 == NULL )
+    {
+        return NULL;
+    }
+    
+    ret = sscanf( ptr2 , "%s" , strBuffer );
+    if( ret != 1 )
+    {
+        return NULL ;
+    }
+    
+    return strBuffer;
 }
 
 
 char *getHostptr( char* link )
 {
-	int ret = 0;
-	static char strBuffer[256];
-	char* ptr;
-	memset( strBuffer , 0 , sizeof( strBuffer ) );
-
-	ptr = strstr( link , "http://" );
-	if( ptr == link )
-	{
-		ptr+=7;
-	}
-	else
-	{
-		ptr = link;
-	}
-
-	ret = sscanf( ptr, "%[^/]" , strBuffer ) ;
-	if( ret != 1 )
-	{
-		return NULL;
-	}
-	return strBuffer ;
+    int ret = 0;
+    static char strBuffer[256];
+    char* ptr;
+    memset( strBuffer , 0 , sizeof( strBuffer ) );
+    
+    ptr = strstr( link , "http://" );
+    if( ptr == link )
+    {
+        ptr+=7;
+    }
+    else
+    {
+        ptr = link;
+    }
+    
+    ret = sscanf( ptr, "%[^/]" , strBuffer ) ;
+    if( ret != 1 )
+    {
+        return NULL;
+    }
+    return strBuffer ;
 }
 char* getSrcptr( char* link )
 {
-	int ret = 0;
-	static char strBuffer[512] ;
-	char *ptr;
-	memset( strBuffer , 0 , sizeof( strBuffer ) );
-
-	ptr = strstr( link , "http://" );
-	if( ptr == link )
-	{
-		ptr +=7;
-	}
-	else
-	{
-		ptr = link;
-	}
-
-	ret = sscanf( ptr , "%*[^/]%s" , strBuffer );
-	if( ret == 0 )
-	{
-		strcat( strBuffer , "/" );
-	}
-
-	return strBuffer ;
+    int ret = 0;
+    static char strBuffer[512] ;
+    char *ptr;
+    memset( strBuffer , 0 , sizeof( strBuffer ) );
+    
+    ptr = strstr( link , "http://" );
+    if( ptr == link )
+    {
+        ptr +=7;
+    }
+    else
+    {
+        ptr = link;
+    }
+    
+    ret = sscanf( ptr , "%*[^/]%s" , strBuffer );
+    if( ret == 0 )
+    {
+        strcat( strBuffer , "/" );
+    }
+    
+    return strBuffer ;
 }
 char* getRequest( char* hostname , char* srcname , struct data* d )
 {

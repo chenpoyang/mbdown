@@ -10,29 +10,29 @@
 /* 初始化指定范围的请求头 */
 void init_req_begin_end(Req *req, const Url *url, unsigned int beg, unsigned int end)
 {
-	char enum_mthd_str[COM_LEN], enum_httpv_str[COM_LEN];
-	char byte_beg_str[COM_LEN], byte_end_str[COM_LEN];
+    char enum_mthd_str[COM_LEN], enum_httpv_str[COM_LEN];
+    char byte_beg_str[COM_LEN], byte_end_str[COM_LEN];
 
-	assert(req != NULL && url != NULL);
+    assert(req != NULL && url != NULL);
 
-	strcpy(req->res, url->res);
-	strcpy(req->host, url->host);
-	req->port = url->port;
-	req->ver = DEFAULT_HTTPV;
-	req->mthd = DEFAULT_MTHD;
-	req->begin = beg;
-	req->end = end;
+    strcpy(req->res, url->res);
+    strcpy(req->host, url->host);
+    req->port = url->port;
+    req->ver = DEFAULT_HTTPV;
+    req->mthd = DEFAULT_MTHD;
+    req->begin = beg;
+    req->end = end;
 
-	enum_mthd_to_str(enum_mthd_str, req->mthd);
-	enum_httpv_to_str(enum_httpv_str, req->ver);
-	/* 将数字转换成字符串 */
-	m_utoa(req->begin, byte_beg_str);
-	m_utoa(req->end, byte_end_str);
+    enum_mthd_to_str(enum_mthd_str, req->mthd);
+    enum_httpv_to_str(enum_httpv_str, req->ver);
+    /* 将数字转换成字符串 */
+    m_utoa(req->begin, byte_beg_str);
+    m_utoa(req->end, byte_end_str);
 
-	snprintf(req->str, sizeof(req->str), "%s %s %s\r\nHost: %s\r\nRange: bytes = %s - %s\r\n\r\n", 
-			enum_mthd_str, req->res, enum_httpv_str, 
-			req->host, 
-			byte_beg_str, byte_end_str);
+    snprintf(req->str, sizeof(req->str), "%s %s %s\r\nHost: %s\r\nRange: bytes = %s - %s\r\n\r\n", 
+            enum_mthd_str, req->res, enum_httpv_str, 
+            req->host, 
+            byte_beg_str, byte_end_str);
 }
 
 /* 服务器返回str[]响应信息, 构造响应头 */
@@ -57,35 +57,35 @@ void init_resp(Resp *resp, const char *str)
 /* 将枚举方式转换成相应的字符串 */
 void enum_mthd_to_str(char *str, enum method mthd)
 {
-	assert(str != NULL);
+    assert(str != NULL);
 
-	switch (mthd)
-	{
-		case OPTIONS:
-			strcpy(str, "OPTIONS");
-			break;
-		case HEAD:
-			strcpy(str, "HEAD");
-			break;
-		case POST:
-			strcpy(str, "POST");
-			break;
-		case PUT:
-			strcpy(str, "PUT");
-			break;
-		case DELETE:
-			strcpy(str, "DELETE");
-			break;
-		case TRACE:
-			strcpy(str, "TRACE");
-			break;
-		case CONNECT:
-			strcpy(str, "CONNECT");
-			break;
-		default:
-			strcpy(str, "GET");
-			break;
-	}
+    switch (mthd)
+    {
+        case OPTIONS:
+            strcpy(str, "OPTIONS");
+            break;
+        case HEAD:
+            strcpy(str, "HEAD");
+            break;
+        case POST:
+            strcpy(str, "POST");
+            break;
+        case PUT:
+            strcpy(str, "PUT");
+            break;
+        case DELETE:
+            strcpy(str, "DELETE");
+            break;
+        case TRACE:
+            strcpy(str, "TRACE");
+            break;
+        case CONNECT:
+            strcpy(str, "CONNECT");
+            break;
+        default:
+            strcpy(str, "GET");
+            break;
+    }
 }
 
 /* 将枚举版本转换成相应的字符串 */
@@ -112,7 +112,7 @@ void str_httpv_to_enum(const char *str, enum httpv *ver)
 {
     char *buf = NULL;
     
-	assert(str != NULL && ver != NULL);
+    assert(str != NULL && ver != NULL);
 
     buf = calloc(1, strlen(str) + 1);
     if (buf == NULL)
