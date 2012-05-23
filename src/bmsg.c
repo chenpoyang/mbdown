@@ -19,7 +19,6 @@ RootBmsg *root_bmsg = NULL;
  * @param    root_bmsg: 管理所有断点信息
  * @param    bmsg: 某一请求url的断点信息
  */
-/* add a new bmsg to root_bmsg */
 void add_bmsg(RootBmsg *root_bmsg, Bmsg *bmsg)
 {
     Bmsg *url_header = NULL;
