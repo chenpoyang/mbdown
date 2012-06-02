@@ -13,7 +13,6 @@
 RootUrl *root_url = NULL;                /* root url manager */
 unsigned int count_url_id = 10;    /* for generating unique url id */
 
-
 /* 初始化所有初始状态 */
 void init_rooturl_id(RootUrl **root_url, unsigned int *url_id_beg)
 {
