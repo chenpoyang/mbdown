@@ -27,7 +27,7 @@ typedef struct url {
 void init_rooturl_id(RootUrl **root_url, unsigned int *url_id_beg);
 
 /* 初始化对象 */
-void init_url_msg(Url *url, const char *url_str);
+void init_url_msg(Url **url, const char *url_str);
 
 /* 初始化根Url结点, 方便管理其他Url */
 void init_root_url(RootUrl **root_url);

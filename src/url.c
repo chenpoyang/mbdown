@@ -21,17 +21,17 @@ void init_rooturl_id(RootUrl **root_url, unsigned int *url_id_beg)
 }
 
 /* 初始化对象 */
-void init_url_msg(Url *cur, const char *url)
+void init_url_msg(Url **cur, const char *url)
 {
     assert(url != NULL && url != NULL);
 
     /* url->id, 和url->next 已在 new_url_node 中初始化 */
-    strcpy(cur->url, url);
-    get_scheme(url, cur->scheme);
-    get_host_name(url, cur->host);
-    get_resource(url, cur->res);
-    cur->port = get_port(url);
-    cur->id = get_url_id();
+    strcpy((*cur)->url, url);
+    get_scheme(url, (*cur)->scheme);
+    get_host_name(url, (*cur)->host);
+    get_resource(url, (*cur)->res);
+    (*cur)->port = get_port(url);
+    (*cur)->id = get_url_id();
 }
 
 /**
@@ -134,7 +134,7 @@ Url * new_url_node(RootUrl **root_url, const char *url)
         return NULL;
     }
 
-    init_url_msg(cur, url);
+    init_url_msg(&cur, url);
 
     /**
      * @brief    将新的url结点放入root_url管理器中

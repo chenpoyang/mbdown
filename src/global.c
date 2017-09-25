@@ -16,9 +16,7 @@ void m_tolower(char *str)
     for (i = 0; i < len; ++i)
     {
         if (str[i] >= 'A' && str[i] <= 'Z')
-        {
-            str[i] = 'a' + str[i] - 'A';
-        }
+            str[i] ^= ' ';
     }
 }
 
@@ -32,9 +30,7 @@ void m_toupper(char *str)
     while (--i >= 0)
     {
         if (str[i] >= 'a' && str[i] <= 'z')
-        {
-            str[i] = 'A' + str[i] - 'a';
-        }
+            str[i] ^= ' ';
     }
 }
 
