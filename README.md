@@ -1,1 +1,1 @@
-A Multi-threaded breakpoint download device.
+single thread download tool.
