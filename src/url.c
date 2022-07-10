@@ -170,7 +170,7 @@ int get_port(const char *url)
 
     sscanf(ptr, "%*[^0-9]%d", &port);    /* 获取端口 */
 
-    if (port == -1)    /* 没有显式指定端口, eg: http://www.innlab.net:8080/ */
+    if (port == -1)    /* 没有显式指定端口, eg: http://www.hreth.net:8080/ */
     {
         port = 80;
     }
